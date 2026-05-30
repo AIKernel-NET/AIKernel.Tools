@@ -22,7 +22,7 @@ public static partial class ChatHistoryScraper
         if (!stream.Contains("conversation-turn"))
             throw new InvalidOperationException("Conversation data not found in shared page.");
 
-        var firstJson = stream.Trim().Split('\n')[0];
+        var firstJson = ExtractFirstJsonTable(stream);
         var table = JsonSerializer.Deserialize<JsonElement[]>(firstJson)
             ?? throw new InvalidOperationException("Invalid JSON table.");
 
@@ -31,6 +31,38 @@ public static partial class ChatHistoryScraper
 
         return new ChatHistory(messages);
     }
+
+    public static string ToMarkdown(ChatHistory history, string sourceUrl)
+    {
+        var lines = new List<string>
+        {
+            "# ChatGPT Share Export",
+            "",
+            $"Source: {sourceUrl}",
+            ""
+        };
+
+        for (var i = 0; i < history.Messages.Count; i++)
+        {
+            var message = history.Messages[i];
+            lines.Add($"## {i + 1}. {NormalizeRole(message.Role)}");
+            lines.Add("");
+            lines.Add(message.Text);
+            lines.Add("");
+        }
+
+        return string.Join(Environment.NewLine, lines);
+    }
+
+    private static string NormalizeRole(string role)
+        => role.ToLowerInvariant() switch
+        {
+            "system" => "System",
+            "user" => "User",
+            "assistant" => "Assistant",
+            "tool" => "Tool",
+            _ => role
+        };
 
     // ------------------------------
     // 2. Extract stream payload
@@ -67,9 +99,11 @@ public static partial class ChatHistoryScraper
         var elem = table[index];
         object? result = elem.ValueKind switch
         {
-            JsonValueKind.Number => InflateRef(table, elem.GetInt32(), cache),
+            JsonValueKind.Number => InflateNumber(table, elem, cache),
             JsonValueKind.String => elem.GetString(),
             JsonValueKind.Null => null,
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
             JsonValueKind.Array => InflateArray(table, elem, index, cache),
             JsonValueKind.Object => InflateObject(table, elem, index, cache),
             _ => null
@@ -85,9 +119,7 @@ public static partial class ChatHistoryScraper
 
         foreach (var item in elem.EnumerateArray())
         {
-            list.Add(item.ValueKind == JsonValueKind.Number
-                ? InflateRef(table, item.GetInt32(), cache)
-                : InflateValue(table, item, cache));
+            list.Add(InflateValue(table, item, cache));
         }
 
         return list;
@@ -110,14 +142,66 @@ public static partial class ChatHistoryScraper
         return dict;
     }
 
+    private static string ExtractFirstJsonTable(string stream)
+    {
+        var trimmed = stream.Trim();
+        var marker = ExtractFirstTableRegex().Match(trimmed);
+        return marker.Success
+            ? trimmed[..marker.Index]
+            : trimmed;
+    }
+
     private static object? InflateValue(JsonElement[] table, JsonElement elem, Dictionary<int, object?> cache)
         => elem.ValueKind switch
         {
-            JsonValueKind.Number => InflateRef(table, elem.GetInt32(), cache),
+            JsonValueKind.Number => InflateNumber(table, elem, cache),
             JsonValueKind.String => elem.GetString(),
             JsonValueKind.Null => null,
-            _ => elem.ToString()
+            JsonValueKind.True => true,
+            JsonValueKind.False => false,
+            JsonValueKind.Array => InflateInlineArray(table, elem, cache),
+            JsonValueKind.Object => InflateInlineObject(table, elem, cache),
+            _ => null
         };
+
+    private static object? InflateNumber(JsonElement[] table, JsonElement elem, Dictionary<int, object?> cache)
+    {
+        if (elem.TryGetInt32(out var index)
+            && (index is -1 or -2 or -3 or -4 or -5 || index >= 0 && index < table.Length))
+        {
+            return InflateRef(table, index, cache);
+        }
+
+        return elem.TryGetInt64(out var longValue)
+            ? longValue
+            : elem.GetDouble();
+    }
+
+    private static List<object?> InflateInlineArray(JsonElement[] table, JsonElement elem, Dictionary<int, object?> cache)
+    {
+        var list = new List<object?>();
+
+        foreach (var item in elem.EnumerateArray())
+            list.Add(InflateValue(table, item, cache));
+
+        return list;
+    }
+
+    private static Dictionary<string, object?> InflateInlineObject(JsonElement[] table, JsonElement elem, Dictionary<int, object?> cache)
+    {
+        var dict = new Dictionary<string, object?>();
+
+        foreach (var prop in elem.EnumerateObject())
+        {
+            var key = prop.Name;
+            if (key.Length > 0 && key[0] == '_' && int.TryParse(key[1..], out var refKey))
+                key = InflateRef(table, refKey, cache)?.ToString() ?? key;
+
+            dict[key] = InflateValue(table, prop.Value, cache);
+        }
+
+        return dict;
+    }
 
     private static object? InflateRef(JsonElement[] table, int index, Dictionary<int, object?> cache)
         => index switch
@@ -135,11 +219,16 @@ public static partial class ChatHistoryScraper
     {
         var messages = new List<ChatMessage>();
         var visited = new HashSet<object>();
-        Walk(root, messages, visited);
+        var messageKeys = new HashSet<string>(StringComparer.Ordinal);
+        Walk(root, messages, visited, messageKeys);
         return messages;
     }
 
-    private static void Walk(object? value, List<ChatMessage> messages, HashSet<object> visited)
+    private static void Walk(
+        object? value,
+        List<ChatMessage> messages,
+        HashSet<object> visited,
+        HashSet<string> messageKeys)
     {
         if (value is null || visited.Contains(value))
             return;
@@ -149,21 +238,26 @@ public static partial class ChatHistoryScraper
         switch (value)
         {
             case Dictionary<string, object?> dict:
-                ExtractMessageIfPresent(dict, messages);
+                ExtractMessageIfPresent(dict, messages, messageKeys);
                 foreach (var v in dict.Values)
-                    Walk(v, messages, visited);
+                    Walk(v, messages, visited, messageKeys);
                 break;
 
             case List<object?> list:
                 foreach (var item in list)
-                    Walk(item, messages, visited);
+                    Walk(item, messages, visited, messageKeys);
                 break;
         }
     }
 
-    private static void ExtractMessageIfPresent(Dictionary<string, object?> dict, List<ChatMessage> messages)
+    private static void ExtractMessageIfPresent(
+        Dictionary<string, object?> dict,
+        List<ChatMessage> messages,
+        HashSet<string> messageKeys)
     {
-        var role = dict.GetValueOrDefault("author_role") ?? dict.GetValueOrDefault("role");
+        var role = TryGetNestedString(dict, "author", "role")
+            ?? dict.GetValueOrDefault("author_role")
+            ?? dict.GetValueOrDefault("role");
         if (role is not string r)
             return;
 
@@ -171,11 +265,47 @@ public static partial class ChatHistoryScraper
         if (string.IsNullOrWhiteSpace(text))
             return;
 
+        text = text.Trim();
+        if (!ShouldExportMessage(r, dict.GetValueOrDefault("recipient") as string, text))
+            return;
+
+        var key = dict.GetValueOrDefault("id") is string id && !string.IsNullOrWhiteSpace(id)
+            ? id
+            : $"{r}\u001f{text}";
+
+        if (!messageKeys.Add(key))
+            return;
+
         messages.Add(new ChatMessage(
             Role: r,
-            Text: text.Trim(),
+            Text: text,
             Timestamp: dict.GetValueOrDefault("create_time")?.ToString()
         ));
+    }
+
+    private static bool ShouldExportMessage(string role, string? recipient, string text)
+    {
+        if (string.Equals(role, "tool", StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        if (!string.IsNullOrWhiteSpace(recipient)
+            && !string.Equals(recipient, "all", StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        if (text.StartsWith("思考時間:", StringComparison.Ordinal))
+            return false;
+
+        return !ToolCallTextRegex().IsMatch(text);
+    }
+
+    private static string? TryGetNestedString(Dictionary<string, object?> dict, string objectKey, string valueKey)
+    {
+        return dict.GetValueOrDefault(objectKey) is Dictionary<string, object?> nested
+            && nested.GetValueOrDefault(valueKey) is string value
+            ? value
+            : null;
     }
 
     // ------------------------------
@@ -218,4 +348,9 @@ public static partial class ChatHistoryScraper
     private static partial Regex HtmlScriptTag();
     [GeneratedRegex("streamController\\.enqueue\\((\"(?:\\\\.|[^\"\\\\])*\")\\)", RegexOptions.Compiled)]
     private static partial Regex StreamControllerEnqueueRegex();
+
+    [GeneratedRegex("^(search|open|click|find|screenshot|finance|weather|sports|time)\\(", RegexOptions.Compiled)]
+    private static partial Regex ToolCallTextRegex();
+    [GeneratedRegex("\n[A-Z]?\\d+:")]
+    private static partial Regex ExtractFirstTableRegex();
 }

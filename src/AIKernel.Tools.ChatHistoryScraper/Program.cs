@@ -1,13 +1,11 @@
-﻿using System.Text.Json;
 using AIKernel.Common.IO;
 using AIKernel.Common.Json;
-using AIKernel.Common.Results;
 
 namespace AIKernel.Tools.ChatHistoryScraper;
 
 internal class Program
 {
-    static async Task<int> Main(string[] args)
+    private static async Task<int> Main(string[] args)
     {
         if (args.Length == 0)
         {
@@ -29,34 +27,31 @@ internal class Program
     {
         if (args.Length < 2)
         {
-            Console.WriteLine("Usage: aik-history export <url> [-o output.json]");
+            Console.WriteLine("Usage: aik-history export <url> [-o output.json|output.md]");
             return 1;
         }
 
         var url = args[1];
         var output = PathUtil.Normalize(
-            args.Length >= 4 && args[2] == "-o" ? args[3] : "history.json"
-        );
+            args.Length >= 4 && args[2] == "-o" ? args[3] : "history.md");
 
-        // Try モナドで安全に処理（すべて非同期モナドに統一）
-        var result =
-            from history in Try.RunAsync(() => ChatHistoryScraper.ExportAsync(url))
-            from json in Try.RunAsync(() => Task.FromResult(JsonSerializer.Serialize(history, JsonOptions.Indented)))
-            select json;
-
-        var final = await result; // LINQ クエリの結果は Task<Result<string>>
-
-        if (final.IsFailure)
+        try
         {
-            Console.WriteLine($"Error: {final.Error}");
+            var history = await ChatHistoryScraper.ExportAsync(url);
+            var text = output.EndsWith(".md", StringComparison.OrdinalIgnoreCase)
+                ? ChatHistoryScraper.ToMarkdown(history, url)
+                : System.Text.Json.JsonSerializer.Serialize(history, JsonOptions.Indented);
+
+            await FileUtil.WriteTextAsync(output, text);
+            Console.WriteLine($"Exported history to {output}");
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine(ex);
             return 1;
         }
-
-        await FileUtil.WriteTextAsync(output, final.Value!);
-        Console.WriteLine($"Exported history to {output}");
-        return 0;
     }
-
 
     private static int PrintHelp()
     {

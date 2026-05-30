@@ -57,3 +57,4 @@ TestResult.xml
 nunit-*.xml
 /.vs
 /src/AIKernel.Tools.ChatHistoryScraper/.vs
+/src/AIKernel.Tools.ChatHistoryScraper/Properties/launchSettings.json
