@@ -1,5 +1,7 @@
 using AIKernel.Common.IO;
 using AIKernel.Common.Json;
+using ChatHistoryScraper.Export;
+using System.Text.Json;
 
 namespace AIKernel.Tools.ChatHistoryScraper;
 
@@ -27,20 +29,28 @@ internal class Program
     {
         if (args.Length < 2)
         {
-            Console.WriteLine("Usage: aik-history export <url> [-o output.json|output.md]");
+            Console.WriteLine("Usage: aik-history export <url> [-o output.json|output.md|output.rom]");
             return 1;
         }
 
         var url = args[1];
         var output = PathUtil.Normalize(
-            args.Length >= 4 && args[2] == "-o" ? args[3] : "history.md");
+            args.Length >= 4 && args[2] == "-o" ? args[3] : "history.rom");
 
         try
         {
             var history = await ChatHistoryScraper.ExportAsync(url);
-            var text = output.EndsWith(".md", StringComparison.OrdinalIgnoreCase)
-                ? ChatHistoryScraper.ToMarkdown(history, url)
-                : System.Text.Json.JsonSerializer.Serialize(history, JsonOptions.Indented);
+
+            string text = output.ToLowerInvariant() switch
+            {
+                var p when p.EndsWith(".rom") =>
+                    RomExporter.ToRom(history),
+
+                var p when p.EndsWith(".md") =>
+                    MdExporter.ToMarkdown(history),
+
+                _ => JsonSerializer.Serialize(history, JsonOptions.Indented)
+            };
 
             await FileUtil.WriteTextAsync(output, text);
             Console.WriteLine($"Exported history to {output}");
@@ -60,6 +70,7 @@ AIKernel.Tools.ChatHistoryScraper CLI
 
 Commands:
   export <url> [-o file]   Export chat history from shared URL
+                           Supported formats: .json, .md, .rom
   help                     Show this help
 """);
         return 0;

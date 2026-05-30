@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AIKernel.Tools\AIKernel.Tools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="AIKernel.Common">
       <HintPath>..\..\..\AIKernel.Core\src\AIKernel.Common\bin\Debug\net10.0\AIKernel.Common.dll</HintPath>
     </Reference>
