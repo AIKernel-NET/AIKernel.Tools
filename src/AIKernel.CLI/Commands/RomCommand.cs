@@ -34,7 +34,7 @@ public static class RomCommand
 
         var json = File.ReadAllText(input);
         var records = JsonSerializer.Deserialize<List<ChatHistoryRecord>>(json)
-                      ?? new List<ChatHistoryRecord>();
+                      ?? [];
 
         string output = format switch
         {

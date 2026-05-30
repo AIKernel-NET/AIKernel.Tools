@@ -1,7 +1,6 @@
 using AIKernel.Common.IO;
 using AIKernel.Common.Json;
-using ChatHistoryScraper.Export;
-using System.Text.Json;
+using AIKernel.Tools.ChatHistoryScraper.Export;
 
 namespace AIKernel.Tools.ChatHistoryScraper;
 
@@ -16,7 +15,6 @@ internal class Program
         }
 
         var command = args[0].ToLowerInvariant();
-
         return command switch
         {
             "export" => await RunExportAsync(args),
@@ -40,16 +38,13 @@ internal class Program
         try
         {
             var history = await ChatHistoryScraper.ExportAsync(url);
+            var records = ChatHistoryScraper.ToRecords(history);
 
             string text = output.ToLowerInvariant() switch
             {
-                var p when p.EndsWith(".rom") =>
-                    RomExporter.ToRom(history),
-
-                var p when p.EndsWith(".md") =>
-                    MdExporter.ToMarkdown(history),
-
-                _ => JsonSerializer.Serialize(history, JsonOptions.Indented)
+                var p when p.EndsWith(".rom") => RomExporter.ToRom(records),
+                var p when p.EndsWith(".md") => MdExporter.ToMarkdown(records),
+                _ => System.Text.Json.JsonSerializer.Serialize(records, JsonOptions.Indented)
             };
 
             await FileUtil.WriteTextAsync(output, text);

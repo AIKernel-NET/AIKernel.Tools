@@ -18,6 +18,11 @@ public sealed class ChatHistoryProvider
     public IEnumerable<ChatHistoryRecord> GetByRole(string role)
         => _records.Where(r => r.Role.Equals(role, StringComparison.OrdinalIgnoreCase));
 
-    public ChatHistoryRecord? GetLatest()
+    public IEnumerable<ChatHistoryRecord> GetRecords()
+    {
+        return _records;
+    }
+
+    public static ChatHistoryRecord? GetLatest(IEnumerable<ChatHistoryRecord> _records)
         => _records.LastOrDefault();
 }

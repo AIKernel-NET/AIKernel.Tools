@@ -1,7 +1,7 @@
 ﻿using AIKernel.Tools.CapabilityModules.ChatHistoryCapability;
 using System.Text;
 
-namespace ChatHistoryScraper.Export;
+namespace AIKernel.Tools.ChatHistoryScraper.Export;
 
 public static class MdExporter
 {
@@ -12,7 +12,6 @@ public static class MdExporter
         sb.AppendLine();
 
         int turn = 1;
-
         foreach (var r in records)
         {
             sb.AppendLine($"## Turn {turn++} ({r.Role})");

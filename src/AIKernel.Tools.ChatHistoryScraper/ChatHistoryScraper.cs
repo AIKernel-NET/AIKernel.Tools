@@ -1,4 +1,5 @@
-﻿using AIKernel.Tools.ChatHistoryScraper.Models;
+﻿using AIKernel.Tools.CapabilityModules.ChatHistoryCapability;
+using AIKernel.Tools.CapabilityModules.ChatHistoryCapability.Models;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -31,6 +32,32 @@ public static partial class ChatHistoryScraper
 
         return new ChatHistory(messages);
     }
+    // ------------------------------
+    // Convert ChatHistory -> ChatHistoryRecord[]
+    // ------------------------------
+    public static IReadOnlyList<ChatHistoryRecord> ToRecords(ChatHistory history)
+    {
+        if (history is null) return [];
+
+        return [.. history.Messages
+            .Select(m =>
+            {
+                // m.Timestamp は既存実装に合わせて文字列 -> DateTimeOffset へ変換
+                if (!DateTimeOffset.TryParse(m.Timestamp, out DateTimeOffset ts))
+                {
+                    // フォールバック: 現在時刻
+                    ts = DateTimeOffset.UtcNow;
+                }
+
+                return new ChatHistoryRecord
+                {
+                    Role = m.Role ?? "user",
+                    Content = m.Content ?? string.Empty,
+                    Timestamp = ts
+                };
+            })];
+    }
+
 
     public static string ToMarkdown(ChatHistory history, string sourceUrl)
     {
@@ -47,7 +74,7 @@ public static partial class ChatHistoryScraper
             var message = history.Messages[i];
             lines.Add($"## {i + 1}. {NormalizeRole(message.Role)}");
             lines.Add("");
-            lines.Add(message.Text);
+            lines.Add(message.Content);
             lines.Add("");
         }
 
@@ -278,8 +305,8 @@ public static partial class ChatHistoryScraper
 
         messages.Add(new ChatMessage(
             Role: r,
-            Text: text,
-            Timestamp: dict.GetValueOrDefault("create_time")?.ToString()
+            Content: text,
+            Timestamp: dict.GetValueOrDefault("create_time")?.ToString() ?? ""
         ));
     }
 
