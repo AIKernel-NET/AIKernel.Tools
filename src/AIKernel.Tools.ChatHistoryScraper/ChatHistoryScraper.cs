@@ -1,5 +1,6 @@
 ﻿using AIKernel.Tools.CapabilityModules.ChatHistoryCapability;
 using AIKernel.Tools.CapabilityModules.ChatHistoryCapability.Models;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -42,12 +43,7 @@ public static partial class ChatHistoryScraper
         return [.. history.Messages
             .Select(m =>
             {
-                // m.Timestamp は既存実装に合わせて文字列 -> DateTimeOffset へ変換
-                if (!DateTimeOffset.TryParse(m.Timestamp, out DateTimeOffset ts))
-                {
-                    // フォールバック: 現在時刻
-                    ts = DateTimeOffset.UtcNow;
-                }
+                var ts = ParseChatTimestamp(m.Timestamp);
 
                 return new ChatHistoryRecord
                 {
@@ -306,8 +302,89 @@ public static partial class ChatHistoryScraper
         messages.Add(new ChatMessage(
             Role: r,
             Content: text,
-            Timestamp: dict.GetValueOrDefault("create_time")?.ToString() ?? ""
+            Timestamp: ExtractTimestamp(dict)
         ));
+    }
+
+    private static string ExtractTimestamp(Dictionary<string, object?> dict)
+    {
+        var timestamp =
+            dict.GetValueOrDefault("create_time")
+            ?? dict.GetValueOrDefault("createTime")
+            ?? dict.GetValueOrDefault("update_time")
+            ?? dict.GetValueOrDefault("updateTime");
+
+        return timestamp switch
+        {
+            null => "",
+            DateTimeOffset value => value.ToString("O", CultureInfo.InvariantCulture),
+            DateTime value => new DateTimeOffset(value.ToUniversalTime(), TimeSpan.Zero).ToString("O", CultureInfo.InvariantCulture),
+            long value => UnixSecondsToDateTimeOffset(value).ToString("O", CultureInfo.InvariantCulture),
+            int value => UnixSecondsToDateTimeOffset(value).ToString("O", CultureInfo.InvariantCulture),
+            double value => UnixSecondsToDateTimeOffset(value).ToString("O", CultureInfo.InvariantCulture),
+            float value => UnixSecondsToDateTimeOffset(value).ToString("O", CultureInfo.InvariantCulture),
+            decimal value => UnixSecondsToDateTimeOffset((double)value).ToString("O", CultureInfo.InvariantCulture),
+            string value => NormalizeTimestampString(value),
+            _ => timestamp.ToString() ?? ""
+        };
+    }
+
+    private static DateTimeOffset ParseChatTimestamp(string timestamp)
+    {
+        if (string.IsNullOrWhiteSpace(timestamp))
+            throw new InvalidOperationException("Chat message timestamp was not found in the shared conversation data.");
+
+        if (DateTimeOffset.TryParse(
+                timestamp,
+                CultureInfo.InvariantCulture,
+                DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
+                out var parsed))
+        {
+            return parsed;
+        }
+
+        if (long.TryParse(timestamp, NumberStyles.Integer, CultureInfo.InvariantCulture, out var unixLong))
+            return UnixSecondsToDateTimeOffset(unixLong);
+
+        if (double.TryParse(timestamp, NumberStyles.Float, CultureInfo.InvariantCulture, out var unixDouble))
+            return UnixSecondsToDateTimeOffset(unixDouble);
+
+        throw new FormatException($"Chat message timestamp is not a supported format: '{timestamp}'.");
+    }
+
+    private static string NormalizeTimestampString(string timestamp)
+    {
+        if (string.IsNullOrWhiteSpace(timestamp))
+            return "";
+
+        return ParseChatTimestamp(timestamp).ToString("O", CultureInfo.InvariantCulture);
+    }
+
+    private static DateTimeOffset UnixSecondsToDateTimeOffset(long unixValue)
+    {
+        return Math.Abs(unixValue) > 100_000_000_000
+            ? DateTimeOffset.FromUnixTimeMilliseconds(unixValue).ToUniversalTime()
+            : DateTimeOffset.FromUnixTimeSeconds(unixValue).ToUniversalTime();
+    }
+
+    private static DateTimeOffset UnixSecondsToDateTimeOffset(double unixSeconds)
+    {
+        if (double.IsNaN(unixSeconds) || double.IsInfinity(unixSeconds))
+            throw new FormatException($"Chat message timestamp is not finite: '{unixSeconds}'.");
+
+        if (Math.Abs(unixSeconds) > 100_000_000_000)
+        {
+            var milliseconds = (long)Math.Round(unixSeconds, MidpointRounding.AwayFromZero);
+            return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds).ToUniversalTime();
+        }
+
+        var wholeSeconds = Math.Truncate(unixSeconds);
+        var fractionalSeconds = unixSeconds - wholeSeconds;
+
+        return DateTimeOffset
+            .FromUnixTimeSeconds((long)wholeSeconds)
+            .AddTicks((long)Math.Round(fractionalSeconds * TimeSpan.TicksPerSecond, MidpointRounding.AwayFromZero))
+            .ToUniversalTime();
     }
 
     private static bool ShouldExportMessage(string role, string? recipient, string text)
