@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="src/AIKernel.CLI/AIKernel.CLI.csproj" />
+  <Project Path="src/AIKernel.Tools.ChatHistoryScraper/AIKernel.Tools.ChatHistoryScraper.csproj" />
+  <Project Path="src/AIKernel.Tools/AIKernel.Tools.csproj" />
+  <Project Path="src/KernelClockInspector/KernelClockInspector.csproj" />
+  <Project Path="src/VfsInspector/VfsInspector.csproj" />
+</Solution>
