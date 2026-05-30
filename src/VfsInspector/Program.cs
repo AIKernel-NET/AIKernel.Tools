@@ -1,10 +1,22 @@
-﻿namespace VfsInspector
+﻿using VfsInspector.Commands;
+
+if (args.Length == 0)
 {
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-        }
-    }
+    Console.WriteLine("Usage: vfs <tree|info>");
+    return;
+}
+
+switch (args[0])
+{
+    case "tree":
+        TreeCommand.Run();
+        break;
+
+    case "info":
+        InfoCommand.Run();
+        break;
+
+    default:
+        Console.WriteLine($"Unknown command: {args[0]}");
+        break;
 }
