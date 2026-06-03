@@ -66,6 +66,7 @@ AIKernel.Tools.ChatHistoryScraper CLI
 Commands:
   export <url> [-o file]   Export chat history from shared URL
                            Supported formats: .json, .md, .rom
+                           .rom emits signed AIKernel HistoryROM Markdown
   help                     Show this help
 """);
         return 0;
