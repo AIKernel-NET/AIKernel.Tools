@@ -8,9 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\AIKernel.Core\src\AIKernel.Common\AIKernel.Common.csproj" />
-    <ProjectReference Include="..\..\..\AIKernel.Core\src\AIKernel.Core\AIKernel.Core.csproj" />
     <ProjectReference Include="..\AIKernel.Tools\AIKernel.Tools.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AIKernel.Common">
+      <HintPath>..\..\..\AIKernel.Core\src\AIKernel.Common\bin\Debug\net10.0\AIKernel.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="AIKernel.Core">
+      <HintPath>..\..\..\AIKernel.Core\src\AIKernel.Core\bin\Debug\net10.0\AIKernel.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
