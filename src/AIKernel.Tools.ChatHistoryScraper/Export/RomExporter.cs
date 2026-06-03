@@ -1,29 +1,51 @@
-﻿using AIKernel.Tools.CapabilityModules.ChatHistoryCapability;
-using System.Text;
+using AIKernel.Core.ChatHistory;
+using AIKernel.Tools.CapabilityModules.ChatHistoryCapability;
 
 namespace AIKernel.Tools.ChatHistoryScraper.Export;
 
 public static class RomExporter
 {
     public static string ToRom(IReadOnlyList<ChatHistoryRecord> records)
-    {
-        var sb = new StringBuilder();
-        sb.AppendLine("# ROM:ChatHistory");
-        sb.AppendLine("@type: conversation");
-        sb.AppendLine($"@generated: {DateTimeOffset.UtcNow:o}");
-        sb.AppendLine();
+        => ToRom(records, "scraper", "history", generatedAtUtc: null);
 
-        int turn = 1;
-        foreach (var r in records)
+    public static string ToRom(
+        IReadOnlyList<ChatHistoryRecord> records,
+        string @namespace,
+        string name,
+        DateTimeOffset? generatedAtUtc = null)
+    {
+        var generatedAt = generatedAtUtc ?? InferGeneratedAt(records);
+        var romId = HistoryRomPath.CreateRomId(@namespace, name);
+        if (romId.IsFailure)
         {
-            sb.AppendLine($"## Turn:{turn++}");
-            sb.AppendLine($"@role: {r.Role}");
-            sb.AppendLine($"@time: {r.Timestamp:o}");
-            sb.AppendLine();
-            sb.AppendLine(r.Content.Trim());
-            sb.AppendLine();
+            throw new InvalidOperationException(romId.Error!.Message);
         }
 
-        return sb.ToString();
+        var result = ChatHistoryRomExporter.ToRomMarkdown(
+            records.Select(record => new ChatHistoryRomRecord(
+                    record.Role,
+                    record.Content,
+                    record.Timestamp))
+                .ToArray(),
+            new ChatHistoryRomOptions(
+                romId.Value!,
+                generatedAt,
+                SecurityTags: ["chat", "history", "scraped"]));
+
+        if (result.IsFailure)
+        {
+            throw new InvalidOperationException(result.Error!.Message);
+        }
+
+        return result.Value!;
     }
+
+    private static DateTimeOffset InferGeneratedAt(
+        IReadOnlyList<ChatHistoryRecord> records)
+        => records.Count == 0
+            ? DateTimeOffset.UnixEpoch
+            : records
+                .Select(record => record.Timestamp.ToUniversalTime())
+                .OrderByDescending(timestamp => timestamp)
+                .First();
 }
