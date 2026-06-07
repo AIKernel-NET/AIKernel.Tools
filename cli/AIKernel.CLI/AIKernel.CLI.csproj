@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>aik</AssemblyName>
+    <AssemblyTitle>AIKernel.CLI</AssemblyTitle>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.RomStorage\AIKernel.Tools.Capability.RomStorage.csproj" />
+    <ProjectReference Include="..\..\inspectors\AIKernel.Tools.Inspectors.ChatHistoryScraper\AIKernel.Tools.Inspectors.ChatHistoryScraper.csproj" />
+    <ProjectReference Include="..\..\inspectors\AIKernel.Tools.Inspectors.KernelClock\AIKernel.Tools.Inspectors.KernelClock.csproj" />
+    <ProjectReference Include="..\..\inspectors\AIKernel.Tools.Inspectors.Vfs\AIKernel.Tools.Inspectors.Vfs.csproj" />
+  </ItemGroup>
+
+</Project>

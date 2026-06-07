@@ -1,7 +1,12 @@
 <Solution>
-  <Project Path="src/AIKernel.CLI/AIKernel.CLI.csproj" />
-  <Project Path="src/AIKernel.Tools.ChatHistoryScraper/AIKernel.Tools.ChatHistoryScraper.csproj" />
-  <Project Path="src/AIKernel.Tools/AIKernel.Tools.csproj" />
-  <Project Path="src/KernelClockInspector/KernelClockInspector.csproj" />
-  <Project Path="src/VfsInspector/VfsInspector.csproj" />
+  <Project Path="capabilities/AIKernel.Tools.Capability.ChatOpenAI/AIKernel.Tools.Capability.ChatOpenAI.csproj" />
+  <Project Path="capabilities/AIKernel.Tools.Capability.CudaCompute/AIKernel.Tools.Capability.CudaCompute.csproj" />
+  <Project Path="capabilities/AIKernel.Tools.Capability.DynamicPipelineCompiler/AIKernel.Tools.Capability.DynamicPipelineCompiler.csproj" />
+  <Project Path="capabilities/AIKernel.Tools.Capability.LocalLLM/AIKernel.Tools.Capability.LocalLLM.csproj" />
+  <Project Path="capabilities/AIKernel.Tools.Capability.RomStorage/AIKernel.Tools.Capability.RomStorage.csproj" />
+  <Project Path="capabilities/AIKernel.Tools.Capability.VfsGit/AIKernel.Tools.Capability.VfsGit.csproj" />
+  <Project Path="cli/AIKernel.CLI/AIKernel.CLI.csproj" />
+  <Project Path="inspectors/AIKernel.Tools.Inspectors.ChatHistoryScraper/AIKernel.Tools.Inspectors.ChatHistoryScraper.csproj" />
+  <Project Path="inspectors/AIKernel.Tools.Inspectors.KernelClock/AIKernel.Tools.Inspectors.KernelClock.csproj" />
+  <Project Path="inspectors/AIKernel.Tools.Inspectors.Vfs/AIKernel.Tools.Inspectors.Vfs.csproj" />
 </Solution>
