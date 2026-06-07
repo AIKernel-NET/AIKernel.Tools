@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.#ctor">
+      <summary>AIKernel の公開参照サーフェスとして #ctor 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.GetAll">
+      <summary>AIKernel の公開参照サーフェスとして GetAll 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.GetByRole">
+      <summary>AIKernel の公開参照サーフェスとして GetByRole 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.GetLatest">
+      <summary>AIKernel の公開参照サーフェスとして GetLatest 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.GetRecords">
+      <summary>AIKernel の公開参照サーフェスとして GetRecords 操作を実行します。</summary>
+    </member>
+    <member name="P:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryRecord.Content">
+      <summary>AIKernel の公開参照サーフェスで公開される Content 値を取得または設定します。</summary>
+    </member>
+    <member name="P:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryRecord.Role">
+      <summary>AIKernel の公開参照サーフェスで公開される Role 値を取得または設定します。</summary>
+    </member>
+    <member name="P:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryRecord.Timestamp">
+      <summary>AIKernel の公開参照サーフェスで公開される Timestamp 値を取得または設定します。</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider">
+      <summary>AIKernel パッケージ利用者に公開される ChatHistoryProvider の参照サーフェスを表します。</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryRecord">
+      <summary>AIKernel パッケージ利用者に公開される ChatHistoryRecord の参照サーフェスを表します。</summary>
+    </member>
+  </members>
+</doc>

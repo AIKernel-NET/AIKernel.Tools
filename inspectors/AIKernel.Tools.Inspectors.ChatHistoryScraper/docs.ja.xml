@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ExportAsync">
+      <summary>AIKernel の公開参照サーフェスとして ExportAsync 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToMarkdown">
+      <summary>AIKernel の公開参照サーフェスとして ToMarkdown 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToRecords">
+      <summary>AIKernel の公開参照サーフェスとして ToRecords 操作を実行します。</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper">
+      <summary>AIKernel パッケージ利用者に公開される ChatHistoryScraper の参照サーフェスを表します。</summary>
+    </member>
+  </members>
+</doc>

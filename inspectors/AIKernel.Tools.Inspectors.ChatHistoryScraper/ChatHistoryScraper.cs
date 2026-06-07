@@ -6,6 +6,8 @@ using System.Text.RegularExpressions;
 
 namespace AIKernel.Tools.Inspectors.ChatHistoryScraper;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper']" />
 public static partial class ChatHistoryScraper
 {
     private static readonly HttpClient Http = new();
@@ -13,6 +15,8 @@ public static partial class ChatHistoryScraper
     // ------------------------------
     // 1. Export entry point
     // ------------------------------
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ExportAsync']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ExportAsync']" />
     public static async Task<ChatHistory> ExportAsync(string url)
     {
         if (string.IsNullOrWhiteSpace(url))
@@ -36,6 +40,8 @@ public static partial class ChatHistoryScraper
     // ------------------------------
     // Convert ChatHistory -> ChatHistoryRecord[]
     // ------------------------------
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToRecords']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToRecords']" />
     public static IReadOnlyList<ChatHistoryRecord> ToRecords(ChatHistory history)
     {
         if (history is null) return [];
@@ -55,6 +61,8 @@ public static partial class ChatHistoryScraper
     }
 
 
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToMarkdown']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToMarkdown']" />
     public static string ToMarkdown(ChatHistory history, string sourceUrl)
     {
         var lines = new List<string>

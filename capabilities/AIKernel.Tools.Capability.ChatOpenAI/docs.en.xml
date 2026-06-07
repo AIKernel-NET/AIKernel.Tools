@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Capability.ChatOpenAI.ChatOpenAICapabilityContracts.ToContract">
+      <summary>Executes the ToContract operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.ChatOpenAI.ChatOpenAICapabilityContracts">
+      <summary>Represents the ChatOpenAICapabilityContracts public reference surface for AIKernel package consumers.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.ChatOpenAI.ChatOpenAICapabilityDescriptor">
+      <summary>Represents the ChatOpenAICapabilityDescriptor public reference surface for AIKernel package consumers.</summary>
+    </member>
+  </members>
+</doc>

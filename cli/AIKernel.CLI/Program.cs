@@ -2,8 +2,12 @@ using AIKernel.CLI.Commands;
 
 namespace AIKernel.CLI;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Program']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Program']" />
 public static class Program
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Program.Main']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Program.Main']" />
     public static int Main(string[] args)
     {
         if (args.Length == 0)

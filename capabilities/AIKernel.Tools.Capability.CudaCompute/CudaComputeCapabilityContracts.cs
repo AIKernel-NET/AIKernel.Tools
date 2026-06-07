@@ -3,8 +3,12 @@ using AIKernel.Enums;
 
 namespace AIKernel.Tools.Capability.CudaCompute;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.CudaCompute.CudaComputeCapabilityContracts']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.CudaCompute.CudaComputeCapabilityContracts']" />
 public static class CudaComputeCapabilityContracts
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.CudaCompute.CudaComputeCapabilityContracts.ToContract']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.CudaCompute.CudaComputeCapabilityContracts.ToContract']" />
     public static CapabilityModuleDescriptor ToContract(
         CudaComputeCapabilityDescriptor descriptor)
     {

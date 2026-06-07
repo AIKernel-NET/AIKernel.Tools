@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ExportAsync">
+      <summary>Executes the ExportAsync operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToMarkdown">
+      <summary>Executes the ToMarkdown operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToRecords">
+      <summary>Executes the ToRecords operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper">
+      <summary>Represents the ChatHistoryScraper public reference surface for AIKernel package consumers.</summary>
+    </member>
+  </members>
+</doc>

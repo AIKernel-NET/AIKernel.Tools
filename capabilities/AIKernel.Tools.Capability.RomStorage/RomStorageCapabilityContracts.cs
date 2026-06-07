@@ -3,8 +3,12 @@ using AIKernel.Enums;
 
 namespace AIKernel.Tools.Capability.RomStorage;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.RomStorage.RomStorageCapabilityContracts']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.RomStorage.RomStorageCapabilityContracts']" />
 public static class RomStorageCapabilityContracts
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.RomStorage.RomStorageCapabilityContracts.ToContract']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.RomStorage.RomStorageCapabilityContracts.ToContract']" />
     public static CapabilityModuleDescriptor ToContract(
         RomStorageCapabilityDescriptor descriptor)
     {

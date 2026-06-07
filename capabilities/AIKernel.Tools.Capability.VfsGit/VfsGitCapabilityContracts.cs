@@ -3,8 +3,12 @@ using AIKernel.Enums;
 
 namespace AIKernel.Tools.Capability.VfsGit;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.VfsGit.VfsGitCapabilityContracts']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.VfsGit.VfsGitCapabilityContracts']" />
 public static class VfsGitCapabilityContracts
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.VfsGit.VfsGitCapabilityContracts.ToContract']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.VfsGit.VfsGitCapabilityContracts.ToContract']" />
     public static CapabilityModuleDescriptor ToContract(
         VfsGitCapabilityDescriptor descriptor)
     {

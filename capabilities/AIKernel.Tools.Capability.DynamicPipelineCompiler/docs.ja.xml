@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Capability.DynamicPipelineCompiler.DynamicPipelineCompilerCapabilityContracts.ToContract">
+      <summary>AIKernel の公開参照サーフェスとして ToContract 操作を実行します。</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.DynamicPipelineCompiler.DynamicPipelineCompilerCapabilityContracts">
+      <summary>AIKernel パッケージ利用者に公開される DynamicPipelineCompilerCapabilityContracts の参照サーフェスを表します。</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.DynamicPipelineCompiler.DynamicPipelineCompilerCapabilityDescriptor">
+      <summary>AIKernel パッケージ利用者に公開される DynamicPipelineCompilerCapabilityDescriptor の参照サーフェスを表します。</summary>
+    </member>
+  </members>
+</doc>

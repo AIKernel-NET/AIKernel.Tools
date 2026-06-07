@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.CLI.Commands.ClockCommand.Run">
+      <summary>AIKernel の公開参照サーフェスとして Run 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.HelpCommand.Run">
+      <summary>AIKernel の公開参照サーフェスとして Run 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.HelpCommand.Show">
+      <summary>AIKernel の公開参照サーフェスとして Show 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.HelpCommand.Unknown">
+      <summary>AIKernel の公開参照サーフェスとして Unknown 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.RomCommand.Run">
+      <summary>AIKernel の公開参照サーフェスとして Run 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.VersionCommand.Run">
+      <summary>AIKernel の公開参照サーフェスとして Run 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.VfsCommand.Run">
+      <summary>AIKernel の公開参照サーフェスとして Run 操作を実行します。</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.ClockCommand">
+      <summary>AIKernel パッケージ利用者に公開される ClockCommand の参照サーフェスを表します。</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.HelpCommand">
+      <summary>AIKernel パッケージ利用者に公開される HelpCommand の参照サーフェスを表します。</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.RomCommand">
+      <summary>AIKernel パッケージ利用者に公開される RomCommand の参照サーフェスを表します。</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.VersionCommand">
+      <summary>AIKernel パッケージ利用者に公開される VersionCommand の参照サーフェスを表します。</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.VfsCommand">
+      <summary>AIKernel パッケージ利用者に公開される VfsCommand の参照サーフェスを表します。</summary>
+    </member>
+  </members>
+</doc>

@@ -1,7 +1,11 @@
 namespace AIKernel.CLI.Commands;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.VfsCommand']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.VfsCommand']" />
 public static class VfsCommand
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.VfsCommand.Run']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.VfsCommand.Run']" />
     public static int Run(string[] args)
     {
         if (args.Length == 0)

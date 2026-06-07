@@ -5,11 +5,17 @@ using AIKernel.Tools.Capability.RomStorage.ChatHistory;
 
 namespace AIKernel.Tools.Inspectors.ChatHistoryScraper.Export;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter']" />
 public static class RomExporter
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRom']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRom']" />
     public static string ToRom(IReadOnlyList<ChatHistoryRecord> records)
         => ToRom(records, "scraper", "history", generatedAtUtc: null);
 
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRomWithMetadata']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRomWithMetadata']" />
     public static string ToRom(
         IReadOnlyList<ChatHistoryRecord> records,
         string @namespace,

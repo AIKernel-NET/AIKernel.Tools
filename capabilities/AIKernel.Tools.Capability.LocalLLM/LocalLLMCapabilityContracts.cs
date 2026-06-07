@@ -3,8 +3,12 @@ using AIKernel.Enums;
 
 namespace AIKernel.Tools.Capability.LocalLLM;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.LocalLLM.LocalLLMCapabilityContracts']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.LocalLLM.LocalLLMCapabilityContracts']" />
 public static class LocalLLMCapabilityContracts
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.LocalLLM.LocalLLMCapabilityContracts.ToContract']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.LocalLLM.LocalLLMCapabilityContracts.ToContract']" />
     public static CapabilityModuleDescriptor ToContract(
         LocalLLMCapabilityDescriptor descriptor)
     {

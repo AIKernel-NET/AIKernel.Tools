@@ -4,8 +4,12 @@ using System.Text.Json;
 
 namespace AIKernel.CLI.Commands;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.RomCommand']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.RomCommand']" />
 public static class RomCommand
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.RomCommand.Run']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.RomCommand.Run']" />
     public static int Run(string[] args)
     {
         if (args.Length < 2)

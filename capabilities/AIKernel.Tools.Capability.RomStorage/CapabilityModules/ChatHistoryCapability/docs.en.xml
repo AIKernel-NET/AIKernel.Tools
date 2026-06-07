@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.#ctor">
+      <summary>Executes the #ctor operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.GetAll">
+      <summary>Executes the GetAll operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.GetByRole">
+      <summary>Executes the GetByRole operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.GetLatest">
+      <summary>Executes the GetLatest operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider.GetRecords">
+      <summary>Executes the GetRecords operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="P:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryRecord.Content">
+      <summary>Gets or sets the Content value exposed by the AIKernel public reference surface.</summary>
+    </member>
+    <member name="P:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryRecord.Role">
+      <summary>Gets or sets the Role value exposed by the AIKernel public reference surface.</summary>
+    </member>
+    <member name="P:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryRecord.Timestamp">
+      <summary>Gets or sets the Timestamp value exposed by the AIKernel public reference surface.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryProvider">
+      <summary>Represents the ChatHistoryProvider public reference surface for AIKernel package consumers.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.RomStorage.ChatHistory.ChatHistoryRecord">
+      <summary>Represents the ChatHistoryRecord public reference surface for AIKernel package consumers.</summary>
+    </member>
+  </members>
+</doc>

@@ -3,8 +3,12 @@ using AIKernel.Enums;
 
 namespace AIKernel.Tools.Capability.DynamicPipelineCompiler;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.DynamicPipelineCompiler.DynamicPipelineCompilerCapabilityContracts']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Capability.DynamicPipelineCompiler.DynamicPipelineCompilerCapabilityContracts']" />
 public static class DynamicPipelineCompilerCapabilityContracts
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.DynamicPipelineCompiler.DynamicPipelineCompilerCapabilityContracts.ToContract']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Capability.DynamicPipelineCompiler.DynamicPipelineCompilerCapabilityContracts.ToContract']" />
     public static CapabilityModuleDescriptor ToContract(
         DynamicPipelineCompilerCapabilityDescriptor descriptor)
     {
