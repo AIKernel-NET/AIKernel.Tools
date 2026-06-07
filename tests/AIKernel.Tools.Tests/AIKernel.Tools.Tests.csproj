@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.LocalLLM\AIKernel.Tools.Capability.LocalLLM.csproj" />
     <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.RomStorage\AIKernel.Tools.Capability.RomStorage.csproj" />
     <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.VfsGit\AIKernel.Tools.Capability.VfsGit.csproj" />
+    <ProjectReference Include="..\..\inspectors\AIKernel.Tools.Inspectors.ChatHistoryScraper\AIKernel.Tools.Inspectors.ChatHistoryScraper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

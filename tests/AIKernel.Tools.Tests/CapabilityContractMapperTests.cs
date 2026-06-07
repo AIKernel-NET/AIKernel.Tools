@@ -6,11 +6,18 @@ using AIKernel.Tools.Capability.DynamicPipelineCompiler;
 using AIKernel.Tools.Capability.LocalLLM;
 using AIKernel.Tools.Capability.RomStorage;
 using AIKernel.Tools.Capability.VfsGit;
+using System.Text.RegularExpressions;
 
 namespace AIKernel.Tools.Tests;
 
 public sealed class CapabilityContractMapperTests
 {
+    private static readonly Regex CapabilityIdPattern =
+        new(@"^tools(\.[a-z][a-z0-9]*)+$", RegexOptions.CultureInvariant);
+
+    private static readonly Regex UriSchemePattern =
+        new(@"^[a-z][a-z0-9+.-]*://", RegexOptions.CultureInvariant);
+
     [Fact]
     public void DynamicPipelineCompilerExposesDslOperations()
     {
@@ -35,6 +42,23 @@ public sealed class CapabilityContractMapperTests
             "pipeline.compile",
             "pipeline.execute",
             "pipeline.validate");
+    }
+
+    [Fact]
+    public void MetadataKeepsDeterministicInsertionOrderForContractExport()
+    {
+        var metadata = Metadata(
+            ("loader_json", "rom://capabilities/cuda/loader.json"),
+            ("artifact_hash", "sha256:cuda"));
+        var contract = CudaComputeCapabilityContracts.ToContract(
+            new CudaComputeCapabilityDescriptor(
+                "tools.cuda",
+                "cuda13-win-x64",
+                metadata));
+
+        Assert.Equal(
+            ["version", "loader_json", "artifact_hash"],
+            contract.Metadata.Keys.ToArray());
     }
 
     [Fact]
@@ -175,15 +199,29 @@ public sealed class CapabilityContractMapperTests
         IReadOnlyList<string> permissions,
         params string[] operations)
     {
+        // Contract-facing capability ids are stable dot-separated slugs.
+        // Human-readable names are also contract text: changing them is a user-visible
+        // descriptor change and should be intentional.
         Assert.Equal(capabilityId, descriptor.CapabilityId);
+        Assert.Matches(CapabilityIdPattern, descriptor.CapabilityId);
         Assert.Equal(name, descriptor.Name);
         Assert.Equal(kind, descriptor.Kind);
         Assert.Equal(mode, descriptor.InvocationMode);
         Assert.Equal(entryPoint, descriptor.EntryPoint);
         Assert.Equal(artifactUri, descriptor.ArtifactUri);
         Assert.Equal(artifactHash, descriptor.ArtifactHash);
+
+        if (artifactUri is not null)
+        {
+            Assert.Matches(UriSchemePattern, artifactUri);
+        }
+
         Assert.Equal(operations, descriptor.ProvidedOperations);
+
+        // Operation and permission order is part of the descriptor contract. It feeds
+        // deterministic ROM export, hashing, PDP display, and human review diffs.
         Assert.Equal(permissions, descriptor.RequiredPermissions);
+        Assert.All(descriptor.RequiredPermissions, permission => Assert.Contains('.', permission));
         Assert.Equal("0.1.0.2", descriptor.Version);
         Assert.Same(metadata, descriptor.Metadata);
         Assert.Equal("0.1.0.2", descriptor.Metadata["version"]);

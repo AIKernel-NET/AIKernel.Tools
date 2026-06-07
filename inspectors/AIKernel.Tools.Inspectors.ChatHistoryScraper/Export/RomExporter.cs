@@ -64,8 +64,8 @@ public static class RomExporter
         }
 
         var builder = new StringBuilder();
-        builder.AppendLine("# ROM:ChatHistory");
-        builder.AppendLine();
+        AppendLine(builder, "# ROM:ChatHistory");
+        AppendLine(builder);
 
         for (var i = 0; i < records.Count; i++)
         {
@@ -80,13 +80,14 @@ public static class RomExporter
                 throw new InvalidOperationException($"Chat history record content is required. Index='{i}'.");
             }
 
-            builder.AppendLine($"## Turn:{i + 1}");
-            builder.AppendLine($"@role: {record.Role.Trim()}");
-            builder.AppendLine(
+            AppendLine(builder, $"## Turn:{i + 1}");
+            AppendLine(builder, $"@role: {record.Role.Trim()}");
+            AppendLine(
+                builder,
                 $"@time: {record.Timestamp.ToUniversalTime().ToString("O", CultureInfo.InvariantCulture)}");
-            builder.AppendLine();
-            builder.AppendLine(NormalizeContent(record.Content));
-            builder.AppendLine();
+            AppendLine(builder);
+            AppendLine(builder, NormalizeContent(record.Content));
+            AppendLine(builder);
         }
 
         return builder.ToString();
@@ -100,16 +101,17 @@ public static class RomExporter
         string body)
     {
         var builder = new StringBuilder();
-        builder.AppendLine("---");
-        builder.AppendLine($"rom_id: {QuoteYaml(romId)}");
-        builder.AppendLine("entity_type: 'conversation'");
-        builder.AppendLine("version: '1'");
-        builder.AppendLine("source_kind: 'chat_history'");
-        builder.AppendLine(
+        AppendLine(builder, "---");
+        AppendLine(builder, $"rom_id: {QuoteYaml(romId)}");
+        AppendLine(builder, "entity_type: 'conversation'");
+        AppendLine(builder, "version: '1'");
+        AppendLine(builder, "source_kind: 'chat_history'");
+        AppendLine(
+            builder,
             "generated_at: " +
             QuoteYaml(generatedAt.ToUniversalTime().ToString("O", CultureInfo.InvariantCulture)));
-        builder.AppendLine("security:");
-        builder.AppendLine("  tags:");
+        AppendLine(builder, "security:");
+        AppendLine(builder, "  tags:");
 
         foreach (var tag in securityTags
             .Where(tag => !string.IsNullOrWhiteSpace(tag))
@@ -117,15 +119,20 @@ public static class RomExporter
             .Distinct(StringComparer.Ordinal)
             .OrderBy(tag => tag, StringComparer.Ordinal))
         {
-            builder.AppendLine($"    - {QuoteYaml(tag)}");
+            AppendLine(builder, $"    - {QuoteYaml(tag)}");
         }
 
-        builder.AppendLine("signature:");
-        builder.AppendLine($"  hash: {QuoteYaml(hash)}");
-        builder.AppendLine("---");
+        AppendLine(builder, "signature:");
+        AppendLine(builder, $"  hash: {QuoteYaml(hash)}");
+        AppendLine(builder, "---");
         builder.Append(body);
         return builder.ToString();
     }
+
+    private static void AppendLine(
+        StringBuilder builder,
+        string value = "")
+        => builder.Append(value).Append('\n');
 
     private static string ComputeSha256(
         string value)
