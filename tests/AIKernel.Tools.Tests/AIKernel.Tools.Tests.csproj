@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AIKernel.Dtos" Version="$(AIKernelPackageVersion)" />
+    <PackageReference Include="AIKernel.Enums" Version="$(AIKernelPackageVersion)" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.ChatOpenAI\AIKernel.Tools.Capability.ChatOpenAI.csproj" />
+    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.CudaCompute\AIKernel.Tools.Capability.CudaCompute.csproj" />
+    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.DynamicPipelineCompiler\AIKernel.Tools.Capability.DynamicPipelineCompiler.csproj" />
+    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.LocalLLM\AIKernel.Tools.Capability.LocalLLM.csproj" />
+    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.RomStorage\AIKernel.Tools.Capability.RomStorage.csproj" />
+    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.VfsGit\AIKernel.Tools.Capability.VfsGit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+</Project>

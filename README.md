@@ -49,7 +49,7 @@ against the published AIKernel.NET contract packages and AIKernel.Core runtime.
 ### **1. ChatHistoryScraper**
 
 ChatGPT の共有URLからチャット履歴を取得し、 **抜け漏れゼロの JSON** として保存するツール。
-`.rom` 出力では、AIKernel.Core の HistoryROM 仕様に従った署名付き Markdown ROM を生成する。
+`.rom` 出力では、AIKernel.NET の HistoryROM 契約に合わせた hash 付き Markdown ROM を生成する。
 
 用途:
 
@@ -92,6 +92,30 @@ AIKernel.Tools に含まれるツールは、 **Capability Module** として AI
     
 
 _Tools can be integrated into AIKernel as Capability Modules,_ _extending the system with new abilities._
+
+### Contract alignment
+
+Capability modules expose implementation-specific descriptors locally, but the
+registration boundary is the shared `AIKernel.Dtos.Capabilities` contract.
+The following modules provide contract mappers to `CapabilityModuleDescriptor`:
+
+- `AIKernel.Tools.Capability.ChatOpenAI`
+- `AIKernel.Tools.Capability.LocalLLM`
+- `AIKernel.Tools.Capability.DynamicPipelineCompiler`
+- `AIKernel.Tools.Capability.CudaCompute`
+- `AIKernel.Tools.Capability.VfsGit`
+- `AIKernel.Tools.Capability.RomStorage`
+
+These modules do not own Control Plane interfaces and do not mutate routing
+requests directly. Control contracts are owned by `AIKernel.Abstractions.Control`
+and `AIKernel.Dtos.Control`; provider-routing decisions are owned as pure DTOs
+in `AIKernel.Dtos.Routing` and applied by Core runtime helpers.
+
+各 Capability module は local な実装 descriptor を持ちますが、登録境界は
+`AIKernel.Dtos.Capabilities.CapabilityModuleDescriptor` に統一します。
+Control Plane interface は AIKernel.NET が所有し、Tools は実装側の Capability として
+接続します。Routing request の変更は Core runtime helper の責務であり、
+Tools 側では provider-routing DTO を直接変更しません。
 
 ##  ドキュメント / Documentation
 

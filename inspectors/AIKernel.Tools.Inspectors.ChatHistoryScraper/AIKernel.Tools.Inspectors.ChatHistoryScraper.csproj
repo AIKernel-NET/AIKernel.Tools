@@ -8,13 +8,4 @@
     <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.RomStorage\AIKernel.Tools.Capability.RomStorage.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="AIKernel.Common">
-      <HintPath>..\..\..\AIKernel.Core\src\AIKernel.Common\bin\Debug\net10.0\AIKernel.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="AIKernel.Core">
-      <HintPath>..\..\..\AIKernel.Core\src\AIKernel.Core\bin\Debug\net10.0\AIKernel.Core.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

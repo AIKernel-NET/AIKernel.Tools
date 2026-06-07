@@ -9,4 +9,5 @@
   <Project Path="inspectors/AIKernel.Tools.Inspectors.ChatHistoryScraper/AIKernel.Tools.Inspectors.ChatHistoryScraper.csproj" />
   <Project Path="inspectors/AIKernel.Tools.Inspectors.KernelClock/AIKernel.Tools.Inspectors.KernelClock.csproj" />
   <Project Path="inspectors/AIKernel.Tools.Inspectors.Vfs/AIKernel.Tools.Inspectors.Vfs.csproj" />
+  <Project Path="tests/AIKernel.Tools.Tests/AIKernel.Tools.Tests.csproj" />
 </Solution>

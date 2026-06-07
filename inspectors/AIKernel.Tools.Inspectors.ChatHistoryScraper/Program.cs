@@ -1,5 +1,4 @@
-using AIKernel.Common.IO;
-using AIKernel.Common.Json;
+using System.Text.Json;
 using AIKernel.Tools.Inspectors.ChatHistoryScraper.Export;
 
 namespace AIKernel.Tools.Inspectors.ChatHistoryScraper;
@@ -32,7 +31,7 @@ internal class Program
         }
 
         var url = args[1];
-        var output = PathUtil.Normalize(
+        var output = Path.GetFullPath(
             args.Length >= 4 && args[2] == "-o" ? args[3] : "history.rom");
 
         try
@@ -44,10 +43,12 @@ internal class Program
             {
                 var p when p.EndsWith(".rom") => RomExporter.ToRom(records),
                 var p when p.EndsWith(".md") => MdExporter.ToMarkdown(records),
-                _ => System.Text.Json.JsonSerializer.Serialize(records, JsonOptions.Indented)
+                _ => JsonSerializer.Serialize(
+                    records,
+                    new JsonSerializerOptions { WriteIndented = true })
             };
 
-            await FileUtil.WriteTextAsync(output, text);
+            await File.WriteAllTextAsync(output, text);
             Console.WriteLine($"Exported history to {output}");
             return 0;
         }
