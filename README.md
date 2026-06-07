@@ -28,6 +28,11 @@ Capability modules, not Core runtime behavior.
 Control-plane execution engines belong in AIKernel.Control. Demo projects
 consume Tools and Control; they do not define the runtime.
 
+Release notes:
+
+- [English](RELEASE_NOTES.md)
+- [日本語](RELEASE_NOTES-ja.md)
+
 ## 0.1.0 Repository Layout
 
 Common project properties are centralized in `Directory.Build.props`.
