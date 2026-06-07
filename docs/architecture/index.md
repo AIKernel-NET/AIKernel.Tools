@@ -1,5 +1,7 @@
 # AIKernel.Tools Architecture
 
+[日本語](index-ja.md)
+
 AIKernel.Tools is the external utility and CLI repository for AIKernel. It
 contains user-land tools and Capability modules that can be executed directly or
 referenced by applications.

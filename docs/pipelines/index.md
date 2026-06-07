@@ -1,5 +1,7 @@
 # Tool Pipelines
 
+[日本語](index-ja.md)
+
 Tool pipelines should be deterministic and replay-friendly:
 
 1. Parse input.

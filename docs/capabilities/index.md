@@ -1,5 +1,7 @@
 # Tool Capability Modules
 
+[日本語](index-ja.md)
+
 Tools may expose Capability modules for AIKernel pipelines. The initial
 capability focus is:
 
