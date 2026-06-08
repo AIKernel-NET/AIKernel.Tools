@@ -4,20 +4,34 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <Version>0.1.0.2</Version>
-    <AssemblyVersion>0.1.0.2</AssemblyVersion>
-    <FileVersion>0.1.0.2</FileVersion>
-    <InformationalVersion>0.1.0.2</InformationalVersion>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <FileVersion>0.1.0</FileVersion>
+    <InformationalVersion>0.1.0</InformationalVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <Authors>Takuya Sogawa</Authors>
     <Company>AIKernel-NET</Company>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://www.nuget.org/profiles/AIKernel-NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/AIKernel-NET/AIKernel.Tools</RepositoryUrl>
     <Copyright>Copyright © 2026 Takuya Sogawa of AIKernel-NET</Copyright>
-    <PackageTags>aikernel;tools;cli;capability;history-rom;vfs;kernel-clock</PackageTags>
+    <PackageTags>aikernel;tools;cli;capability;history-rom;vfs;kernel-clock;inspection;deterministic-debugging;semantic-runtime</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>aikernel-logo128x128.png</PackageIcon>
+    <Description>AIKernel.Tools package family v0.1.0. Provides CLI, capability modules, inspectors, ROM export, VFS inspection, kernel clock inspection, and deterministic debugging support for AIKernel semantic runtime workflows.</Description>
+    <PackageReleaseNotes>
+      AIKernel.Tools package family v0.1.0 - First public release of the AIKernel tooling layer. Provides the aik CLI, capability contract modules, chat history ROM export, VFS and kernel clock inspectors, and deterministic debugging support for prototype validation workflows.
+    </PackageReleaseNotes>
 
-    <AIKernelPackageVersion>0.1.0.2</AIKernelPackageVersion>
-    <RestoreAdditionalProjectSources>$(MSBuildThisFileDirectory)..\artifacts\packages;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
+    <AIKernelPackageVersion>0.1.0</AIKernelPackageVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)README-ja.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)RELEASE_NOTES.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)assets\aikernel-logo128x128.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>

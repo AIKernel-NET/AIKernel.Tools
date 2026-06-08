@@ -175,7 +175,7 @@ public sealed class CapabilityContractMapperTests
     {
         var metadata = new Dictionary<string, string>(StringComparer.Ordinal)
         {
-            ["version"] = "0.1.0.2"
+            ["version"] = "0.1.0"
         };
 
         foreach (var (key, value) in entries)
@@ -222,8 +222,8 @@ public sealed class CapabilityContractMapperTests
         // deterministic ROM export, hashing, PDP display, and human review diffs.
         Assert.Equal(permissions, descriptor.RequiredPermissions);
         Assert.All(descriptor.RequiredPermissions, permission => Assert.Contains('.', permission));
-        Assert.Equal("0.1.0.2", descriptor.Version);
+        Assert.Equal("0.1.0", descriptor.Version);
         Assert.Same(metadata, descriptor.Metadata);
-        Assert.Equal("0.1.0.2", descriptor.Metadata["version"]);
+        Assert.Equal("0.1.0", descriptor.Metadata["version"]);
     }
 }
