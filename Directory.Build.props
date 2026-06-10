@@ -1,0 +1,39 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <Version>0.1.1</Version>
+    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <FileVersion>0.1.1.0</FileVersion>
+    <InformationalVersion>0.1.1</InformationalVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <Authors>Takuya Sogawa</Authors>
+    <Company>AIKernel-NET</Company>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://www.nuget.org/profiles/AIKernel-NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/AIKernel-NET/AIKernel.Tools</RepositoryUrl>
+    <Copyright>Copyright © 2026 Takuya Sogawa of AIKernel-NET</Copyright>
+    <PackageTags>aikernel;tools;cli;capability;history-rom;vfs;kernel-clock;inspection;deterministic-debugging;semantic-runtime</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>aikernel-logo128x128.png</PackageIcon>
+    <Description>AIKernel.Tools package family v0.1.1. Provides CLI, instrumentation, inspectors, ROM export, VFS inspection, kernel clock inspection, and deterministic debugging support for AIKernel semantic runtime workflows.</Description>
+    <PackageReleaseNotes>
+      AIKernel.Tools package family v0.1.1 - Aligns the AIKernel tooling layer with AIKernel.NET, Core, Control, Providers, and Wasm 0.1.1. Provides the aik CLI, instrumentation modules, chat history ROM export, VFS and kernel clock inspectors, and deterministic debugging support for operator workflows.
+    </PackageReleaseNotes>
+
+    <AIKernelPackageVersion>[0.1.1]</AIKernelPackageVersion>
+    <AIKernelCorePackageVersion>0.1.1</AIKernelCorePackageVersion>
+    <AIKernelProviderPackageVersion>0.1.1</AIKernelProviderPackageVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)README-ja.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)RELEASE_NOTES.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)assets\aikernel-logo128x128.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

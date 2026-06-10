@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.CLI.Commands.ClockCommand.Run">
+      <summary>Executes the Run operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.HelpCommand.Run">
+      <summary>Executes the Run operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.HelpCommand.Show">
+      <summary>Executes the Show operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.HelpCommand.Unknown">
+      <summary>Executes the Unknown operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.RomCommand.Run">
+      <summary>Executes the Run operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.VersionCommand.Run">
+      <summary>Executes the Run operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.CLI.Commands.VfsCommand.Run">
+      <summary>Executes the Run operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.ClockCommand">
+      <summary>Represents the ClockCommand public reference surface for AIKernel package consumers.</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.HelpCommand">
+      <summary>Represents the HelpCommand public reference surface for AIKernel package consumers.</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.RomCommand">
+      <summary>Represents the RomCommand public reference surface for AIKernel package consumers.</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.VersionCommand">
+      <summary>Represents the VersionCommand public reference surface for AIKernel package consumers.</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Commands.VfsCommand">
+      <summary>Represents the VfsCommand public reference surface for AIKernel package consumers.</summary>
+    </member>
+  </members>
+</doc>

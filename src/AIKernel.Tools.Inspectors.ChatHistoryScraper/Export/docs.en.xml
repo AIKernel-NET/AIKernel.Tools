@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.MdExporter.ToMarkdown">
+      <summary>Executes the ToMarkdown operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRom">
+      <summary>Executes the ToRom operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRomWithMetadata">
+      <summary>Exports chat history records into deterministic HistoryROM markdown using the supplied namespace, name, and optional generation timestamp.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.MdExporter">
+      <summary>Represents the MdExporter public reference surface for AIKernel package consumers.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter">
+      <summary>Represents the RomExporter public reference surface for AIKernel package consumers.</summary>
+    </member>
+  </members>
+</doc>

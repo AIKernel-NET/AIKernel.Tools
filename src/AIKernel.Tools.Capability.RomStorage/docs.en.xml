@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Capability.RomStorage.RomStorageCapabilityContracts.ToContract">
+      <summary>Executes the ToContract operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.RomStorage.RomStorageCapabilityContracts">
+      <summary>Represents the RomStorageCapabilityContracts public reference surface for AIKernel package consumers.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Capability.RomStorage.RomStorageCapabilityDescriptor">
+      <summary>Represents the RomStorageCapabilityDescriptor public reference surface for AIKernel package consumers.</summary>
+    </member>
+  </members>
+</doc>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Inspectors.KernelClock.Commands.NowCommand.Run">
+      <summary>Executes the Run operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.KernelClock.Commands.TimelineCommand.Run">
+      <summary>Executes the Run operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.KernelClock.Commands.NowCommand">
+      <summary>Represents the NowCommand public reference surface for AIKernel package consumers.</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.KernelClock.Commands.TimelineCommand">
+      <summary>Represents the TimelineCommand public reference surface for AIKernel package consumers.</summary>
+    </member>
+  </members>
+</doc>

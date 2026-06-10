@@ -1,7 +1,11 @@
-﻿namespace AIKernel.CLI.Commands;
+namespace AIKernel.CLI.Commands;
 
+/// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.ClockCommand']" />
+/// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.ClockCommand']" />
 public static class ClockCommand
 {
+    /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.ClockCommand.Run']" />
+    /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.ClockCommand.Run']" />
     public static int Run(string[] args)
     {
         if (args.Length == 0)
@@ -20,13 +24,18 @@ public static class ClockCommand
 
     private static int Now()
     {
-        Console.WriteLine($"KernelClock (mock): {DateTimeOffset.UtcNow:o}");
+        var now = DateTimeOffset.UtcNow;
+        Console.WriteLine($"kernel_clock.utc: {now:o}");
+        Console.WriteLine($"kernel_clock.unix_ms: {now.ToUnixTimeMilliseconds()}");
         return 0;
     }
 
     private static int Timeline()
     {
-        Console.WriteLine("[Clock] (MVP) Timeline view is not implemented yet.");
+        var now = DateTimeOffset.UtcNow;
+        Console.WriteLine("timeline[0].event: kernel.clock.inspect");
+        Console.WriteLine($"timeline[0].observed_utc: {now:o}");
+        Console.WriteLine($"timeline[0].unix_ms: {now.ToUnixTimeMilliseconds()}");
         return 0;
     }
 

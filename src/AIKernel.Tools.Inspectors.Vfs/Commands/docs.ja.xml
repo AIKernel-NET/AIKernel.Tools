@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Inspectors.Vfs.Commands.InfoCommand.Run">
+      <summary>AIKernel の公開参照サーフェスとして Run 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand.Run">
+      <summary>AIKernel の公開参照サーフェスとして Run 操作を実行します。</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.Vfs.Commands.InfoCommand">
+      <summary>AIKernel パッケージ利用者に公開される InfoCommand の参照サーフェスを表します。</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand">
+      <summary>AIKernel パッケージ利用者に公開される TreeCommand の参照サーフェスを表します。</summary>
+    </member>
+  </members>
+</doc>

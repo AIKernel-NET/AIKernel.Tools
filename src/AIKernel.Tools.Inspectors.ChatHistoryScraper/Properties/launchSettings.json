@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AIKernel.Tools.ChatHistoryScraper": {
+      "commandName": "Project",
+      "commandLineArgs": "export https://chatgpt.com/share/6a1a97d1-3040-83e8-b0e2-e9c34b7dc0ec -o .\\result_rom.rom"
+    }
+  }
+}

@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>aik</AssemblyName>
     <AssemblyTitle>AIKernel.CLI</AssemblyTitle>
+    <PackageId>AIKernel.Tools.CLI</PackageId>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>aik</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,8 +14,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AIKernel.Tools.ChatHistoryScraper\AIKernel.Tools.ChatHistoryScraper.csproj" />
-    <ProjectReference Include="..\AIKernel.Tools\AIKernel.Tools.csproj" />
+    <PackageReference Include="AIKernel.Abstractions" Version="$(AIKernelPackageVersion)" />
+    <PackageReference Include="AIKernel.Common" Version="[$(AIKernelCorePackageVersion)]" />
+    <PackageReference Include="AIKernel.Core" Version="[$(AIKernelCorePackageVersion)]" />
+    <PackageReference Include="AIKernel.Dtos" Version="$(AIKernelPackageVersion)" />
+    <PackageReference Include="AIKernel.Hosting" Version="[$(AIKernelCorePackageVersion)]" />
+    <PackageReference Include="AIKernel.Providers.Standard" Version="[$(AIKernelProviderPackageVersion)]" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.8" />
+    <ProjectReference Include="..\AIKernel.Tools.Capability.RomStorage\AIKernel.Tools.Capability.RomStorage.csproj" />
+    <ProjectReference Include="..\AIKernel.Tools.Inspectors.ChatHistoryScraper\AIKernel.Tools.Inspectors.ChatHistoryScraper.csproj" />
+    <ProjectReference Include="..\AIKernel.Tools.Inspectors.KernelClock\AIKernel.Tools.Inspectors.KernelClock.csproj" />
+    <ProjectReference Include="..\AIKernel.Tools.Inspectors.Vfs\AIKernel.Tools.Inspectors.Vfs.csproj" />
   </ItemGroup>
 
 </Project>

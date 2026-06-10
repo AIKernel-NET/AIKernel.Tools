@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.CLI.Program.Main">
+      <summary>Executes the Main operation as part of the AIKernel public reference surface.</summary>
+    </member>
+    <member name="T:AIKernel.CLI.Program">
+      <summary>Represents the Program public reference surface for AIKernel package consumers.</summary>
+    </member>
+  </members>
+</doc>

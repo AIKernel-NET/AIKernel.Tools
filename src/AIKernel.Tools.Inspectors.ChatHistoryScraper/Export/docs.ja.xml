@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <members>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.MdExporter.ToMarkdown">
+      <summary>AIKernel の公開参照サーフェスとして ToMarkdown 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRom">
+      <summary>AIKernel の公開参照サーフェスとして ToRom 操作を実行します。</summary>
+    </member>
+    <member name="M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRomWithMetadata">
+      <summary>指定された namespace、name、任意の generation timestamp を用いて、chat history records を決定論的な HistoryROM markdown として export します。</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.MdExporter">
+      <summary>AIKernel パッケージ利用者に公開される MdExporter の参照サーフェスを表します。</summary>
+    </member>
+    <member name="T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter">
+      <summary>AIKernel パッケージ利用者に公開される RomExporter の参照サーフェスを表します。</summary>
+    </member>
+  </members>
+</doc>

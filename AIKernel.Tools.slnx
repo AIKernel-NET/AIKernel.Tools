@@ -1,7 +1,13 @@
 <Solution>
-  <Project Path="src/AIKernel.CLI/AIKernel.CLI.csproj" />
-  <Project Path="src/AIKernel.Tools.ChatHistoryScraper/AIKernel.Tools.ChatHistoryScraper.csproj" />
-  <Project Path="src/AIKernel.Tools/AIKernel.Tools.csproj" />
-  <Project Path="src/KernelClockInspector/KernelClockInspector.csproj" />
-  <Project Path="src/VfsInspector/VfsInspector.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/AIKernel.Tools.Capability.RomStorage/AIKernel.Tools.Capability.RomStorage.csproj" />
+    <Project Path="src/AIKernel.CLI/AIKernel.CLI.csproj" />
+    <Project Path="src/AIKernel.Tools.Instrumentation/AIKernel.Tools.Instrumentation.csproj" />
+    <Project Path="src/AIKernel.Tools.Inspectors.ChatHistoryScraper/AIKernel.Tools.Inspectors.ChatHistoryScraper.csproj" />
+    <Project Path="src/AIKernel.Tools.Inspectors.KernelClock/AIKernel.Tools.Inspectors.KernelClock.csproj" />
+    <Project Path="src/AIKernel.Tools.Inspectors.Vfs/AIKernel.Tools.Inspectors.Vfs.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AIKernel.Tools.Tests/AIKernel.Tools.Tests.csproj" />
+  </Folder>
 </Solution>
