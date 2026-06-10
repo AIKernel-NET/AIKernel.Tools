@@ -6,6 +6,14 @@ AIKernel.Tools is the operator and instrumentation workspace for AIKernel. It
 contains the `aik` CLI, replay/inspection utilities, direct inspectors, and the
 `aikernel-tools` Python wrapper.
 
+These docs describe Tools as the AIOS SDK observability and instrumentation
+layer. Tools adds operator commands, replay, inspectors, canonical formatting,
+and diagnostics around an AIOS distribution without owning the kernel runtime.
+
+AIKernel.Monolith is the official AIOS distribution now in development. It is
+planned as the standard reference distribution that integrates observability
+and operator tooling with the Semantic OS layers after the 0.1.x line stabilizes.
+
 ## Sections
 
 - [User Guide](user-guide/index.md)
@@ -17,6 +25,28 @@ contains the `aik` CLI, replay/inspection utilities, direct inspectors, and the
 - [Tool Pipelines](pipelines/index.md)
 - [Python Wrapper](python/index.md)
 - [Licensing](licensing/index.md)
+
+## Which Page Should I Read?
+
+- Read User Guide when you want the shortest path from installation to a
+  working `aik` command.
+- Read CLI Operations when you need command syntax for runtime, system,
+  capabilities, providers, skills, GPU, process, logs, and scheduler surfaces.
+- Read Instrumentation and Inspectors when you are diagnosing replay, VFS,
+  clock, canonical formatting, or export behavior.
+- Read Python Wrapper when you need the same tooling surface from Python.
+
+## First CLI Checks
+
+After installing `AIKernel.Tools.CLI`, run these commands from a normal working
+directory:
+
+```powershell
+aik runtime ping
+aik system info
+aik system vfs --vfs-root .
+aik capabilities invoke aikernel.vfs vfs.exists path=README.md
+```
 
 ## Release Scope
 

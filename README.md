@@ -6,9 +6,19 @@ AIKernel.Tools is the official tools, CLI, inspectors, and instrumentation
 workspace for AIKernel.
 
 AIKernel.Tools participates in the AIKernel 0.1.1 prototype validation phase
-scheduled for 2026-06-09. It validates that instrumentation utilities and
+scheduled for 2026-06-10. It validates that instrumentation utilities and
 developer tools can consume the published AIKernel.NET contract packages and
 AIKernel.Core runtime without owning runtime, provider, or contract definitions.
+
+In the AIOS SDK, AIKernel.Tools is the observability and instrumentation layer.
+It provides CLI operations, replay, inspectors, canonical formatting, and
+operator workflows that can be installed beside an AIOS distribution and
+removed from hosts that do not need diagnostics.
+
+AIKernel also provides an official AIOS distribution, codenamed
+**AIKernel.Monolith**. Monolith has begun development as the standard AIOS that
+integrates semantic runtime, capability graph, governance, and observability
+after the 0.1.x SDK line stabilizes.
 
 ## Purpose
 
@@ -50,7 +60,7 @@ Release notes:
 Install the CLI tool, then run the four smallest checks:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
 
 aik runtime ping
 aik system info
@@ -229,7 +239,7 @@ manifest looks like this:
 For the CLI:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
 ```
 
 For .NET hosts:

@@ -5,10 +5,18 @@
 この guide は、AIKernel.Tools を operator CLI および tooling library として使う
 方法を説明します。
 
+Tools は AIOS SDK の observability / instrumentation layer です。AIOS distribution を
+operate、inspect、replay、diagnose するために使い、これらの operator surface を
+Core や Providers から分離します。
+
+公式 AIOS ディストリビューション **AIKernel.Monolith** の開発も開始されています。
+Monolith は 0.1.x 系の安定化後に CLI、replay、inspection、governance-oriented
+observability を統合する標準 reference distribution として位置づけられます。
+
 ## Install the CLI
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
 ```
 
 最小 runtime surface を確認します。

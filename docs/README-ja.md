@@ -6,6 +6,14 @@ AIKernel.Tools は AIKernel の operator / instrumentation workspace です。`a
 CLI、replay / inspection utility、direct inspector、`aikernel-tools` Python
 wrapper を含みます。
 
+この docs は、AIOS SDK の observability / instrumentation layer として Tools を
+説明します。AIOS distribution の周囲に operator command、replay、inspector、
+canonical formatting、diagnostics を追加し、kernel runtime は所有しません。
+
+公式 AIOS ディストリビューション **AIKernel.Monolith** の開発も開始されています。
+Monolith は 0.1.x 系の安定化後に observability と operator tooling を
+Semantic OS layer と統合する標準 reference distribution として位置づけられます。
+
 ## Sections
 
 - [User Guide](user-guide/index-ja.md)
@@ -17,6 +25,27 @@ wrapper を含みます。
 - [Tool Pipelines](pipelines/index-ja.md)
 - [Python Wrapper](python/index-ja.md)
 - [Licensing](licensing/index-ja.md)
+
+## どのページを読むべきか
+
+- install から `aik` command の動作確認までを最短で確認したい場合は User Guide を
+  読んでください。
+- runtime、system、capabilities、providers、skills、GPU、process、logs、
+  scheduler surface の command syntax を確認する場合は CLI Operations を読んでください。
+- replay、VFS、clock、canonical formatting、export behavior を診断する場合は
+  Instrumentation と Inspectors を読んでください。
+- Python から同じ tooling surface を使う場合は Python Wrapper を読んでください。
+
+## 最初の CLI 確認
+
+`AIKernel.Tools.CLI` を install したら、通常の working directory で次を実行します。
+
+```powershell
+aik runtime ping
+aik system info
+aik system vfs --vfs-root .
+aik capabilities invoke aikernel.vfs vfs.exists path=README.md
+```
 
 ## Release Scope
 

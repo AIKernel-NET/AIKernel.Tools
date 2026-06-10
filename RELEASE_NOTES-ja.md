@@ -4,9 +4,12 @@
 
 ## 0.1.1
 
-> [EN] Tools 0.1.1 exposes the instrumentation spine: replay, inspection, and canonical formatting for deterministic debugging.
->
-> [JA] Tools 0.1.1 は計測の背骨を公開──Replay・Inspector・正準フォーマットが決定論的デバッグを可能にする。
+**June 10th, 2026 - Unifying observability.**
+**2026年6月10日--可観測性を統合する。**
+
+Unifying observability: canonical formatting, inspection, and replay surfaces
+synchronize into a single instrumentation spine. 可観測性の統合--正準フォーマット・
+インスペクション・リプレイ面が単一の計測スパインへ同期する。
 
 AIKernel.Tools 0.1.1 は、prototype validation phase のための instrumentation Capability / inspection module を提供します。
 

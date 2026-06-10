@@ -15,7 +15,7 @@ provider manifests.
 ## Quick Start
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
 
 aik runtime ping
 aik system info
@@ -29,7 +29,7 @@ capability invocation.
 ## Installation
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
 ```
 
 ## Standard Provider Commands
