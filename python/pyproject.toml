@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aikernel-tools"
+version = "0.1.1"
+description = "Python wrapper for AIKernel.Tools v0.1.1 instrumentation contracts with bundled managed assemblies and pythonnet loading."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [
+  { name = "Takuya Sogawa" }
+]
+keywords = [
+  "aikernel",
+  "tools",
+  "instrumentation",
+  "deterministic-debugging",
+  "capability",
+  "inspector",
+  "canonical-formatting",
+  "pythonnet"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Software Development :: Libraries"
+]
+dependencies = [
+  "pythonnet>=3.0.3"
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=9.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/AIKernel-NET/AIKernel.Tools"
+Repository = "https://github.com/AIKernel-NET/AIKernel.Tools"
+Documentation = "https://aikernel.net/reference/"
+Issues = "https://github.com/AIKernel-NET/AIKernel.Tools/issues"
+Releases = "https://github.com/AIKernel-NET/AIKernel.Tools/releases"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aikernel_tools = [
+  "native/*.dll",
+  "native/*.so",
+  "native/*.dylib",
+  "native/*.deps.json"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

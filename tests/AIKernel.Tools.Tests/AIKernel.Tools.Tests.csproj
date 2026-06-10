@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="AIKernel.Dtos" Version="$(AIKernelPackageVersion)" />
     <PackageReference Include="AIKernel.Enums" Version="$(AIKernelPackageVersion)" />
+    <PackageReference Include="AIKernel.Core" Version="[$(AIKernelCorePackageVersion)]" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
@@ -19,13 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.ChatOpenAI\AIKernel.Tools.Capability.ChatOpenAI.csproj" />
-    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.CudaCompute\AIKernel.Tools.Capability.CudaCompute.csproj" />
-    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.DynamicPipelineCompiler\AIKernel.Tools.Capability.DynamicPipelineCompiler.csproj" />
-    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.LocalLLM\AIKernel.Tools.Capability.LocalLLM.csproj" />
-    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.RomStorage\AIKernel.Tools.Capability.RomStorage.csproj" />
-    <ProjectReference Include="..\..\capabilities\AIKernel.Tools.Capability.VfsGit\AIKernel.Tools.Capability.VfsGit.csproj" />
-    <ProjectReference Include="..\..\inspectors\AIKernel.Tools.Inspectors.ChatHistoryScraper\AIKernel.Tools.Inspectors.ChatHistoryScraper.csproj" />
+    <ProjectReference Include="..\..\src\AIKernel.Tools.Capability.RomStorage\AIKernel.Tools.Capability.RomStorage.csproj" />
+    <ProjectReference Include="..\..\src\AIKernel.CLI\AIKernel.CLI.csproj" />
+    <ProjectReference Include="..\..\src\AIKernel.Tools.Instrumentation\AIKernel.Tools.Instrumentation.csproj" />
+    <ProjectReference Include="..\..\src\AIKernel.Tools.Inspectors.ChatHistoryScraper\AIKernel.Tools.Inspectors.ChatHistoryScraper.csproj" />
+    <ProjectReference Include="..\..\src\AIKernel.Tools.Inspectors.KernelClock\AIKernel.Tools.Inspectors.KernelClock.csproj" />
+    <ProjectReference Include="..\..\src\AIKernel.Tools.Inspectors.Vfs\AIKernel.Tools.Inspectors.Vfs.csproj" />
   </ItemGroup>
 
   <ItemGroup>

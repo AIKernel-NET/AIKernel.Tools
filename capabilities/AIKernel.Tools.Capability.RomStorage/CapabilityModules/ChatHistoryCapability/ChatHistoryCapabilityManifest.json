@@ -1,8 +1,0 @@
-{
-  "name": "ChatHistoryCapability",
-  "version": "0.1.0",
-  "description": "Provides chat history records from JSON logs as a Provider capability.",
-  "provider": "ChatHistoryProvider",
-  "inputs": [ "json" ],
-  "outputs": [ "ChatHistoryRecord" ]
-}

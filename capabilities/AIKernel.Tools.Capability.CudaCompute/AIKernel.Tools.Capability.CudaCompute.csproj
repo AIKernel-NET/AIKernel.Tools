@@ -1,6 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="AIKernel.Dtos" Version="$(AIKernelPackageVersion)" />
-    <PackageReference Include="AIKernel.Enums" Version="$(AIKernelPackageVersion)" />
-  </ItemGroup>
-</Project>

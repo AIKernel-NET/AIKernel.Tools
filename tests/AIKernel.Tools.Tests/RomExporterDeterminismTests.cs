@@ -1,4 +1,4 @@
-using AIKernel.Tools.Capability.RomStorage.ChatHistory;
+using AIKernel.Providers.ChatHistory;
 using AIKernel.Tools.Inspectors.ChatHistoryScraper.Export;
 
 namespace AIKernel.Tools.Tests;

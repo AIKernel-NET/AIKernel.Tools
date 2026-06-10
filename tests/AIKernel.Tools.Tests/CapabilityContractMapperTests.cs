@@ -1,11 +1,7 @@
 using AIKernel.Dtos.Capabilities;
 using AIKernel.Enums;
-using AIKernel.Tools.Capability.ChatOpenAI;
-using AIKernel.Tools.Capability.CudaCompute;
-using AIKernel.Tools.Capability.DynamicPipelineCompiler;
-using AIKernel.Tools.Capability.LocalLLM;
-using AIKernel.Tools.Capability.RomStorage;
-using AIKernel.Tools.Capability.VfsGit;
+using AIKernel.Core.Storage;
+using AIKernel.Core.Vfs.VfsGit;
 using System.Text.RegularExpressions;
 
 namespace AIKernel.Tools.Tests;
@@ -19,79 +15,24 @@ public sealed class CapabilityContractMapperTests
         new(@"^[a-z][a-z0-9+.-]*://", RegexOptions.CultureInvariant);
 
     [Fact]
-    public void DynamicPipelineCompilerExposesDslOperations()
-    {
-        var metadata = Metadata();
-        var contract = DynamicPipelineCompilerCapabilityContracts.ToContract(
-            new DynamicPipelineCompilerCapabilityDescriptor(
-                "tools.pipeline",
-                "0.1",
-                metadata));
-
-        AssertContract(
-            contract,
-            "tools.pipeline",
-            "Dynamic Pipeline Compiler",
-            "AIKernel.Tools.Capability.DynamicPipelineCompiler",
-            null,
-            null,
-            metadata,
-            CapabilityModuleKind.ManagedAssembly,
-            CapabilityInvocationMode.AssemblyReference,
-            ["dsl.read", "capability.register"],
-            "pipeline.compile",
-            "pipeline.execute",
-            "pipeline.validate");
-    }
-
-    [Fact]
     public void MetadataKeepsDeterministicInsertionOrderForContractExport()
     {
         var metadata = Metadata(
-            ("loader_json", "rom://capabilities/cuda/loader.json"),
-            ("artifact_hash", "sha256:cuda"));
-        var contract = CudaComputeCapabilityContracts.ToContract(
-            new CudaComputeCapabilityDescriptor(
-                "tools.cuda",
-                "cuda13-win-x64",
+            ("storage_uri", "rom://tools/storage"),
+            ("artifact_hash", "sha256:rom"));
+        var contract = RomStorageCapabilityContracts.ToContract(
+            new RomStorageCapabilityDescriptor(
+                "tools.rom",
+                "rom",
                 metadata));
 
         Assert.Equal(
-            ["version", "loader_json", "artifact_hash"],
+            ["version", "storage_uri", "artifact_hash"],
             contract.Metadata.Keys.ToArray());
     }
 
     [Fact]
-    public void CudaComputeExposesNativeTensorOperations()
-    {
-        var metadata = Metadata(
-            ("loader_json", "rom://capabilities/cuda/loader.json"),
-            ("artifact_hash", "sha256:cuda"));
-        var contract = CudaComputeCapabilityContracts.ToContract(
-            new CudaComputeCapabilityDescriptor(
-                "tools.cuda",
-                "cuda13-win-x64",
-                metadata));
-
-        AssertContract(
-            contract,
-            "tools.cuda",
-            "CUDA Compute",
-            "libtorch_bridge",
-            "rom://capabilities/cuda/loader.json",
-            "sha256:cuda",
-            metadata,
-            CapabilityModuleKind.NativeLibrary,
-            CapabilityInvocationMode.NativeAbi,
-            ["native.load", "tensor.compute"],
-            "tensor.matmul",
-            "tensor.softmax",
-            "tensor.conv2d",
-            "tensor.layernorm");
-    }
-
-    [Fact]
-    public void VfsGitAndRomStorageStayManagedCapabilityContracts()
+    public void VfsGitAndRomStorageStayCoreOwnedCapabilityContracts()
     {
         var gitMetadata = Metadata();
         var romMetadata = Metadata();
@@ -104,7 +45,7 @@ public sealed class CapabilityContractMapperTests
             git,
             "tools.vfs.git",
             "VFS Git",
-            "AIKernel.Tools.Capability.VfsGit",
+            "AIKernel.Core.Vfs.VfsGit",
             null,
             null,
             gitMetadata,
@@ -118,7 +59,7 @@ public sealed class CapabilityContractMapperTests
             rom,
             "tools.rom",
             "ROM Storage",
-            "AIKernel.Tools.Capability.RomStorage",
+            "AIKernel.Core.Storage",
             null,
             null,
             romMetadata,
@@ -128,47 +69,6 @@ public sealed class CapabilityContractMapperTests
             "rom.save",
             "rom.load",
             "rom.list");
-    }
-
-    [Fact]
-    public void LlmCapabilitiesExposeRemoteAndLocalContractsSeparately()
-    {
-        var remoteMetadata = Metadata(("endpoint", "https://example.invalid/v1"));
-        var localMetadata = Metadata(
-            ("runtime_uri", "ollama://localhost"),
-            ("artifact_hash", "sha256:local"));
-        var remote = ChatOpenAICapabilityContracts.ToContract(
-            new ChatOpenAICapabilityDescriptor("tools.openai", "gpt", remoteMetadata));
-        var local = LocalLLMCapabilityContracts.ToContract(
-            new LocalLLMCapabilityDescriptor("tools.local", "ollama", localMetadata));
-
-        AssertContract(
-            remote,
-            "tools.openai",
-            "Chat OpenAI",
-            "https://example.invalid/v1",
-            null,
-            null,
-            remoteMetadata,
-            CapabilityModuleKind.RemoteEndpoint,
-            CapabilityInvocationMode.Remote,
-            ["network.egress", "llm.remote"],
-            "chat.completion",
-            "embedding",
-            "moderation");
-        AssertContract(
-            local,
-            "tools.local",
-            "Local LLM",
-            "ollama",
-            "ollama://localhost",
-            "sha256:local",
-            localMetadata,
-            CapabilityModuleKind.ManagedAssembly,
-            CapabilityInvocationMode.AssemblyReference,
-            ["local.process", "llm.local"],
-            "chat.local",
-            "embedding.local");
     }
 
     private static Dictionary<string, string> Metadata(params (string Key, string Value)[] entries)

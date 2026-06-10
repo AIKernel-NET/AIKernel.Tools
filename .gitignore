@@ -4,5 +4,12 @@ obj/
 .vscode/
 artifacts/
 TestResults/
+python/build/
+python/dist/
+python/src/*.egg-info/
+python/.pytest_cache/
+python/.venv*/
+__pycache__/
+*.pyc
 *.user
 *.suo

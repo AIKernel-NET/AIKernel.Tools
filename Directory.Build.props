@@ -4,10 +4,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <Version>0.1.0</Version>
-    <AssemblyVersion>0.1.0</AssemblyVersion>
-    <FileVersion>0.1.0</FileVersion>
-    <InformationalVersion>0.1.0</InformationalVersion>
+    <Version>0.1.1</Version>
+    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <FileVersion>0.1.1.0</FileVersion>
+    <InformationalVersion>0.1.1</InformationalVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <Authors>Takuya Sogawa</Authors>
@@ -19,12 +19,14 @@
     <PackageTags>aikernel;tools;cli;capability;history-rom;vfs;kernel-clock;inspection;deterministic-debugging;semantic-runtime</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>aikernel-logo128x128.png</PackageIcon>
-    <Description>AIKernel.Tools package family v0.1.0. Provides CLI, capability modules, inspectors, ROM export, VFS inspection, kernel clock inspection, and deterministic debugging support for AIKernel semantic runtime workflows.</Description>
+    <Description>AIKernel.Tools package family v0.1.1. Provides CLI, instrumentation, inspectors, ROM export, VFS inspection, kernel clock inspection, and deterministic debugging support for AIKernel semantic runtime workflows.</Description>
     <PackageReleaseNotes>
-      AIKernel.Tools package family v0.1.0 - First public release of the AIKernel tooling layer. Provides the aik CLI, capability contract modules, chat history ROM export, VFS and kernel clock inspectors, and deterministic debugging support for prototype validation workflows.
+      AIKernel.Tools package family v0.1.1 - Aligns the AIKernel tooling layer with AIKernel.NET, Core, Control, Providers, and Wasm 0.1.1. Provides the aik CLI, instrumentation modules, chat history ROM export, VFS and kernel clock inspectors, and deterministic debugging support for operator workflows.
     </PackageReleaseNotes>
 
-    <AIKernelPackageVersion>0.1.0</AIKernelPackageVersion>
+    <AIKernelPackageVersion>[0.1.1]</AIKernelPackageVersion>
+    <AIKernelCorePackageVersion>0.1.1</AIKernelCorePackageVersion>
+    <AIKernelProviderPackageVersion>0.1.1</AIKernelProviderPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
