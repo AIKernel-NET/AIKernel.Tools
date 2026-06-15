@@ -14,6 +14,17 @@ canonical formatting、diagnostics を追加し、kernel runtime は所有しま
 Monolith は 0.1.x 系の安定化後に observability と operator tooling を
 Semantic OS layer と統合する標準 reference distribution として位置づけられます。
 
+## リポジトリ横断整合
+
+共有の repository boundary、0.1.1.1 local NuGet versioning、この更新ラインでの
+NuGet-only / no-PyPI rule は
+[AIKernel Repository Alignment v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/repository-alignment-v0.1.1.1-ja.md)
+で定義します。
+
+Tools は CLI、inspection、replay、instrumentation、canonical formatting、
+diagnostics を所有します。Kernel runtime behavior、provider execution、
+scenario runtime implementation は所有しません。
+
 ## Sections
 
 - [User Guide](user-guide/index-ja.md)
@@ -22,6 +33,7 @@ Semantic OS layer と統合する標準 reference distribution として位置�
 - [Capability Modules](capabilities/index-ja.md)
 - [Instrumentation](instrumentation/index-ja.md)
 - [Inspectors](inspectors/index-ja.md)
+- [Concept Elevation Notes / 概念昇格ノート](development/concept-elevation.md)
 - [Tool Pipelines](pipelines/index-ja.md)
 - [Python Wrapper](python/index-ja.md)
 - [Licensing](licensing/index-ja.md)

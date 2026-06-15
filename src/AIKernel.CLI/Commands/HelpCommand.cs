@@ -25,7 +25,11 @@ Commands:
   help        Show this help
   version     Show version
   vfs         Inspect Virtual File System
+  rom         Inspect or build ROM artifacts
+  nomos       Alias for ROM / Canon inspection
   clock       Inspect KernelClock
+  chronos     Alias for timeline inspection
+  replay      Alias for timeline inspection
   runtime     Invoke standard runtime capabilities
   system      Inspect standard provider system metadata
   capabilities
@@ -44,8 +48,12 @@ Commands:
 
 Examples:
   aik vfs tree
+  aik rom view
+  aik nomos view
   aik clock now
   aik runtime ping
+  aik chronos timeline
+  aik replay timeline
   aik system info
   aik capabilities list
   aik exec run pipeline.json input.text=hello

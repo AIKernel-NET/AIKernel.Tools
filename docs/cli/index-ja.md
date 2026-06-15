@@ -161,9 +161,21 @@ CLI は責務ごとに command family を分離します。
   directory に配置します。
 - `clock`、`vfs`、`rom` は operator diagnostics と compatibility workflow 向けの
   direct inspector command です。
+- `nomos` は ROM / Canon inspection の非破壊 alias です。
+- `chronos` と `replay` は timeline inspection の非破壊 alias です。
 
 command 名は UI 風の表現ではなく、Linux-style の verb / subcommand を意図して
 採用しています。
+
+concept alias は追加のみです。
+
+```bash
+aik rom view
+aik nomos view
+aik clock timeline
+aik chronos timeline
+aik replay timeline
+```
 
 ## Exit Codes
 

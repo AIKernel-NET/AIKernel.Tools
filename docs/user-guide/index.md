@@ -43,6 +43,7 @@ aik capabilities invoke aikernel.vfs vfs.exists path=README.md
 | `logs` | inspect process logs |
 | `schedule` | manage scheduled commands |
 | `vfs`, `clock`, `rom` | direct diagnostic inspectors |
+| `nomos`, `chronos`, `replay` | additive concept aliases for ROM / Canon and timeline inspection |
 
 ## Invoke a Capability
 

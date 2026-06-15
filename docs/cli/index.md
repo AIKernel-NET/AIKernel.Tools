@@ -83,9 +83,21 @@ The CLI separates command families by responsibility:
   provider directory.
 - `clock`, `vfs`, and `rom` remain direct inspector-oriented commands for
   operator diagnostics and compatibility workflows.
+- `nomos` is a non-breaking alias for ROM / Canon inspection.
+- `chronos` and `replay` are non-breaking aliases for timeline inspection.
 
 The command names intentionally follow Linux-style verbs and subcommands rather
 than UI-oriented language.
+
+Concept aliases are additive only:
+
+```bash
+aik rom view
+aik nomos view
+aik clock timeline
+aik chronos timeline
+aik replay timeline
+```
 
 ## External Provider Commands
 

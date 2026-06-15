@@ -5,7 +5,7 @@
 AIKernel.Tools は、AIKernel の公式 tools、CLI、inspectors、instrumentation
 のためのワークスペースです。
 
-AIKernel.Tools は、2026-06-10 に予定している AIKernel 0.1.1 prototype
+AIKernel.Tools は、AIKernel 0.1.1.1 prototype validation line
 validation phase に参加します。公開済みの AIKernel.NET contract packages と
 AIKernel.Core runtime を、instrumentation utility と developer tools から検証します。
 
@@ -48,7 +48,7 @@ AIKernel.Control、provider-specific driver は AIKernel.Providers が所有し�
 CLI tool を install し、最小の 4 つの check を実行します。
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1.1
 
 aik runtime ping
 aik system info
@@ -155,8 +155,12 @@ package を要求する場合は、upload 前に signing step を追加してく
 ```powershell
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- vfs tree .
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- vfs info .
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- rom view
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- nomos view
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- clock now
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- clock timeline
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- chronos timeline
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- replay timeline
 ```
 
 ## Operational CLI Commands
@@ -170,6 +174,10 @@ aik system providers
 aik system capabilities
 aik capabilities list
 aik capabilities invoke aikernel.vfs vfs.exists path=README.md
+aik rom view
+aik nomos view
+aik chronos timeline
+aik replay timeline
 aik exec run pipeline.json input.text=hello
 aik skills list --root ./skills
 aik skills show skill.example --root ./skills
@@ -214,7 +222,7 @@ external provider は deterministic な manifest file から load されます�
 .NET CLI tool として install する場合:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1.1
 ```
 
 .NET host では NuGet package を使用します。

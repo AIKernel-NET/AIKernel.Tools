@@ -30,7 +30,11 @@ public static class Program
             "-v" => VersionCommand.Run(rest),
 
             "vfs" => VfsCommand.Run(rest),
+            "rom" => RomCommand.Run(rest),
+            "nomos" => RomCommand.Run(rest),
             "clock" => ClockCommand.Run(rest),
+            "chronos" => ClockCommand.Run(rest),
+            "replay" => ClockCommand.Run(rest),
             "runtime" => RuntimeCommand.Run(rest),
             "system" => SystemCommand.Run(rest),
             "capabilities" => CapabilityCommand.Run(rest),

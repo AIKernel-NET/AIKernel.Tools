@@ -129,6 +129,24 @@ public sealed class CliCommandSmokeTests
         Assert.Contains("aik gpu run vector-add", listOutput);
     }
 
+    [Fact]
+    public void ConceptAliasesExposeRomAndTimelineInspectors()
+    {
+        var (romExit, romOutput) = Capture(() => Program.Main(["rom", "view"]));
+        var (nomosExit, nomosOutput) = Capture(() => Program.Main(["nomos", "view"]));
+        var (chronosExit, chronosOutput) = Capture(() => Program.Main(["chronos", "timeline"]));
+        var (replayExit, replayOutput) = Capture(() => Program.Main(["replay", "timeline"]));
+
+        Assert.Equal(0, romExit);
+        Assert.Equal(0, nomosExit);
+        Assert.Equal(0, chronosExit);
+        Assert.Equal(0, replayExit);
+        Assert.Contains("rom.viewer: nomos", romOutput);
+        Assert.Contains("rom.alias: aik nomos view", nomosOutput);
+        Assert.Contains("timeline[0].event: kernel.clock.inspect", chronosOutput);
+        Assert.Contains("timeline[0].event: kernel.clock.inspect", replayOutput);
+    }
+
     private static (int ExitCode, string Output) Capture(Func<int> action)
     {
         var original = Console.Out;

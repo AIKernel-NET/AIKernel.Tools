@@ -14,6 +14,16 @@ AIKernel.Monolith is the official AIOS distribution now in development. It is
 planned as the standard reference distribution that integrates observability
 and operator tooling with the Semantic OS layers after the 0.1.x line stabilizes.
 
+## Cross-Repository Alignment
+
+Shared repository boundaries, 0.1.1.1 local NuGet versioning, and the
+NuGet-only / no-PyPI rule for this update line are defined by
+[AIKernel Repository Alignment v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/repository-alignment-v0.1.1.1.md).
+
+Tools owns CLI, inspection, replay, instrumentation, canonical formatting, and
+diagnostics. It must not own kernel runtime behavior, provider execution, or
+scenario runtime implementation.
+
 ## Sections
 
 - [User Guide](user-guide/index.md)
@@ -22,6 +32,7 @@ and operator tooling with the Semantic OS layers after the 0.1.x line stabilizes
 - [Capability Modules](capabilities/index.md)
 - [Instrumentation](instrumentation/index.md)
 - [Inspectors](inspectors/index.md)
+- [Concept Elevation Notes / 概念昇格ノート](development/concept-elevation.md)
 - [Tool Pipelines](pipelines/index.md)
 - [Python Wrapper](python/index.md)
 - [Licensing](licensing/index.md)

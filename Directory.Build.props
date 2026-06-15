@@ -4,10 +4,16 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <Version>0.1.1</Version>
-    <AssemblyVersion>0.1.1.0</AssemblyVersion>
-    <FileVersion>0.1.1.0</FileVersion>
-    <InformationalVersion>0.1.1</InformationalVersion>
+    <StablePackageVersion>0.1.1.1</StablePackageVersion>
+    <LocalPackageVersionPrefix>0.1.1.1</LocalPackageVersionPrefix>
+    <LocalPackageBuildNumber Condition="'$(LocalPackageBuildNumber)' == ''">0</LocalPackageBuildNumber>
+    <UseLocalPackageVersion Condition="'$(UseLocalPackageVersion)' == ''">false</UseLocalPackageVersion>
+    <PackageVersion Condition="'$(UseLocalPackageVersion)' == 'true'">$(LocalPackageVersionPrefix)-dev$(LocalPackageBuildNumber)</PackageVersion>
+    <PackageVersion Condition="'$(UseLocalPackageVersion)' != 'true'">$(StablePackageVersion)</PackageVersion>
+    <Version>$(PackageVersion)</Version>
+    <AssemblyVersion>$(StablePackageVersion)</AssemblyVersion>
+    <FileVersion>$(StablePackageVersion)</FileVersion>
+    <InformationalVersion>$(PackageVersion)</InformationalVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <Authors>Takuya Sogawa</Authors>
@@ -19,14 +25,14 @@
     <PackageTags>aikernel;tools;cli;capability;history-rom;vfs;kernel-clock;inspection;deterministic-debugging;semantic-runtime</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>aikernel-logo128x128.png</PackageIcon>
-    <Description>AIKernel.Tools package family v0.1.1. Provides CLI, instrumentation, inspectors, ROM export, VFS inspection, kernel clock inspection, and deterministic debugging support for AIKernel semantic runtime workflows.</Description>
+    <Description>AIKernel.Tools package family v0.1.1.1. Provides CLI, instrumentation, inspectors, ROM export, VFS inspection, kernel clock inspection, and deterministic debugging support for AIKernel semantic runtime workflows. This package line is NuGet-only.</Description>
     <PackageReleaseNotes>
-      AIKernel.Tools package family v0.1.1 - Aligns the AIKernel tooling layer with AIKernel.NET, Core, Control, Providers, and Wasm 0.1.1. Provides the aik CLI, instrumentation modules, chat history ROM export, VFS and kernel clock inspectors, and deterministic debugging support for operator workflows.
+      AIKernel.Tools package family v0.1.1.1 - Aligns the tooling layer with AIKernel.NET contract packages v0.1.1.1 and local AIKernel.Core / AIKernel.Providers package families v0.1.1.1-dev{build-number}. This line is NuGet-only and uses 0.1.1.1-dev{build-number} for local development package outputs.
     </PackageReleaseNotes>
 
-    <AIKernelPackageVersion>[0.1.1]</AIKernelPackageVersion>
-    <AIKernelCorePackageVersion>0.1.1</AIKernelCorePackageVersion>
-    <AIKernelProviderPackageVersion>0.1.1</AIKernelProviderPackageVersion>
+    <AIKernelPackageVersion>[0.1.1.1]</AIKernelPackageVersion>
+    <AIKernelCorePackageVersion>0.1.1.1-dev1</AIKernelCorePackageVersion>
+    <AIKernelProviderPackageVersion>0.1.1.1-dev2</AIKernelProviderPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

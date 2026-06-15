@@ -2,6 +2,21 @@
 
 [日本語](RELEASE_NOTES-ja.md)
 
+## 0.1.1.1
+
+**June 15th, 2026 - Instrumentation line alignment.**
+**2026年6月15日--計測ラインの整合。**
+
+AIKernel.Tools 0.1.1.1 aligns the tooling repository with the AIKernel.NET
+0.1.1.1 contract line and the local Core / Providers development package line.
+
+- Use `0.1.1.1-dev{build-number}` for local NuGet package outputs.
+- Keep Tools as inspection, validation, visualization, CLI, and report
+  generation only.
+- Do not produce PyPI packages for the 0.1.1.1 development line.
+- Keep Concept Elevation vocabulary limited to viewer and inspector surfaces.
+- Preserve existing CLI compatibility.
+
 ## 0.1.1
 
 **June 10th, 2026 - Unifying observability.**

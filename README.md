@@ -5,7 +5,7 @@
 AIKernel.Tools is the official tools, CLI, inspectors, and instrumentation
 workspace for AIKernel.
 
-AIKernel.Tools participates in the AIKernel 0.1.1 prototype validation phase
+AIKernel.Tools participates in the AIKernel 0.1.1.1 prototype validation line
 scheduled for 2026-06-10. It validates that instrumentation utilities and
 developer tools can consume the published AIKernel.NET contract packages and
 AIKernel.Core runtime without owning runtime, provider, or contract definitions.
@@ -50,6 +50,15 @@ AIKernel.NET and AIKernel.Core; physical execution continues to live in
 AIKernel.Control; provider-specific drivers continue to live in
 AIKernel.Providers.
 
+## Concept Elevation
+
+AIKernel.Tools follows the common Concept Elevation naming policy maintained in
+AIKernel.NET. Concept vocabulary is limited to upper-level viewers and
+inspectors; low-level CLI parsing, serializers, converters, and capability
+bridges keep technical names.
+
+Repository notes: [docs/development/concept-elevation.md](docs/development/concept-elevation.md)
+
 Release notes:
 
 - [English](RELEASE_NOTES.md)
@@ -60,7 +69,7 @@ Release notes:
 Install the CLI tool, then run the four smallest checks:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1.1
 
 aik runtime ping
 aik system info
@@ -180,8 +189,12 @@ to require signed packages, signing must be added before upload.
 ```powershell
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- vfs tree .
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- vfs info .
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- rom view
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- nomos view
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- clock now
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- clock timeline
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- chronos timeline
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- replay timeline
 ```
 
 ## Operational CLI Commands
@@ -195,6 +208,10 @@ aik system providers
 aik system capabilities
 aik capabilities list
 aik capabilities invoke aikernel.vfs vfs.exists path=README.md
+aik rom view
+aik nomos view
+aik chronos timeline
+aik replay timeline
 aik exec run pipeline.json input.text=hello
 aik skills list --root ./skills
 aik skills show skill.example --root ./skills
@@ -239,7 +256,7 @@ manifest looks like this:
 For the CLI:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1.1
 ```
 
 For .NET hosts:
