@@ -1,9 +1,11 @@
 namespace AIKernel.CLI.Commands;
 
+/// <summary>EN: Documentation for public API. JA: HelpCommand を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.HelpCommand']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.HelpCommand']" />
 public static class HelpCommand
 {
+    /// <summary>EN: Documentation for public API. JA: Run を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Run']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Run']" />
     public static int Run(string[] args)
@@ -12,6 +14,7 @@ public static class HelpCommand
         return 0;
     }
 
+    /// <summary>EN: Documentation for public API. JA: Show を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Show']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Show']" />
     public static void Show()
@@ -71,6 +74,7 @@ Examples:
 """);
     }
 
+    /// <summary>EN: Documentation for public API. JA: Unknown を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Unknown']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Unknown']" />
     public static int Unknown(string cmd)

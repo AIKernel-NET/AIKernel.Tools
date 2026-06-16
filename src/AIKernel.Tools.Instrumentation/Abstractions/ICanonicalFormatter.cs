@@ -12,11 +12,11 @@ public interface ICanonicalFormatter
     /// [EN] Safely formats a value into deterministic text.
     /// [JA] value を deterministic text へ安全に format します。
     /// </summary>
-    /// <param name="value">
+    /// <param name="value">EN:  JA: value パラメーターです。
     /// [EN] Value to format.
     /// [JA] format 対象の value です。
     /// </param>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Formatting result.
     /// [JA] formatting result です。
     /// </returns>
@@ -26,11 +26,11 @@ public interface ICanonicalFormatter
     /// [EN] Safely serializes a value into canonical text.
     /// [JA] value を canonical text へ安全に serialize します。
     /// </summary>
-    /// <param name="value">
+    /// <param name="value">EN:  JA: value パラメーターです。
     /// [EN] Value to serialize.
     /// [JA] serialize 対象の value です。
     /// </param>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Serialization result.
     /// [JA] serialization result です。
     /// </returns>

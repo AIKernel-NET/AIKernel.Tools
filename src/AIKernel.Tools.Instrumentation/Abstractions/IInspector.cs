@@ -12,11 +12,11 @@ public interface IInspector
     /// [EN] Safely inspects a value.
     /// [JA] value を安全に inspect します。
     /// </summary>
-    /// <param name="value">
+    /// <param name="value">EN:  JA: value パラメーターです。
     /// [EN] Value to inspect.
     /// [JA] inspect 対象の value です。
     /// </param>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Inspection result.
     /// [JA] inspection result です。
     /// </returns>
@@ -26,11 +26,11 @@ public interface IInspector
     /// [EN] Safely builds a tree view for a value.
     /// [JA] value の tree view を安全に構築します。
     /// </summary>
-    /// <param name="value">
+    /// <param name="value">EN:  JA: value パラメーターです。
     /// [EN] Value to inspect.
     /// [JA] inspect 対象の value です。
     /// </param>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Tree result.
     /// [JA] tree result です。
     /// </returns>
@@ -40,15 +40,15 @@ public interface IInspector
     /// [EN] Safely computes a deterministic diff.
     /// [JA] deterministic diff を安全に計算します。
     /// </summary>
-    /// <param name="left">
+    /// <param name="left">EN:  JA: left パラメーターです。
     /// [EN] Left value.
     /// [JA] 左側の value です。
     /// </param>
-    /// <param name="right">
+    /// <param name="right">EN:  JA: right パラメーターです。
     /// [EN] Right value.
     /// [JA] 右側の value です。
     /// </param>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Diff result.
     /// [JA] diff result です。
     /// </returns>

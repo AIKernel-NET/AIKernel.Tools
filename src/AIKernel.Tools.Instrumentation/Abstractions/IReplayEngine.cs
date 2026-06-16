@@ -12,11 +12,11 @@ public interface IReplayEngine
     /// [EN] Safely loads replay material.
     /// [JA] replay material を安全に load します。
     /// </summary>
-    /// <param name="path">
+    /// <param name="path">EN:  JA: path パラメーターです。
     /// [EN] Replay material path.
     /// [JA] replay material path です。
     /// </param>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Loaded replay engine result.
     /// [JA] load 済み replay engine result です。
     /// </returns>
@@ -26,7 +26,7 @@ public interface IReplayEngine
     /// [EN] Safely runs the loaded replay material.
     /// [JA] load 済み replay material を安全に実行します。
     /// </summary>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Replay session result.
     /// [JA] replay session result です。
     /// </returns>
@@ -36,7 +36,7 @@ public interface IReplayEngine
     /// [EN] Safely advances replay by one step.
     /// [JA] replay を 1 step 安全に進めます。
     /// </summary>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Optional replay event.
     /// [JA] 任意の replay event です。
     /// </returns>
@@ -46,7 +46,7 @@ public interface IReplayEngine
     /// [EN] Safely returns the current replay session.
     /// [JA] 現在の replay session を安全に返します。
     /// </summary>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Replay session result.
     /// [JA] replay session result です。
     /// </returns>

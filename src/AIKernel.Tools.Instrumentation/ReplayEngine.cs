@@ -19,17 +19,18 @@ public sealed class ReplayEngine : IReplayEngine
     /// [EN] Loads replay material from a UTF-8 text file.
     /// [JA] UTF-8 text file から replay material を読み込みます。
     /// </summary>
-    /// <param name="path">
+    /// <param name="path">EN:  JA: path パラメーターです。
     /// [EN] Replay material path.
     /// [JA] replay material path です。
     /// </param>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] This replay engine.
     /// [JA] この replay engine です。
     /// </returns>
     public ReplayEngine Load(string path)
         => (ReplayEngine)RequireSuccess(TryLoad(path));
 
+    /// <summary>EN: Documentation for public API. JA: TryLoad を実行します。</summary>
     /// <inheritdoc />
     public Result<IReplayEngine> TryLoad(string path)
     {
@@ -55,13 +56,14 @@ public sealed class ReplayEngine : IReplayEngine
     /// [EN] Runs the loaded replay material to completion.
     /// [JA] 読み込まれた replay material を完了まで実行します。
     /// </summary>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Completed replay session snapshot.
     /// [JA] 完了した replay session snapshot です。
     /// </returns>
     public ReplaySession Run()
         => RequireSuccess(TryRun());
 
+    /// <summary>EN: Documentation for public API. JA: TryRun を実行します。</summary>
     /// <inheritdoc />
     public Result<ReplaySession> TryRun()
     {
@@ -74,7 +76,7 @@ public sealed class ReplayEngine : IReplayEngine
     /// [EN] Advances replay by one event and returns the observed event.
     /// [JA] replay を 1 event 進め、観測された event を返します。
     /// </summary>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] The next event, or null when replay is complete.
     /// [JA] 次の event、または replay 完了時は null です。
     /// </returns>
@@ -84,6 +86,7 @@ public sealed class ReplayEngine : IReplayEngine
         return option.Match<string?>(() => null, value => value);
     }
 
+    /// <summary>EN: Documentation for public API. JA: TryStep を実行します。</summary>
     /// <inheritdoc />
     public Result<Option<string>> TryStep()
     {
@@ -103,13 +106,14 @@ public sealed class ReplayEngine : IReplayEngine
     /// [EN] Returns the current replay session snapshot.
     /// [JA] 現在の replay session snapshot を返します。
     /// </summary>
-    /// <returns>
+    /// <returns>EN:  JA: 結果を返します。
     /// [EN] Current replay session.
     /// [JA] 現在の replay session です。
     /// </returns>
     public ReplaySession Session()
         => RequireSuccess(TrySession());
 
+    /// <summary>EN: Documentation for public API. JA: TrySession を実行します。</summary>
     /// <inheritdoc />
     public Result<ReplaySession> TrySession()
     {

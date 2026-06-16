@@ -5,15 +5,18 @@ using AIKernel.Providers.ChatHistory;
 
 namespace AIKernel.Tools.Inspectors.ChatHistoryScraper.Export;
 
+/// <summary>EN: Documentation for public API. JA: RomExporter を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter']" />
 public static class RomExporter
 {
+    /// <summary>EN: Documentation for public API. JA: ToRom を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRom']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRom']" />
     public static string ToRom(IReadOnlyList<ChatHistoryRecord> records)
         => ToRom(records, "scraper", "history", generatedAtUtc: null);
 
+    /// <summary>EN: Documentation for public API. JA: ToRom を取得します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRomWithMetadata']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.RomExporter.ToRomWithMetadata']" />
     public static string ToRom(

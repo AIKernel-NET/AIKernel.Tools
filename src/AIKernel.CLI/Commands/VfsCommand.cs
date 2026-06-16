@@ -2,10 +2,12 @@ namespace AIKernel.CLI.Commands;
 
 using AIKernel.Common.Results;
 
+/// <summary>EN: Documentation for public API. JA: VfsCommand を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.VfsCommand']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.VfsCommand']" />
 public static class VfsCommand
 {
+    /// <summary>EN: Documentation for public API. JA: Run を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.VfsCommand.Run']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.VfsCommand.Run']" />
     public static int Run(string[] args)

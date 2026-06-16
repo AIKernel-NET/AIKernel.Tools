@@ -3,10 +3,12 @@ using System.Text;
 
 namespace AIKernel.Tools.Inspectors.ChatHistoryScraper.Export;
 
+/// <summary>EN: Documentation for public API. JA: MdExporter を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.MdExporter']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.MdExporter']" />
 public static class MdExporter
 {
+    /// <summary>EN: Documentation for public API. JA: ToMarkdown を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.MdExporter.ToMarkdown']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.Export.MdExporter.ToMarkdown']" />
     public static string ToMarkdown(IReadOnlyList<ChatHistoryRecord> records)

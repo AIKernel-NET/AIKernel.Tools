@@ -16,9 +16,12 @@ and operator tooling with the Semantic OS layers after the 0.1.x line stabilizes
 
 ## Cross-Repository Alignment
 
-Shared repository boundaries, 0.1.1.1 local NuGet versioning, and the
-NuGet-only / no-PyPI rule for this update line are defined by
+Shared repository boundaries, 0.1.1.1 local NuGet versioning, the
+NuGet-only / no-PyPI rule for this validation line, and the v0.1.2
+NuGet + PyPI release assumption are defined by
 [AIKernel Repository Alignment v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/repository-alignment-v0.1.1.1.md).
+When a change crosses repositories, start with the
+[Cross-Repository Developer Guide v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/cross-repository-developer-guide-v0.1.1.1.md).
 
 Tools owns CLI, inspection, replay, instrumentation, canonical formatting, and
 diagnostics. It must not own kernel runtime behavior, provider execution, or

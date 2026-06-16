@@ -2,10 +2,12 @@ namespace AIKernel.Tools.Inspectors.Vfs.Commands;
 
 using AIKernel.Common.Results;
 
+/// <summary>EN: Documentation for public API. JA: TreeCommand を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand']" />
 public static class TreeCommand
 {
+    /// <summary>EN: Documentation for public API. JA: Run を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand.Run']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand.Run']" />
     public static void Run()
@@ -17,7 +19,7 @@ public static class TreeCommand
     /// [EN] Prints a bounded directory tree rooted at the specified path.
     /// [JA] 指定された path を root とする bounded directory tree を出力します。
     /// </summary>
-    /// <param name="path">
+    /// <param name="path">EN:  JA: path パラメーターです。
     /// [EN] Directory path to inspect.
     /// [JA] inspect 対象の directory path です。
     /// </param>

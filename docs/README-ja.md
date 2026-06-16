@@ -16,10 +16,13 @@ Semantic OS layer と統合する標準 reference distribution として位置�
 
 ## リポジトリ横断整合
 
-共有の repository boundary、0.1.1.1 local NuGet versioning、この更新ラインでの
-NuGet-only / no-PyPI rule は
+共有の repository boundary、0.1.1.1 local NuGet versioning、この検証ラインでの
+NuGet-only / no-PyPI rule、v0.1.2 の NuGet + PyPI release assumption は
 [AIKernel Repository Alignment v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/repository-alignment-v0.1.1.1-ja.md)
 で定義します。
+複数 repository をまたぐ変更を行う場合は、まず
+[リポジトリ横断開発者ガイド v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/cross-repository-developer-guide-v0.1.1.1-ja.md)
+を読んでください。
 
 Tools は CLI、inspection、replay、instrumentation、canonical formatting、
 diagnostics を所有します。Kernel runtime behavior、provider execution、
