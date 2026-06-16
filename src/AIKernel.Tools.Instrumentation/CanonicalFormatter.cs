@@ -15,18 +15,18 @@ public sealed class CanonicalFormatter : ICanonicalFormatter
     /// [EN] Formats a value using deterministic key and item ordering.
     /// [JA] 決定論的な key/item ordering で value を format します。
     /// </summary>
-    /// <param name="value">EN:  JA: value パラメーターです。
+    /// <param name="value">
     /// [EN] Value to format.
     /// [JA] format 対象の value です。
     /// </param>
-    /// <returns>EN:  JA: 結果を返します。
+    /// <returns>
     /// [EN] Canonical text.
     /// [JA] canonical text です。
     /// </returns>
     public string Format(object? value)
         => RequireSuccess(TryFormat(value));
 
-    /// <summary>EN: Documentation for public API. JA: TryFormat を実行します。</summary>
+    /// <summary>[EN] Documents this public package API member. [JA] TryFormat を実行します。</summary>
     /// <inheritdoc />
     public Result<string> TryFormat(object? value)
         => Try.Run(() => FormatValue(value));
@@ -35,18 +35,18 @@ public sealed class CanonicalFormatter : ICanonicalFormatter
     /// [EN] Serializes a value using the same canonical representation as Format.
     /// [JA] Format と同じ canonical representation で value を serialize します。
     /// </summary>
-    /// <param name="value">EN:  JA: value パラメーターです。
+    /// <param name="value">
     /// [EN] Value to serialize.
     /// [JA] serialize 対象の value です。
     /// </param>
-    /// <returns>EN:  JA: 結果を返します。
+    /// <returns>
     /// [EN] Canonical serialized text.
     /// [JA] canonical serialized text です。
     /// </returns>
     public string Serialize(object? value)
         => RequireSuccess(TrySerialize(value));
 
-    /// <summary>EN: Documentation for public API. JA: TrySerialize を実行します。</summary>
+    /// <summary>[EN] Documents this public package API member. [JA] TrySerialize を実行します。</summary>
     /// <inheritdoc />
     public Result<string> TrySerialize(object? value)
         => Try.Run(() => FormatValue(value));

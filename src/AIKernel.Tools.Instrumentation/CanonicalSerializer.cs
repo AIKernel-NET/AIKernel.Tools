@@ -10,11 +10,11 @@ public static class CanonicalSerializer
     /// [EN] Serializes a value with deterministic formatting semantics.
     /// [JA] deterministic formatting semantics で value を serialize します。
     /// </summary>
-    /// <param name="value">EN:  JA: value パラメーターです。
+    /// <param name="value">
     /// [EN] Value to serialize.
     /// [JA] serialize 対象の value です。
     /// </param>
-    /// <returns>EN:  JA: 結果を返します。
+    /// <returns>
     /// [EN] Canonical serialized text.
     /// [JA] canonical serialized text です。
     /// </returns>

@@ -1,3 +1,4 @@
+from ..api_catalog import managed_api_catalog, managed_api_summary, managed_type_names
 """[EN]
 Instrumentation wrappers for AIKernel.Tools.
 
@@ -23,6 +24,9 @@ from .replay import ReplayEngine
 from .session import ReplaySession
 
 __all__ = [
+    "managed_api_catalog",
+    "managed_api_summary",
+    "managed_type_names",
     "CanonicalFormatter",
     "CanonicalSerializer",
     "CapabilityContract",

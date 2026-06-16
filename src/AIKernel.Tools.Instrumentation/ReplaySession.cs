@@ -10,15 +10,15 @@ public sealed class ReplaySession
     /// [EN] Creates a replay session snapshot.
     /// [JA] replay session snapshot を作成します。
     /// </summary>
-    /// <param name="events">EN:  JA: events パラメーターです。
+    /// <param name="events">
     /// [EN] Ordered replay events.
     /// [JA] 順序付き replay event です。
     /// </param>
-    /// <param name="state">EN:  JA: state パラメーターです。
+    /// <param name="state">
     /// [EN] Current replay state.
     /// [JA] 現在の replay state です。
     /// </param>
-    /// <param name="metadata">EN:  JA: metadata パラメーターです。
+    /// <param name="metadata">
     /// [EN] Deterministic session metadata.
     /// [JA] 決定論的な session metadata です。
     /// </param>

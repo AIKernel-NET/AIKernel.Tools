@@ -5,12 +5,12 @@ using System.Text.Json;
 
 namespace AIKernel.CLI.Commands;
 
-/// <summary>EN: Documentation for public API. JA: RomCommand を表します。</summary>
+/// <summary>[EN] Documents this public package API member. [JA] RomCommand を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.RomCommand']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.RomCommand']" />
 public static class RomCommand
 {
-    /// <summary>EN: Documentation for public API. JA: Run を実行します。</summary>
+    /// <summary>[EN] Documents this public package API member. [JA] Run を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.RomCommand.Run']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.RomCommand.Run']" />
     public static int Run(string[] args)

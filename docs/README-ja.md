@@ -16,10 +16,12 @@ Semantic OS layer と統合する標準 reference distribution として位置�
 
 ## リポジトリ横断整合
 
-共有の repository boundary、0.1.1.1 local NuGet versioning、この検証ラインでの
-NuGet-only / no-PyPI rule、v0.1.2 の NuGet + PyPI release assumption は
+共有の repository boundary、v0.1.2 development versioning、依存関係順、
+PyPI Trusted Publishing、Python wrapper scope は
+[Package Release Alignment v0.1.2](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/package-release-alignment-v0.1.2-ja.md)
+で定義します。履歴としての v0.1.1.1 validation rule は
 [AIKernel Repository Alignment v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/repository-alignment-v0.1.1.1-ja.md)
-で定義します。
+に残します。
 複数 repository をまたぐ変更を行う場合は、まず
 [リポジトリ横断開発者ガイド v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/cross-repository-developer-guide-v0.1.1.1-ja.md)
 を読んでください。
@@ -67,6 +69,11 @@ aik capabilities invoke aikernel.vfs vfs.exists path=README.md
 Version 0.1.1 は AIKernel.Tools の初回公開 release line です。Provider-specific
 implementation は Tools から移動済みで、Tools は operator command、
 instrumentation、deterministic export、diagnostics に集中します。
+
+Version 0.1.2 は現在の canonical integration line です。local NuGet package reference
+には `0.1.2-dev{build-number}`、local `aikernel-tools` wheel validation には
+`0.1.2.dev{build-number}` を使います。stable package artifact は依存関係順に後で
+作成します。
 
 ## Fail-Closed CLI and Instrumentation
 

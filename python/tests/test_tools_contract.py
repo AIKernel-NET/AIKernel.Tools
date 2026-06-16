@@ -4,6 +4,8 @@ from aikernel_tools import (
     ChatHistoryScraper,
     InfoCommand,
     Inspector,
+    managed_api_summary,
+    managed_type_names,
     MdExporter,
     NowCommand,
     ReplayEngine,
@@ -110,6 +112,16 @@ def test_tools_assembly_manifest_names():
     assert "AIKernel.Dtos.dll" in names
     assert "AIKernel.Enums.dll" in names
     assert "ChatHistoryProvider.dll" in names
+
+
+def test_managed_api_catalog_covers_tools_surface():
+    names = set(managed_type_names())
+    summary = managed_api_summary()
+
+    assert "AIKernel.Tools.Instrumentation.ReplayEngine" in names
+    assert "AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand" in names
+    assert "AIKernel.Tools.Capability.RomStorage.RomStoragePythonBridge" in names
+    assert summary["AIKernel.Tools.Instrumentation"] > 0
 
 
 class RecordingReplayBackend:
