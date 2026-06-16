@@ -16,7 +16,7 @@ observability を統合する標準 reference distribution として位置づけ
 ## Install the CLI
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 ```
 
 最小 runtime surface を確認します。

@@ -2,41 +2,13 @@
 
 [English](RELEASE_NOTES.md)
 
-## 0.1.1.1
+## 0.1.2
 
-**June 15th, 2026 - Instrumentation line alignment.**
-**2026年6月15日--計測ラインの整合。**
+**2026年6月16日 - Tooling package line。**
 
-AIKernel.Tools 0.1.1.1 は、Tools repository を AIKernel.NET 0.1.1.1 contract line と Core / Providers の local development package line に揃えます。
+AIKernel.Tools 0.1.2 は CLI、instrumentation、capability、inspector package を AIKernel 0.1.2 dependency chain に揃えます。
 
-- local NuGet package output には `0.1.1.1-dev{build-number}` を使用します。
-- Tools は inspection、validation、visualization、CLI、report generation のみに留めます。
-- 0.1.1.1 development line では PyPI package を作成しません。
-- Concept Elevation vocabulary は viewer / inspector surface に限定します。
-- 既存 CLI compatibility を維持します。
-
-## 0.1.1
-
-**June 10th, 2026 - Unifying observability.**
-**2026年6月10日--可観測性を統合する。**
-
-Unifying observability: canonical formatting, inspection, and replay surfaces
-synchronize into a single instrumentation spine. 可観測性の統合--正準フォーマット・
-インスペクション・リプレイ面が単一の計測スパインへ同期する。
-
-AIKernel.Tools 0.1.1 は、prototype validation phase のための instrumentation Capability / inspection module を提供します。
-
-- CLI、Capability module、inspector を 0.1.1 repository layout に整理します。
-- Core-owned RomStorage contract 向け compatibility bridge を維持します。
-- standard-provider CLI command surface として `runtime`、`system`、
-  `capabilities`、`exec`、`skills` を追加します。
-- managed replay、inspector、canonical formatting surface として
-  `AIKernel.Tools.Instrumentation` を追加します。
-- VfsGit contract は AIKernel.Core.Vfs.VfsGit へ移動します。
-- provider-oriented surface は AIKernel.Providers へ移動します。
-- CapabilityDescriptor から CapabilityModuleDescriptor への mapping を安定化します。operation ordering、permission、entry point、artifact metadata、metadata propagation は決定論的です。
-- markdown、hash、YAML ordering、security tag、content normalization の deterministic ROM export を維持します。
-- Tools は external user-land instrumentation surface です。provider implementation は Tools の外側に置きます。
-- CLI operations、instrumentation、Python wrapper scope、licensing を文書化します。
-
-Tools 0.1.1 は、tooling を runtime internal に変えず、決定論的デバッグと capability packaging を可視化します。
+- `AIKernel.Tools.CLI`、instrumentation、ROM storage、inspector package を公開します。
+- tooling を runtime internal にせず、deterministic inspection と packaging workflow を公開します。
+- documentation と install example を 0.1.2 public package family に揃えます。
+- 同期 Python wrapper 資料を 0.1.2 release flow で公開します。

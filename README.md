@@ -5,8 +5,8 @@
 AIKernel.Tools is the official tools, CLI, inspectors, and instrumentation
 workspace for AIKernel.
 
-AIKernel.Tools participates in the AIKernel 0.1.1.1 prototype validation line
-scheduled for 2026-06-10. It validates that instrumentation utilities and
+AIKernel.Tools participates in the AIKernel 0.1.2 prototype validation line
+scheduled for 2026-06-16. It validates that instrumentation utilities and
 developer tools can consume the published AIKernel.NET contract packages and
 AIKernel.Core runtime without owning runtime, provider, or contract definitions.
 
@@ -69,7 +69,7 @@ Release notes:
 Install the CLI tool, then run the four smallest checks:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 
 aik runtime ping
 aik system info
@@ -81,7 +81,7 @@ These commands confirm that the CLI is installed, the Core runtime responds,
 the VFS boundary can inspect the current directory, and a capability module can
 be invoked through the standard `<module> <operation>` shape.
 
-## 0.1.1 Repository Layout
+## 0.1.2 repository Layout
 
 Common project properties are centralized in `Directory.Build.props`.
 
@@ -110,7 +110,7 @@ requests directly. Control contracts are owned by `AIKernel.Abstractions.Control
 and `AIKernel.Dtos.Control`; provider-routing decisions are pure DTOs in
 `AIKernel.Dtos.Routing` and are applied by Core runtime helpers.
 
-The 0.1.1 Tools package family intentionally keeps capability ownership narrow.
+The 0.1.2 Tools package family intentionally keeps capability ownership narrow.
 Provider-oriented modules that previously lived under Tools have been moved to
 AIKernel.Providers. Core-owned ROM/VFS contracts remain in AIKernel.Core. Tools
 keeps only compatibility bridges and operator commands required to inspect,
@@ -243,7 +243,7 @@ manifest looks like this:
 {
   "id": "openai.chat",
   "name": "OpenAI Chat Provider",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "assembly": "AIKernel.Providers.OpenAI.dll",
   "capabilities": [
     "chat.completion"
@@ -256,17 +256,17 @@ manifest looks like this:
 For the CLI:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 ```
 
 For .NET hosts:
 
 ```bash
-dotnet add package AIKernel.Tools.Instrumentation --version 0.1.1
-dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.1
-dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.1
-dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.1
-dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.1
+dotnet add package AIKernel.Tools.Instrumentation --version 0.1.2
+dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.2
+dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.2
+dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.2
+dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.2
 ```
 
 For Python hosts:

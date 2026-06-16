@@ -15,7 +15,7 @@ command surface は、standard Core providers と external provider manifests �
 ## Quick Start
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 
 aik runtime ping
 aik system info
@@ -29,7 +29,7 @@ aik capabilities invoke aikernel.vfs vfs.exists path=README.md
 ## Installation
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 ```
 
 ## Standard Provider Commands
@@ -126,7 +126,7 @@ external provider は manifest file から discover されます。最小例は�
 {
   "id": "openai.chat",
   "name": "OpenAI Chat Provider",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "assembly": "AIKernel.Providers.OpenAI.dll",
   "capabilities": [
     "chat.completion"

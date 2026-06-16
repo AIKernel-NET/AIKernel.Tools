@@ -6,7 +6,7 @@ Tools は AIKernel pipeline のための instrumentation Capability module を�
 ただし provider-specific module は AIKernel.Providers または別の provider
 repository に置き、CLI / Core registry が manifest から読み込みます。
 
-0.1.1 の Tools capability focus は意図的に狭くしています。
+0.1.2 の Tools capability focus は意図的に狭くしています。
 
 - `AIKernel.Tools.Capability.RomStorage` - Core-owned ROM storage contract 向けの
   compatibility bridge

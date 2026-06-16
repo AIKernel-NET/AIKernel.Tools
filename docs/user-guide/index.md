@@ -16,7 +16,7 @@ inspection, and governance-oriented observability after the 0.1.x line stabilize
 ## Install the CLI
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 ```
 
 Verify the smallest runtime surface:

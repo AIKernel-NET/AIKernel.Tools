@@ -65,7 +65,7 @@ aik capabilities invoke aikernel.vfs vfs.exists path=README.md
 
 ## Release Scope
 
-Version 0.1.1 is the first public AIKernel.Tools release line. Provider-specific
+Version 0.1.2 is the unified public AIKernel.Tools release line. Provider-specific
 implementations have moved out of Tools; Tools focuses on operator commands,
 instrumentation, deterministic export, and diagnostics.
 

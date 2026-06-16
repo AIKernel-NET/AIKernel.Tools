@@ -15,7 +15,7 @@ provider manifests.
 ## Quick Start
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 
 aik runtime ping
 aik system info
@@ -29,7 +29,7 @@ capability invocation.
 ## Installation
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 ```
 
 ## Standard Provider Commands
@@ -163,7 +163,7 @@ External providers are discovered from manifest files. A minimal manifest is:
 {
   "id": "openai.chat",
   "name": "OpenAI Chat Provider",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "assembly": "AIKernel.Providers.OpenAI.dll",
   "capabilities": [
     "chat.completion"

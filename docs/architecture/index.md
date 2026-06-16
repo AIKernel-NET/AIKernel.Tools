@@ -11,7 +11,7 @@ physical execution engine.
 The repository stays outside AIKernel.Core so operational tooling can evolve
 without changing the runtime package baseline.
 
-Tools participates in the AIKernel 0.1.1 prototype validation phase. Its role is
+Tools participates in the AIKernel 0.1.2 prototype validation phase. Its role is
 to prove that the published AIKernel.NET contracts, AIKernel.Core standard
 providers, and external provider manifests can be operated from a practical
 command-line surface.
@@ -76,7 +76,7 @@ in AIKernel.Providers or another external provider repository.
 
 ## Publication Criteria
 
-For the 0.1.1 package line, Tools is considered publishable when:
+For the 0.1.2 package line, Tools is considered publishable when:
 
 - provider-specific capability projects are absent from the Tools package set
 - NuGet metadata includes README, icon, license, project URL, repository URL,

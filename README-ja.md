@@ -5,7 +5,7 @@
 AIKernel.Tools は、AIKernel の公式 tools、CLI、inspectors、instrumentation
 のためのワークスペースです。
 
-AIKernel.Tools は、AIKernel 0.1.1.1 prototype validation line
+AIKernel.Tools は、AIKernel 0.1.2 prototype validation line
 validation phase に参加します。公開済みの AIKernel.NET contract packages と
 AIKernel.Core runtime を、instrumentation utility と developer tools から検証します。
 
@@ -48,7 +48,7 @@ AIKernel.Control、provider-specific driver は AIKernel.Providers が所有し�
 CLI tool を install し、最小の 4 つの check を実行します。
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 
 aik runtime ping
 aik system info
@@ -60,7 +60,7 @@ aik capabilities invoke aikernel.vfs vfs.exists path=README.md
 VFS boundary が current directory を inspect できること、標準の
 `<module> <operation>` 形式で capability module を invoke できることを確認できます。
 
-## 0.1.1 Repository Layout
+## 0.1.2 repository Layout
 
 共通 project property は `Directory.Build.props` に集約されています。
 
@@ -89,7 +89,7 @@ Capability module は local な実装 descriptor を持ってよいですが、�
 `AIKernel.Dtos.Control` が所有します。provider-routing decision は
 `AIKernel.Dtos.Routing` の pure DTO であり、Core runtime helper が適用します。
 
-0.1.1 の Tools package family は capability ownership を意図的に狭く保ちます。
+0.1.2 の Tools package family は capability ownership を意図的に狭く保ちます。
 以前 Tools 配下にあった provider-oriented module は AIKernel.Providers へ移管済み
 です。Core-owned ROM/VFS contract は AIKernel.Core に残り、Tools はそれらを
 inspect、invoke、export するための compatibility bridge と operator command のみを
@@ -209,7 +209,7 @@ external provider は deterministic な manifest file から load されます�
 {
   "id": "openai.chat",
   "name": "OpenAI Chat Provider",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "assembly": "AIKernel.Providers.OpenAI.dll",
   "capabilities": [
     "chat.completion"
@@ -222,17 +222,17 @@ external provider は deterministic な manifest file から load されます�
 .NET CLI tool として install する場合:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 ```
 
 .NET host では NuGet package を使用します。
 
 ```bash
-dotnet add package AIKernel.Tools.Instrumentation --version 0.1.1
-dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.1
-dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.1
-dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.1
-dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.1
+dotnet add package AIKernel.Tools.Instrumentation --version 0.1.2
+dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.2
+dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.2
+dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.2
+dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.2
 ```
 
 Python host では PyPI package を使用します。
