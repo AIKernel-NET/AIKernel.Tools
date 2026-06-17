@@ -130,3 +130,16 @@ wheel 公開前の check list です。
 
 wheel は PyPI から見ると pure Python ですが managed assembly を同梱します。Linux host
 では pythonnet が利用できる CoreCLR runtime が必要です。
+## Trusted Publisher 設定
+
+aikernel-tools project の PyPI Trusted Publisher は、この repository が発行する GitHub OIDC claims と一致している必要があります。
+
+| Field | Value |
+| --- | --- |
+| PyPI project | aikernel-tools |
+| Owner | AIKernel-NET |
+| Repository | AIKernel.Tools |
+| Workflow | publish-pypi.yml |
+| Environment | pypi |
+
+PyPI が `invalid-publisher` を返す場合、workflow を token credential 方式へ戻してはいけません。PyPI project 側の Trusted Publisher entry を上記の値に合わせて修正し、失敗した publish job を rerun します。
