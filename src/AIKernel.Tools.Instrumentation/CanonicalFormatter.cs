@@ -26,6 +26,7 @@ public sealed class CanonicalFormatter : ICanonicalFormatter
     public string Format(object? value)
         => RequireSuccess(TryFormat(value));
 
+    /// <summary>[EN] Documents this public package API member. [JA] TryFormat を実行します。</summary>
     /// <inheritdoc />
     public Result<string> TryFormat(object? value)
         => Try.Run(() => FormatValue(value));
@@ -45,6 +46,7 @@ public sealed class CanonicalFormatter : ICanonicalFormatter
     public string Serialize(object? value)
         => RequireSuccess(TrySerialize(value));
 
+    /// <summary>[EN] Documents this public package API member. [JA] TrySerialize を実行します。</summary>
     /// <inheritdoc />
     public Result<string> TrySerialize(object? value)
         => Try.Run(() => FormatValue(value));

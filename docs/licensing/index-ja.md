@@ -52,7 +52,7 @@ content は origin service terms と operator 自身がその conversation mater
 
 ## Native and External Dependencies
 
-Tools 0.1.1 は Windows-only native runtime dependency を同梱しません。CUDA などの
+Tools 0.1.2 は Windows-only native runtime dependency を同梱しません。CUDA などの
 native provider implementation は AIKernel.Providers または native capability repository
 に属します。将来 Tools package が native file を同梱する場合は、platform support と
 license terms を明示的に document してください。

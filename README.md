@@ -5,8 +5,8 @@
 AIKernel.Tools is the official tools, CLI, inspectors, and instrumentation
 workspace for AIKernel.
 
-AIKernel.Tools participates in the AIKernel 0.1.1 prototype validation phase
-scheduled for 2026-06-10. It validates that instrumentation utilities and
+AIKernel.Tools participates in the AIKernel 0.1.2 prototype validation line
+scheduled for 2026-06-16. It validates that instrumentation utilities and
 developer tools can consume the published AIKernel.NET contract packages and
 AIKernel.Core runtime without owning runtime, provider, or contract definitions.
 
@@ -50,6 +50,15 @@ AIKernel.NET and AIKernel.Core; physical execution continues to live in
 AIKernel.Control; provider-specific drivers continue to live in
 AIKernel.Providers.
 
+## Concept Elevation
+
+AIKernel.Tools follows the common Concept Elevation naming policy maintained in
+AIKernel.NET. Concept vocabulary is limited to upper-level viewers and
+inspectors; low-level CLI parsing, serializers, converters, and capability
+bridges keep technical names.
+
+Repository notes: [docs/development/concept-elevation.md](docs/development/concept-elevation.md)
+
 Release notes:
 
 - [English](RELEASE_NOTES.md)
@@ -60,7 +69,7 @@ Release notes:
 Install the CLI tool, then run the four smallest checks:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 
 aik runtime ping
 aik system info
@@ -72,7 +81,7 @@ These commands confirm that the CLI is installed, the Core runtime responds,
 the VFS boundary can inspect the current directory, and a capability module can
 be invoked through the standard `<module> <operation>` shape.
 
-## 0.1.1 Repository Layout
+## 0.1.2 repository Layout
 
 Common project properties are centralized in `Directory.Build.props`.
 
@@ -101,7 +110,7 @@ requests directly. Control contracts are owned by `AIKernel.Abstractions.Control
 and `AIKernel.Dtos.Control`; provider-routing decisions are pure DTOs in
 `AIKernel.Dtos.Routing` and are applied by Core runtime helpers.
 
-The 0.1.1 Tools package family intentionally keeps capability ownership narrow.
+The 0.1.2 Tools package family intentionally keeps capability ownership narrow.
 Provider-oriented modules that previously lived under Tools have been moved to
 AIKernel.Providers. Core-owned ROM/VFS contracts remain in AIKernel.Core. Tools
 keeps only compatibility bridges and operator commands required to inspect,
@@ -180,8 +189,12 @@ to require signed packages, signing must be added before upload.
 ```powershell
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- vfs tree .
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- vfs info .
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- rom view
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- nomos view
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- clock now
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- clock timeline
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- chronos timeline
+dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- replay timeline
 ```
 
 ## Operational CLI Commands
@@ -195,6 +208,10 @@ aik system providers
 aik system capabilities
 aik capabilities list
 aik capabilities invoke aikernel.vfs vfs.exists path=README.md
+aik rom view
+aik nomos view
+aik chronos timeline
+aik replay timeline
 aik exec run pipeline.json input.text=hello
 aik skills list --root ./skills
 aik skills show skill.example --root ./skills
@@ -226,7 +243,7 @@ manifest looks like this:
 {
   "id": "openai.chat",
   "name": "OpenAI Chat Provider",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "assembly": "AIKernel.Providers.OpenAI.dll",
   "capabilities": [
     "chat.completion"
@@ -239,17 +256,17 @@ manifest looks like this:
 For the CLI:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 ```
 
 For .NET hosts:
 
 ```bash
-dotnet add package AIKernel.Tools.Instrumentation --version 0.1.1
-dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.1
-dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.1
-dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.1
-dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.1
+dotnet add package AIKernel.Tools.Instrumentation --version 0.1.2
+dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.2
+dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.2
+dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.2
+dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.2
 ```
 
 For Python hosts:

@@ -15,7 +15,7 @@ provider manifests.
 ## Quick Start
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 
 aik runtime ping
 aik system info
@@ -29,7 +29,7 @@ capability invocation.
 ## Installation
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.1
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
 ```
 
 ## Standard Provider Commands
@@ -83,9 +83,21 @@ The CLI separates command families by responsibility:
   provider directory.
 - `clock`, `vfs`, and `rom` remain direct inspector-oriented commands for
   operator diagnostics and compatibility workflows.
+- `nomos` is a non-breaking alias for ROM / Canon inspection.
+- `chronos` and `replay` are non-breaking aliases for timeline inspection.
 
 The command names intentionally follow Linux-style verbs and subcommands rather
 than UI-oriented language.
+
+Concept aliases are additive only:
+
+```bash
+aik rom view
+aik nomos view
+aik clock timeline
+aik chronos timeline
+aik replay timeline
+```
 
 ## External Provider Commands
 
@@ -151,7 +163,7 @@ External providers are discovered from manifest files. A minimal manifest is:
 {
   "id": "openai.chat",
   "name": "OpenAI Chat Provider",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "assembly": "AIKernel.Providers.OpenAI.dll",
   "capabilities": [
     "chat.completion"

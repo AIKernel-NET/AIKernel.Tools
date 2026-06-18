@@ -30,6 +30,7 @@ public sealed class ReplayEngine : IReplayEngine
     public ReplayEngine Load(string path)
         => (ReplayEngine)RequireSuccess(TryLoad(path));
 
+    /// <summary>[EN] Documents this public package API member. [JA] TryLoad を実行します。</summary>
     /// <inheritdoc />
     public Result<IReplayEngine> TryLoad(string path)
     {
@@ -62,6 +63,7 @@ public sealed class ReplayEngine : IReplayEngine
     public ReplaySession Run()
         => RequireSuccess(TryRun());
 
+    /// <summary>[EN] Documents this public package API member. [JA] TryRun を実行します。</summary>
     /// <inheritdoc />
     public Result<ReplaySession> TryRun()
     {
@@ -84,6 +86,7 @@ public sealed class ReplayEngine : IReplayEngine
         return option.Match<string?>(() => null, value => value);
     }
 
+    /// <summary>[EN] Documents this public package API member. [JA] TryStep を実行します。</summary>
     /// <inheritdoc />
     public Result<Option<string>> TryStep()
     {
@@ -110,6 +113,7 @@ public sealed class ReplayEngine : IReplayEngine
     public ReplaySession Session()
         => RequireSuccess(TrySession());
 
+    /// <summary>[EN] Documents this public package API member. [JA] TrySession を実行します。</summary>
     /// <inheritdoc />
     public Result<ReplaySession> TrySession()
     {

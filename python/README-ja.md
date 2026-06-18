@@ -9,6 +9,10 @@ AIKernel.Tools の公開 instrumentation surface を扱う Python wrapper です
 canonical formatting、公開 capability contract descriptor を単一 API として扱えます。
 内部 C# semantics は再実装せず、公開契約境界だけを Python に見せます。
 
+v0.1.2 package では generated managed API catalog も公開します。
+`managed_api_catalog()`、`managed_api_summary()`、`managed_type_names()`、
+`find_managed_type(full_name)` で確認できます。
+
 package scope、managed assembly bundle requirements、Linux CoreCLR loading、
 validation guidance は [Python Tools Wrapper](../docs/python/index-ja.md) を参照してください。
 

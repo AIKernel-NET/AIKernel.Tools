@@ -1,9 +1,11 @@
 namespace AIKernel.CLI.Commands;
 
+/// <summary>[EN] Documents this public package API member. [JA] HelpCommand を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.HelpCommand']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.HelpCommand']" />
 public static class HelpCommand
 {
+    /// <summary>[EN] Documents this public package API member. [JA] Run を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Run']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Run']" />
     public static int Run(string[] args)
@@ -12,6 +14,7 @@ public static class HelpCommand
         return 0;
     }
 
+    /// <summary>[EN] Documents this public package API member. [JA] Show を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Show']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Show']" />
     public static void Show()
@@ -25,7 +28,11 @@ Commands:
   help        Show this help
   version     Show version
   vfs         Inspect Virtual File System
+  rom         Inspect or build ROM artifacts
+  nomos       Alias for ROM / Canon inspection
   clock       Inspect KernelClock
+  chronos     Alias for timeline inspection
+  replay      Alias for timeline inspection
   runtime     Invoke standard runtime capabilities
   system      Inspect standard provider system metadata
   capabilities
@@ -44,8 +51,12 @@ Commands:
 
 Examples:
   aik vfs tree
+  aik rom view
+  aik nomos view
   aik clock now
   aik runtime ping
+  aik chronos timeline
+  aik replay timeline
   aik system info
   aik capabilities list
   aik exec run pipeline.json input.text=hello
@@ -63,6 +74,7 @@ Examples:
 """);
     }
 
+    /// <summary>[EN] Documents this public package API member. [JA] Unknown を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Unknown']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.HelpCommand.Unknown']" />
     public static int Unknown(string cmd)

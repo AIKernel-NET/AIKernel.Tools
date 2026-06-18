@@ -14,6 +14,22 @@ canonical formatting、diagnostics を追加し、kernel runtime は所有しま
 Monolith は 0.1.x 系の安定化後に observability と operator tooling を
 Semantic OS layer と統合する標準 reference distribution として位置づけられます。
 
+## リポジトリ横断整合
+
+共有の repository boundary、v0.1.2 development versioning、依存関係順、
+PyPI Trusted Publishing、Python wrapper scope は
+[Package Release Alignment v0.1.2](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/package-release-alignment-v0.1.2-ja.md)
+で定義します。履歴としての v0.1.1.1 validation rule は
+[AIKernel Repository Alignment v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/repository-alignment-v0.1.1.1-ja.md)
+に残します。
+複数 repository をまたぐ変更を行う場合は、まず
+[リポジトリ横断開発者ガイド v0.1.1.1](https://github.com/AIKernel-NET/AIKernel.NET/blob/main/docs/development/cross-repository-developer-guide-v0.1.1.1-ja.md)
+を読んでください。
+
+Tools は CLI、inspection、replay、instrumentation、canonical formatting、
+diagnostics を所有します。Kernel runtime behavior、provider execution、
+scenario runtime implementation は所有しません。
+
 ## Sections
 
 - [User Guide](user-guide/index-ja.md)
@@ -22,6 +38,7 @@ Semantic OS layer と統合する標準 reference distribution として位置�
 - [Capability Modules](capabilities/index-ja.md)
 - [Instrumentation](instrumentation/index-ja.md)
 - [Inspectors](inspectors/index-ja.md)
+- [Concept Elevation Notes / 概念昇格ノート](development/concept-elevation.md)
 - [Tool Pipelines](pipelines/index-ja.md)
 - [Python Wrapper](python/index-ja.md)
 - [Licensing](licensing/index-ja.md)
@@ -49,9 +66,14 @@ aik capabilities invoke aikernel.vfs vfs.exists path=README.md
 
 ## Release Scope
 
-Version 0.1.1 は AIKernel.Tools の初回公開 release line です。Provider-specific
+Version 0.1.2 は AIKernel.Tools の統一 public release line です。Provider-specific
 implementation は Tools から移動済みで、Tools は operator command、
 instrumentation、deterministic export、diagnostics に集中します。
+
+Version 0.1.2 は現在の canonical integration line です。local NuGet package reference
+には `0.1.2-dev{build-number}`、local `aikernel-tools` wheel validation には
+`0.1.2.dev{build-number}` を使います。stable package artifact は依存関係順に後で
+作成します。
 
 ## Fail-Closed CLI and Instrumentation
 

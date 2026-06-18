@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace AIKernel.Tools.Inspectors.ChatHistoryScraper;
 
+/// <summary>[EN] Documents this public package API member. [JA] ChatHistoryScraper を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper']" />
 public static partial class ChatHistoryScraper
@@ -15,6 +16,7 @@ public static partial class ChatHistoryScraper
     // ------------------------------
     // 1. Export entry point
     // ------------------------------
+    /// <summary>[EN] Documents this public package API member. [JA] ExportAsync を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ExportAsync']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ExportAsync']" />
     public static async Task<ChatHistory> ExportAsync(string url)
@@ -40,6 +42,7 @@ public static partial class ChatHistoryScraper
     // ------------------------------
     // Convert ChatHistory -> ChatHistoryRecord[]
     // ------------------------------
+    /// <summary>[EN] Documents this public package API member. [JA] ToRecords を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToRecords']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToRecords']" />
     public static IReadOnlyList<ChatHistoryRecord> ToRecords(ChatHistory history)
@@ -61,6 +64,7 @@ public static partial class ChatHistoryScraper
     }
 
 
+    /// <summary>[EN] Documents this public package API member. [JA] ToMarkdown を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToMarkdown']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.ChatHistoryScraper.ChatHistoryScraper.ToMarkdown']" />
     public static string ToMarkdown(ChatHistory history, string sourceUrl)

@@ -143,6 +143,6 @@ class VfsGitCapability:
 
 
 def _metadata(values: Mapping[str, str]):
-    metadata = {"version": "0.1.1"}
+    metadata = {"version": "0.1.2"}
     metadata.update({str(key): str(value) for key, value in values.items()})
     return to_dictionary(metadata)

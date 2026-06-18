@@ -2,10 +2,12 @@ using AIKernel.CLI.Commands;
 
 namespace AIKernel.CLI;
 
+/// <summary>[EN] Documents this public package API member. [JA] Program を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Program']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Program']" />
 public static class Program
 {
+    /// <summary>[EN] Documents this public package API member. [JA] Main を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Program.Main']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Program.Main']" />
     public static int Main(string[] args)
@@ -30,7 +32,11 @@ public static class Program
             "-v" => VersionCommand.Run(rest),
 
             "vfs" => VfsCommand.Run(rest),
+            "rom" => RomCommand.Run(rest),
+            "nomos" => RomCommand.Run(rest),
             "clock" => ClockCommand.Run(rest),
+            "chronos" => ClockCommand.Run(rest),
+            "replay" => ClockCommand.Run(rest),
             "runtime" => RuntimeCommand.Run(rest),
             "system" => SystemCommand.Run(rest),
             "capabilities" => CapabilityCommand.Run(rest),

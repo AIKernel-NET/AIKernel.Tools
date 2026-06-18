@@ -26,6 +26,7 @@ public sealed class Inspector : IInspector
     public string Inspect(object? value)
         => RequireSuccess(TryInspect(value));
 
+    /// <summary>[EN] Documents this public package API member. [JA] TryInspect を実行します。</summary>
     /// <inheritdoc />
     public Result<string> TryInspect(object? value)
         =>
@@ -49,6 +50,7 @@ public sealed class Inspector : IInspector
     public string Tree(object? value)
         => RequireSuccess(TryTree(value));
 
+    /// <summary>[EN] Documents this public package API member. [JA] TryTree を実行します。</summary>
     /// <inheritdoc />
     public Result<string> TryTree(object? value)
         => _formatter.TryFormat(value);
@@ -72,6 +74,7 @@ public sealed class Inspector : IInspector
     public string Diff(object? left, object? right)
         => RequireSuccess(TryDiff(left, right));
 
+    /// <summary>[EN] Documents this public package API member. [JA] TryDiff を実行します。</summary>
     /// <inheritdoc />
     public Result<string> TryDiff(object? left, object? right)
         =>

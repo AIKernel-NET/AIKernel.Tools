@@ -2,10 +2,12 @@ namespace AIKernel.Tools.Inspectors.Vfs.Commands;
 
 using AIKernel.Common.Results;
 
+/// <summary>[EN] Documents this public package API member. [JA] TreeCommand を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand']" />
 public static class TreeCommand
 {
+    /// <summary>[EN] Documents this public package API member. [JA] Run を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand.Run']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.Tools.Inspectors.Vfs.Commands.TreeCommand.Run']" />
     public static void Run()

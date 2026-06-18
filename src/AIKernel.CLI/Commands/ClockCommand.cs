@@ -1,9 +1,11 @@
 namespace AIKernel.CLI.Commands;
 
+/// <summary>[EN] Documents this public package API member. [JA] ClockCommand を表します。</summary>
 /// <include file="docs.en.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.ClockCommand']" />
 /// <include file="docs.ja.xml" path="doc/members/member[@name='T:AIKernel.CLI.Commands.ClockCommand']" />
 public static class ClockCommand
 {
+    /// <summary>[EN] Documents this public package API member. [JA] Run を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.ClockCommand.Run']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.ClockCommand.Run']" />
     public static int Run(string[] args)

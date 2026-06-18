@@ -22,6 +22,7 @@
     <PackageReference Include="AIKernel.Providers.Standard" Version="[$(AIKernelProviderPackageVersion)]" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.8" />
     <ProjectReference Include="..\AIKernel.Tools.Capability.RomStorage\AIKernel.Tools.Capability.RomStorage.csproj" />
+    <ProjectReference Include="..\AIKernel.Tools.Instrumentation\AIKernel.Tools.Instrumentation.csproj" />
     <ProjectReference Include="..\AIKernel.Tools.Inspectors.ChatHistoryScraper\AIKernel.Tools.Inspectors.ChatHistoryScraper.csproj" />
     <ProjectReference Include="..\AIKernel.Tools.Inspectors.KernelClock\AIKernel.Tools.Inspectors.KernelClock.csproj" />
     <ProjectReference Include="..\AIKernel.Tools.Inspectors.Vfs\AIKernel.Tools.Inspectors.Vfs.csproj" />
