@@ -54,7 +54,7 @@ content; it does not relicense the content.
 
 ## Native and External Dependencies
 
-Tools 0.1.2 does not ship Windows-only native runtime dependencies. CUDA and
+Tools 0.1.3 does not ship Windows-only native runtime dependencies. CUDA and
 other native provider implementations belong in AIKernel.Providers or native
 capability repositories. If a future Tools package bundles native files, the
 package must document their platform support and license terms explicitly.

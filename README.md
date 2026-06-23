@@ -5,7 +5,7 @@
 AIKernel.Tools is the official tools, CLI, inspectors, and instrumentation
 workspace for AIKernel.
 
-AIKernel.Tools participates in the AIKernel 0.1.2 prototype validation line
+AIKernel.Tools participates in the AIKernel 0.1.3 prototype validation line
 scheduled for 2026-06-16. It validates that instrumentation utilities and
 developer tools can consume the published AIKernel.NET contract packages and
 AIKernel.Core runtime without owning runtime, provider, or contract definitions.
@@ -69,7 +69,7 @@ Release notes:
 Install the CLI tool, then run the four smallest checks:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.3
 
 aik runtime ping
 aik system info
@@ -81,7 +81,7 @@ These commands confirm that the CLI is installed, the Core runtime responds,
 the VFS boundary can inspect the current directory, and a capability module can
 be invoked through the standard `<module> <operation>` shape.
 
-## 0.1.2 repository Layout
+## 0.1.3 repository Layout
 
 Common project properties are centralized in `Directory.Build.props`.
 
@@ -110,7 +110,7 @@ requests directly. Control contracts are owned by `AIKernel.Abstractions.Control
 and `AIKernel.Dtos.Control`; provider-routing decisions are pure DTOs in
 `AIKernel.Dtos.Routing` and are applied by Core runtime helpers.
 
-The 0.1.2 Tools package family intentionally keeps capability ownership narrow.
+The 0.1.3 Tools package family intentionally keeps capability ownership narrow.
 Provider-oriented modules that previously lived under Tools have been moved to
 AIKernel.Providers. Core-owned ROM/VFS contracts remain in AIKernel.Core. Tools
 keeps only compatibility bridges and operator commands required to inspect,
@@ -197,6 +197,20 @@ dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- chronos timeline
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- replay timeline
 ```
 
+For canonical v0.1.3 native GPU smoke checks against the local development
+package feed, use the Dawn fixture helper after the Dawn Docker native build has
+produced `AIKernel.Dawn/native/DawnCore/build_windows/custom_bridge.dll` or
+`AIKernel.Dawn/native/DawnCore/build_linux/libcustom_bridge.so`:
+
+```powershell
+.\scripts\verify-dawn-native-fixture.ps1
+```
+
+The helper builds `aik` with `UseLocalPackageVersion=true` and
+`LocalPackageBuildNumber=1`, resolves packages from
+`../artifacts/local-nuget/v0.1.3-dev1`, then runs
+`aik gpu verify-native --provider dawn --library <native fixture>`.
+
 ## Operational CLI Commands
 
 The `aik` command is organized as Linux-style subcommands:
@@ -219,6 +233,11 @@ aik skills invoke skill.example --root ./skills text=hello
 aik providers list --dir ./providers
 aik providers invoke openai.chat chat.completion --dir ./providers prompt=hello
 aik gpu list
+aik gpu verify rev3
+aik gpu pending rev3
+aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
+aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
+aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
 aik gpu run vector-add --a a.bin --b b.bin
 aik run sample
 aik ps
@@ -236,6 +255,46 @@ loading under `aik providers`.
 SkillProvider recursively discovers both `SKILL.md` and `Skill.MD` files. The
 preferred public spelling is `SKILL.md`.
 
+`aik gpu verify rev3` checks the canonical v0.1.3 GPU DTO/layout contract.
+`aik gpu pending rev3` prints the prioritized remaining-work table for the
+canonical rev3 lane, including the current browser/Doom live promotion gate and
+Cuda13 dependency-staged ABI smoke gate.
+`aik gpu verify-native --provider dawn` validates DawnCore package runtime
+assets and, when a native library is supplied, the `InitializeDawnNative` /
+`aikernel_dawn_dispatch` exports and staged CPU-fallback ABI state.
+`aik gpu verify-native --provider cuda13` validates the Cuda13 package loader
+and `libtorch_bridge.dll` runtime asset without forcing a LibTorch/CUDA load.
+When a Cuda13 native library is supplied explicitly, the CLI also loads
+`aikernel_cuda13_dispatch`, sends the canonical 40-byte staged dispatch header,
+and verifies the fail-closed `NotInitialized` / `CommandSubmissionDisabled`
+response plus the invalid-length response path.
+
+For a local canonical v0.1.3 GPU lane smoke that chains the Tools, Wasm,
+Dawn, and Cuda13 package/native checks, run:
+
+```powershell
+.\scripts\verify-rev3-gpu-local-lane.ps1
+```
+
+By default the helper uses `../artifacts/local-nuget/v0.1.3-dev1` and generates
+`../artifacts/NuGet.rev3-local.v0.1.3-dev1.config` for the CLI restore/build
+steps. Cuda13 direct library loading accepts the current
+missing-dependent-module boundary unless `-RequireCuda13LibraryLoad` is
+supplied with staged LibTorch/CUDA runtime paths. Use
+`-RequireFreshCuda13NativeBridge` in release lanes to fail when
+`native/libtorch_bridge.cpp` or `.h` is newer than the packaged
+`libtorch_bridge.dll`.
+
+For ad hoc `dotnet build` or `dotnet run` checks before the public `0.1.3`
+packages exist, generate an explicit local NuGet config instead of changing the
+repository `NuGet.config`:
+
+```powershell
+.\scripts\new-rev3-local-nuget-config.ps1
+dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.rev3-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
+dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending rev3
+```
+
 External providers are loaded from deterministic manifest files. A minimal
 manifest looks like this:
 
@@ -243,7 +302,7 @@ manifest looks like this:
 {
   "id": "openai.chat",
   "name": "OpenAI Chat Provider",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "assembly": "AIKernel.Providers.OpenAI.dll",
   "capabilities": [
     "chat.completion"
@@ -256,17 +315,17 @@ manifest looks like this:
 For the CLI:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.3
 ```
 
 For .NET hosts:
 
 ```bash
-dotnet add package AIKernel.Tools.Instrumentation --version 0.1.2
-dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.2
-dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.2
-dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.2
-dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.2
+dotnet add package AIKernel.Tools.Instrumentation --version 0.1.3
+dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.3
+dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.3
+dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.3
+dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.3
 ```
 
 For Python hosts:

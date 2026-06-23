@@ -10,7 +10,7 @@ deterministic diagnostics を含みます。
 この repository は AIKernel.Core の外側にあり、operational tooling が runtime
 package baseline を変更せずに進化できるようにします。
 
-Tools は AIKernel 0.1.2 prototype validation phase に参加します。公開済みの
+Tools は AIKernel 0.1.3 prototype validation phase に参加します。公開済みの
 AIKernel.NET contracts、AIKernel.Core standard providers、external provider
 manifests を、実運用に近い command-line surface から操作できることを検証します。
 
@@ -74,7 +74,7 @@ AIKernel.Providers または外部 provider repository に属します。
 
 ## Publication Criteria
 
-0.1.2 package line では、Tools は次を満たすと publishable と見なします。
+0.1.3 package line では、Tools は次を満たすと publishable と見なします。
 
 - provider-specific capability project が Tools package set から除外されている
 - NuGet metadata に README、icon、license、project URL、repository URL、package

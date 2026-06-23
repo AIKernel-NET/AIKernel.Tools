@@ -15,7 +15,7 @@ command surface は、standard Core providers と external provider manifests �
 ## Quick Start
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.3
 
 aik runtime ping
 aik system info
@@ -29,7 +29,7 @@ aik capabilities invoke aikernel.vfs vfs.exists path=README.md
 ## Installation
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.3
 ```
 
 ## Standard Provider Commands
@@ -84,6 +84,11 @@ CLI は compute と process operation を Linux 風の OS surface として公�
 
 ```bash
 aik gpu list
+aik gpu verify rev3
+aik gpu pending rev3
+aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
+aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
+aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
 aik gpu run vector-add --a a.bin --b b.bin
 aik run sample
 aik ps
@@ -91,6 +96,54 @@ aik kill <pid-or-name>
 aik restart <pid-or-name>
 aik logs sample
 aik schedule add --every 1m "aik system info"
+```
+
+`aik gpu verify rev3` は canonical GPU layout、metadata、diagnostics、
+provider boundary rule を検証します。
+`aik gpu pending rev3` は canonical rev3 lane の優先度付き残作業 table を出力します。
+`aik gpu verify-native --provider dawn` は DawnCore runtime asset と、
+library 指定時の native export を検証します。
+`aik gpu verify-native --provider cuda13` は LibTorch/CUDA runtime の load を要求せず、
+package loader と `libtorch_bridge.dll` runtime asset を検証します。
+Cuda13 library 指定時は `aikernel_cuda13_dispatch` を load し、
+canonical 40-byte staged dispatch header を送信して、
+`NotInitialized` / `CommandSubmissionDisabled` と invalid-length の fail-closed 経路を検証します。
+
+この workspace で build 済みの Dawn native fixture を検証する場合は、local-feed
+helper を使用してください。
+
+```powershell
+.\scripts\verify-dawn-native-fixture.ps1
+```
+
+この helper は `../artifacts/NuGet.rev3-local.v0.1.3-dev1.config` を生成し、
+`../artifacts/local-nuget/v0.1.3-dev1` に対して CLI を restore/build した上で
+`aik gpu verify-native --provider dawn --library <custom_bridge>` を実行します。
+これにより、local canonical rev3 smoke check 中に未公開の `0.1.3` package を
+NuGet.org から解決しようとする事故を避けられます。
+
+rev3 GPU lane 全体を local でまとめて検証する場合は、次を使用します。
+
+```powershell
+.\scripts\verify-rev3-gpu-local-lane.ps1
+```
+
+この lane は Tools smoke test、Wasm WebGPU package smoke、Dawn package / fixture
+check、Cuda13 package smoke、Cuda13 direct-library probe を順に実行します。
+Cuda13 direct-library probe は依存 DLL を考慮し、`-RequireCuda13LibraryLoad` を
+指定しない限り現在の missing-dependent-module 境界を許容します。
+release lane では `-RequireFreshCuda13NativeBridge` を指定すると、packaged
+`libtorch_bridge.dll` が native C++ bridge source より古い場合に拒否できます。
+この lane は生成済み rev3 local NuGet config も Dawn/Cuda13 の CLI build step に
+渡すため、未公開 `0.1.3-dev*` 依存関係の解決経路を揃えられます。
+
+公開済み `0.1.3` package がまだ無い状態で ad hoc command を実行する場合は、
+local NuGet config を生成し、明示的に渡します。
+
+```powershell
+.\scripts\new-rev3-local-nuget-config.ps1
+dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.rev3-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
+dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending rev3
 ```
 
 ## VFS Root
@@ -126,7 +179,7 @@ external provider は manifest file から discover されます。最小例は�
 {
   "id": "openai.chat",
   "name": "OpenAI Chat Provider",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "assembly": "AIKernel.Providers.OpenAI.dll",
   "capabilities": [
     "chat.completion"

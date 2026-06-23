@@ -5,7 +5,7 @@
 AIKernel.Tools は、AIKernel の公式 tools、CLI、inspectors、instrumentation
 のためのワークスペースです。
 
-AIKernel.Tools は、AIKernel 0.1.2 prototype validation line
+AIKernel.Tools は、AIKernel 0.1.3 prototype validation line
 validation phase に参加します。公開済みの AIKernel.NET contract packages と
 AIKernel.Core runtime を、instrumentation utility と developer tools から検証します。
 
@@ -48,7 +48,7 @@ AIKernel.Control、provider-specific driver は AIKernel.Providers が所有し�
 CLI tool を install し、最小の 4 つの check を実行します。
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.3
 
 aik runtime ping
 aik system info
@@ -60,7 +60,7 @@ aik capabilities invoke aikernel.vfs vfs.exists path=README.md
 VFS boundary が current directory を inspect できること、標準の
 `<module> <operation>` 形式で capability module を invoke できることを確認できます。
 
-## 0.1.2 repository Layout
+## 0.1.3 repository Layout
 
 共通 project property は `Directory.Build.props` に集約されています。
 
@@ -89,7 +89,7 @@ Capability module は local な実装 descriptor を持ってよいですが、�
 `AIKernel.Dtos.Control` が所有します。provider-routing decision は
 `AIKernel.Dtos.Routing` の pure DTO であり、Core runtime helper が適用します。
 
-0.1.2 の Tools package family は capability ownership を意図的に狭く保ちます。
+0.1.3 の Tools package family は capability ownership を意図的に狭く保ちます。
 以前 Tools 配下にあった provider-oriented module は AIKernel.Providers へ移管済み
 です。Core-owned ROM/VFS contract は AIKernel.Core に残り、Tools はそれらを
 inspect、invoke、export するための compatibility bridge と operator command のみを
@@ -163,6 +163,21 @@ dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- chronos timeline
 dotnet run --project src/AIKernel.CLI/AIKernel.CLI.csproj -- replay timeline
 ```
 
+canonical v0.1.3 の native GPU smoke check を local development package feed
+に対して実行する場合は、Dawn Docker native build で
+`AIKernel.Dawn/native/DawnCore/build_windows/custom_bridge.dll` または
+`AIKernel.Dawn/native/DawnCore/build_linux/libcustom_bridge.so` を生成した後、
+次の helper を使用します。
+
+```powershell
+.\scripts\verify-dawn-native-fixture.ps1
+```
+
+この helper は `UseLocalPackageVersion=true` と
+`LocalPackageBuildNumber=1` で `aik` を build し、
+`../artifacts/local-nuget/v0.1.3-dev1` から package を解決した上で、
+`aik gpu verify-native --provider dawn --library <native fixture>` を実行します。
+
 ## Operational CLI Commands
 
 `aik` command は Linux 風の subcommand として整理しています。
@@ -185,6 +200,11 @@ aik skills invoke skill.example --root ./skills text=hello
 aik providers list --dir ./providers
 aik providers invoke openai.chat chat.completion --dir ./providers prompt=hello
 aik gpu list
+aik gpu verify rev3
+aik gpu pending rev3
+aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
+aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
+aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
 aik gpu run vector-add --a a.bin --b b.bin
 aik run sample
 aik ps
@@ -202,6 +222,44 @@ LocalExecutionProvider、SkillProvider です。external provider command は従
 SkillProvider は `SKILL.md` と `Skill.MD` の両方を再帰的に discover します。
 public な主表記としては `SKILL.md` を推奨します。
 
+`aik gpu verify rev3` は canonical v0.1.3 GPU DTO/layout contract を検証します。
+`aik gpu pending rev3` は canonical rev3 lane の優先度付き残作業 table を出力し、
+現在の browser/Doom live promotion gate と Cuda13 dependency-staged ABI smoke
+gate を確認できます。
+`aik gpu verify-native --provider dawn` は DawnCore package runtime asset と、
+native library を指定した場合の `InitializeDawnNative` / `aikernel_dawn_dispatch`
+export、および staged CPU fallback ABI state を検証します。
+`aik gpu verify-native --provider cuda13` は LibTorch/CUDA の load を強制せず、
+Cuda13 package の loader と `libtorch_bridge.dll` runtime asset を検証します。
+Cuda13 native library を明示指定した場合だけ、CLI は
+`aikernel_cuda13_dispatch` を load し、canonical 40-byte staged dispatch header を送信して、
+fail-closed な `NotInitialized` / `CommandSubmissionDisabled` 応答と
+invalid-length 応答経路を検証します。
+
+Tools、Wasm、Dawn、Cuda13 の package/native check をまとめて行う local canonical
+v0.1.3 GPU lane smoke は次で実行できます。
+
+```powershell
+.\scripts\verify-rev3-gpu-local-lane.ps1
+```
+
+既定では `../artifacts/local-nuget/v0.1.3-dev1` を使用し、CLI の restore/build
+用に `../artifacts/NuGet.rev3-local.v0.1.3-dev1.config` を生成します。Cuda13 の
+direct library load は、`-RequireCuda13LibraryLoad` と LibTorch/CUDA runtime path を
+指定しない限り、現在の missing-dependent-module 境界を許容します。release lane では
+`-RequireFreshCuda13NativeBridge` を指定すると、`native/libtorch_bridge.cpp` または
+`.h` が packaged `libtorch_bridge.dll` より新しい場合に失敗します。
+
+公開済み `0.1.3` package がまだ NuGet.org に無い状態で ad hoc な `dotnet build`
+や `dotnet run` を行う場合は、repository の `NuGet.config` を書き換えず、
+明示的な local NuGet config を生成して使用します。
+
+```powershell
+.\scripts\new-rev3-local-nuget-config.ps1
+dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.rev3-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
+dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending rev3
+```
+
 external provider は deterministic な manifest file から load されます。最小例は
 次の通りです。
 
@@ -209,7 +267,7 @@ external provider は deterministic な manifest file から load されます�
 {
   "id": "openai.chat",
   "name": "OpenAI Chat Provider",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "assembly": "AIKernel.Providers.OpenAI.dll",
   "capabilities": [
     "chat.completion"
@@ -222,17 +280,17 @@ external provider は deterministic な manifest file から load されます�
 .NET CLI tool として install する場合:
 
 ```bash
-dotnet tool install -g AIKernel.Tools.CLI --version 0.1.2
+dotnet tool install -g AIKernel.Tools.CLI --version 0.1.3
 ```
 
 .NET host では NuGet package を使用します。
 
 ```bash
-dotnet add package AIKernel.Tools.Instrumentation --version 0.1.2
-dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.2
-dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.2
-dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.2
-dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.2
+dotnet add package AIKernel.Tools.Instrumentation --version 0.1.3
+dotnet add package AIKernel.Tools.Capability.RomStorage --version 0.1.3
+dotnet add package AIKernel.Tools.Inspectors.ChatHistoryScraper --version 0.1.3
+dotnet add package AIKernel.Tools.Inspectors.KernelClock --version 0.1.3
+dotnet add package AIKernel.Tools.Inspectors.Vfs --version 0.1.3
 ```
 
 Python host では PyPI package を使用します。

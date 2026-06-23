@@ -6,7 +6,7 @@ Tools may expose instrumentation Capability modules for AIKernel pipelines, but
 provider-specific modules now live in AIKernel.Providers or another provider
 repository and are loaded by manifest through the CLI/Core registry.
 
-The 0.1.2 Tools capability focus is intentionally narrow:
+The 0.1.3 Tools capability focus is intentionally narrow:
 
 - `AIKernel.Tools.Capability.RomStorage` - compatibility bridge for the
   Core-owned ROM storage contract.
