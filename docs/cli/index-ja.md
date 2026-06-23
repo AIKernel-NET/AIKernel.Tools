@@ -84,8 +84,8 @@ CLI は compute と process operation を Linux 風の OS surface として公�
 
 ```bash
 aik gpu list
-aik gpu verify rev3
-aik gpu pending rev3
+aik gpu verify
+aik gpu pending
 aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
 aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
 aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
@@ -98,9 +98,9 @@ aik logs sample
 aik schedule add --every 1m "aik system info"
 ```
 
-`aik gpu verify rev3` は canonical GPU layout、metadata、diagnostics、
+`aik gpu verify` は canonical GPU layout、metadata、diagnostics、
 provider boundary rule を検証します。
-`aik gpu pending rev3` は canonical rev3 lane の優先度付き残作業 table を出力します。
+`aik gpu pending` は canonical lane の優先度付き残作業 table を出力します。
 `aik gpu verify-native --provider dawn` は DawnCore runtime asset と、
 library 指定時の native export を検証します。
 `aik gpu verify-native --provider cuda13` は LibTorch/CUDA runtime の load を要求せず、
@@ -116,16 +116,16 @@ helper を使用してください。
 .\scripts\verify-dawn-native-fixture.ps1
 ```
 
-この helper は `../artifacts/NuGet.rev3-local.v0.1.3-dev1.config` を生成し、
+この helper は `../artifacts/NuGet.canonical-local.v0.1.3-dev1.config` を生成し、
 `../artifacts/local-nuget/v0.1.3-dev1` に対して CLI を restore/build した上で
 `aik gpu verify-native --provider dawn --library <custom_bridge>` を実行します。
-これにより、local canonical rev3 smoke check 中に未公開の `0.1.3` package を
+これにより、local canonical smoke check 中に未公開の `0.1.3` package を
 NuGet.org から解決しようとする事故を避けられます。
 
-rev3 GPU lane 全体を local でまとめて検証する場合は、次を使用します。
+canonical GPU lane 全体を local でまとめて検証する場合は、次を使用します。
 
 ```powershell
-.\scripts\verify-rev3-gpu-local-lane.ps1
+.\scripts\verify-canonical-gpu-local-lane.ps1
 ```
 
 この lane は Tools smoke test、Wasm WebGPU package smoke、Dawn package / fixture
@@ -134,16 +134,16 @@ Cuda13 direct-library probe は依存 DLL を考慮し、`-RequireCuda13LibraryL
 指定しない限り現在の missing-dependent-module 境界を許容します。
 release lane では `-RequireFreshCuda13NativeBridge` を指定すると、packaged
 `libtorch_bridge.dll` が native C++ bridge source より古い場合に拒否できます。
-この lane は生成済み rev3 local NuGet config も Dawn/Cuda13 の CLI build step に
+この lane は生成済み canonical local NuGet config も Dawn/Cuda13 の CLI build step に
 渡すため、未公開 `0.1.3-dev*` 依存関係の解決経路を揃えられます。
 
 公開済み `0.1.3` package がまだ無い状態で ad hoc command を実行する場合は、
 local NuGet config を生成し、明示的に渡します。
 
 ```powershell
-.\scripts\new-rev3-local-nuget-config.ps1
-dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.rev3-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
-dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending rev3
+.\scripts\new-canonical-local-nuget-config.ps1
+dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.canonical-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
+dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending
 ```
 
 ## VFS Root

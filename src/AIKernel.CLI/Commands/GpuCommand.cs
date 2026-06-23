@@ -44,31 +44,27 @@ public static class GpuCommand
 
     private static int Pending(string[] args)
     {
-        if (args.Length > 0 &&
-            !string.Equals(args[0], "rev3", StringComparison.OrdinalIgnoreCase) &&
-            !string.Equals(args[0], "0.1.3", StringComparison.OrdinalIgnoreCase))
+        if (args.Length > 0)
         {
-            Console.WriteLine("Usage: aik gpu pending rev3");
+            Console.WriteLine("Usage: aik gpu pending");
             return 1;
         }
 
-        Console.WriteLine("AIKernel GPU canonical pending work: v0.1.3 rev3");
+        Console.WriteLine("AIKernel GPU canonical pending work: v0.1.3");
         Console.WriteLine("pending: P0; browser-doom-live-gpu-promotion; gate=live-trace-parity; unblock=stable ready streaks for Aisthesis plus HUD presented-path parity");
         Console.WriteLine("pending: P0; cuda13-direct-abi-smoke; gate=native-library-load; unblock=stage LibTorch/CUDA dependencies and rebuild fresh libtorch_bridge.dll");
         Console.WriteLine("pending: P1; dawn-native-command-encoders; gate=native-resource-mapping; unblock=map frame targets and buffers to Dawn command encoders after staged ABI response bridge");
         Console.WriteLine("pending: P1; cuda13-native-command-encoders; gate=native-cuda-abi; unblock=device-buffer dispatch and command submission beyond probe mode");
-        Console.WriteLine("closed: P2; release-lane-local-feed-bootstrap; gate=local-nuget-config-propagated; evidence=verify-rev3-gpu-local-lane uses generated rev3 NuGet config");
+        Console.WriteLine("closed: P2; release-lane-local-feed-bootstrap; gate=local-nuget-config-propagated; evidence=verify-canonical-gpu-local-lane uses generated canonical NuGet config");
         Console.WriteLine("policy: diagnostic-only pilots must stay fail-closed until authoritative_ready=true and canonical diagnostics prove zero-copy/raw capture.");
         return 0;
     }
 
     private static int Verify(string[] args)
     {
-        if (args.Length > 0 &&
-            !string.Equals(args[0], "rev3", StringComparison.OrdinalIgnoreCase) &&
-            !string.Equals(args[0], "0.1.3", StringComparison.OrdinalIgnoreCase))
+        if (args.Length > 0)
         {
-            Console.WriteLine("Usage: aik gpu verify rev3");
+            Console.WriteLine("Usage: aik gpu verify");
             return 1;
         }
 
@@ -92,7 +88,7 @@ public static class GpuCommand
             out var webGpuFrameDiagnosticsValid,
             out var dawnFrameDiagnosticsValid,
             out var cudaFrameDiagnosticsValid,
-            out var rev3PromotionReadiness);
+            out var canonicalPromotionReadiness);
         var validation = GpuCanonicalValidation
             .ValidateLayouts(GpuCanonicalLayouts.All)
             .Merge(GpuCanonicalValidation.ValidateCapabilities(required, required))
@@ -102,7 +98,7 @@ public static class GpuCommand
             .Merge(executionLayerValidation)
             .Merge(frameDiagnosticsValidation);
 
-        Console.WriteLine("AIKernel GPU canonical contract: v0.1.3 rev3");
+        Console.WriteLine("AIKernel GPU canonical contract: v0.1.3");
         Console.WriteLine($"validation: {(validation.IsValid ? "ok" : "failed")}");
         foreach (var issue in validation.Issues)
         {
@@ -121,7 +117,7 @@ public static class GpuCommand
         Console.WriteLine($"execution-layer-metadata-validation: {(executionLayerMetadataValid ? "ok" : "failed")}");
         Console.WriteLine($"frame-diagnostics-validation: {(frameDiagnosticsValid ? "ok" : "failed")}");
         Console.WriteLine($"frame-diagnostics-sibling-validation: webgpu={(webGpuFrameDiagnosticsValid ? "ok" : "failed")}; dawn={(dawnFrameDiagnosticsValid ? "ok" : "failed")}; cuda={(cudaFrameDiagnosticsValid ? "ok" : "failed")}");
-        Console.WriteLine($"promotion-readiness-evaluator: gate={rev3PromotionReadiness.Gate}; authoritative={Flag(rev3PromotionReadiness.IsAuthoritativeReady)}; candidate={Flag(rev3PromotionReadiness.IsPromotionCandidate)}; diagnostic={Flag(rev3PromotionReadiness.IsDiagnosticReady)}; blocked={Flag(rev3PromotionReadiness.IsBlocked)}; reason={rev3PromotionReadiness.Reason}; streak={rev3PromotionReadiness.CandidateStreak}/{rev3PromotionReadiness.RequiredStreak}");
+        Console.WriteLine($"promotion-readiness-evaluator: gate={canonicalPromotionReadiness.Gate}; authoritative={Flag(canonicalPromotionReadiness.IsAuthoritativeReady)}; candidate={Flag(canonicalPromotionReadiness.IsPromotionCandidate)}; diagnostic={Flag(canonicalPromotionReadiness.IsDiagnosticReady)}; blocked={Flag(canonicalPromotionReadiness.IsBlocked)}; reason={canonicalPromotionReadiness.Reason}; streak={canonicalPromotionReadiness.CandidateStreak}/{canonicalPromotionReadiness.RequiredStreak}");
         Console.WriteLine($"operations-rule: canonical WebGPU operations are {string.Join(", ", GpuOperationNames.WebGpuComputeProviderOperations)}.");
         Console.WriteLine($"permissions-rule: canonical WebGPU permissions are {string.Join(", ", GpuPermissionNames.WebGpuComputeRequiredPermissions)}.");
         foreach (var layout in GpuCanonicalLayouts.All)
@@ -132,32 +128,32 @@ public static class GpuCommand
         Console.WriteLine("raw-capture-rule: sensor analysis must bind RawFramebuffer, not HUD composite or display fallback.");
         Console.WriteLine("spatial-matrix-rule: AisMatrix order is Topos, Route, Threat, Zoe; CTG belongs to StateVector.");
         Console.WriteLine("dynamic-pipeline-dsl-rule: DynamicPipelineCompilerProvider supports boolean-v1 parenthesized AND/OR/NOT guards for route, profile, and GPU arbitration pipelines.");
-        Console.WriteLine("provider-sibling-rule: WebGPUProvider, DawnProvider, and Cuda13Provider are canonical rev3 sibling providers that share DTOs, pass ids, metadata keys, and diagnostics vocabulary.");
+        Console.WriteLine("provider-sibling-rule: WebGPUProvider, DawnProvider, and Cuda13Provider are canonical sibling providers that share DTOs, pass ids, metadata keys, and diagnostics vocabulary.");
         Console.WriteLine($"provider-sibling-metadata-rule: sibling providers should expose {GpuProviderMetadataKeys.ProviderFamily}, {GpuProviderMetadataKeys.ProviderRole}, {GpuProviderMetadataKeys.GpuBackend}, and {GpuProviderMetadataKeys.GpuCapabilities} metadata.");
         Console.WriteLine("provider-boundary-rule: backend-specific adapter, device, driver, and native ABI connection logic stays in provider packages, not Core.");
-        Console.WriteLine("pass-bridge-rule: browser WebGPU and Dawn providers should consume WebGpuRev3DispatchEnvelope before DTO direct-dispatch.");
-        Console.WriteLine("dispatch-envelope-validation-rule: browser WebGPU and Dawn bridge handoff should call WebGpuRev3InteropEnvelope.ValidateDispatchEnvelope before command encoder execution.");
-        Console.WriteLine("browser-bridge-rule: AIKernel.Wasm packages runtime/browser/webgpu-rev3-envelope-bridge.js as the thin JS envelope adapter.");
-        Console.WriteLine("browser-bridge-value-catalog-rule: packaged browser bridges should mirror canonical rev3 diagnostics values through a local JS value table and keep it covered by package tests.");
-        Console.WriteLine("browser-executor-rule: createWebGpuRev3BrowserExecutor owns browser WebGPU device lifecycle, device-lost fallback, shader cache, and raw texture validation.");
+        Console.WriteLine("pass-bridge-rule: browser WebGPU and Dawn providers should consume WebGpuDispatchEnvelope before DTO direct-dispatch.");
+        Console.WriteLine("dispatch-envelope-validation-rule: browser WebGPU and Dawn bridge handoff should call WebGpuInteropEnvelope.ValidateDispatchEnvelope before command encoder execution.");
+        Console.WriteLine("browser-bridge-rule: AIKernel.Wasm packages runtime/browser/webgpu-envelope-bridge.js as the thin JS envelope adapter.");
+        Console.WriteLine("browser-bridge-value-catalog-rule: packaged browser bridges should mirror canonical diagnostics values through a local JS value table and keep it covered by package tests.");
+        Console.WriteLine("browser-executor-rule: createWebGpuBrowserExecutor owns browser WebGPU device lifecycle, device-lost fallback, shader cache, and raw texture validation.");
         Console.WriteLine($"execution-layer-metadata-rule: WebGPUProvider, DawnProvider, and Cuda13Provider should expose {GpuProviderMetadataKeys.GpuBypass}, {GpuProviderMetadataKeys.NativeJsBridge}, {GpuProviderMetadataKeys.AotCompilerHooks}, {GpuProviderMetadataKeys.DeterministicFrameSampling}, and {GpuProviderMetadataKeys.ZeroCopyBufferHandling} metadata.");
         Console.WriteLine($"execution-layer-spoofing-rule: providers should preserve non-canonical caller metadata but overwrite {GpuProviderMetadataKeys.Backend}, {GpuProviderMetadataKeys.GpuBackend}, {GpuProviderMetadataKeys.GpuBypass}, {GpuProviderMetadataKeys.NativeJsBridge}, {GpuProviderMetadataKeys.PassBridge}, and {GpuProviderMetadataKeys.ZeroCopyBufferHandling} with canonical provider values.");
-        Console.WriteLine("frame-token-rule: every rev3 GPU dispatch envelope should preserve GpuFrameToken.FrameIndex and GpuFrameToken.SampleTicks for deterministic sampling diagnostics.");
+        Console.WriteLine("frame-token-rule: every canonical GPU dispatch envelope should preserve GpuFrameToken.FrameIndex and GpuFrameToken.SampleTicks for deterministic sampling diagnostics.");
         Console.WriteLine("pass-executor-rule: browser and Doom hosts attach concrete Aisthesis, Spatial, and HUD command encoders through passExecutors.");
         Console.WriteLine("builtin-pass-rule: the browser executor can dispatch built-in Aisthesis, Spatial, and HUD compute passes when shaders and GPU resources are bound; HUD may still use host-composed fallback.");
         Console.WriteLine("hud-rule: GPU HUD uses HudPanelRect stride=12 and HudPanelStateVector stride=16; text labels stay in the lightweight overlay.");
         Console.WriteLine("aisthesis-rule: GPU Aisthesis consumes a zero-copy raw target and emits FeatureVector plus optional FeatureMask.");
-        Console.WriteLine($"feature-mask-storage-rule: browser Aisthesis built-ins should emit FeatureMask as a GPU storage texture and surface {GpuDiagnosticsMetadataKeys.Rev3FeatureMaskStorageTexture} metadata when the compute path owns it.");
+        Console.WriteLine($"feature-mask-storage-rule: browser Aisthesis built-ins should emit FeatureMask as a GPU storage texture and surface {GpuDiagnosticsMetadataKeys.CanonicalFeatureMaskStorageTexture} metadata when the compute path owns it.");
         Console.WriteLine("diagnostics-rule: providers should expose Game, Bonsai, HUD, and Sensor paths through IGpuDiagnostics.");
-        Console.WriteLine("path-role-resolver-rule: providers should classify pass ids through GpuRev3PathRoles.TryResolveFromPassId and preserve unknown for unrecognized pass ids.");
-        Console.WriteLine($"diagnostics-metadata-rule: pilot paths should expose {GpuDiagnosticsMetadataKeys.Rev3PilotState}, {GpuDiagnosticsMetadataKeys.Rev3PromotionGate}, {GpuDiagnosticsMetadataKeys.Rev3CandidateStreak}, {GpuDiagnosticsMetadataKeys.Rev3RequiredStreak}, {GpuDiagnosticsMetadataKeys.Rev3AuthoritativeReady}, and {GpuDiagnosticsMetadataKeys.Rev3DiagnosticReady}.");
-        Console.WriteLine($"diagnostics-value-catalog-rule: rev3 diagnostics metadata values are canonicalized for {GpuDiagnosticsMetadataKeys.Rev3ExecutionMode}, {GpuDiagnosticsMetadataKeys.Rev3PathRole}, {GpuDiagnosticsMetadataKeys.Rev3PilotState}, and {GpuDiagnosticsMetadataKeys.Rev3PromotionGate}.");
-        Console.WriteLine($"frame-diagnostics-metadata-rule: Game, Bonsai, HUD, and Sensor diagnostics should carry {GpuDiagnosticsMetadataKeys.Rev3PassReadiness}, {GpuDiagnosticsMetadataKeys.Rev3PathRole}, {GpuDiagnosticsMetadataKeys.Rev3FrameIndex}, {GpuDiagnosticsMetadataKeys.Rev3SampleTicks}, and execution-layer metadata.");
-        Console.WriteLine($"browser-diagnostics-rule: Doom/browser HUD status rows should preserve {GpuDiagnosticsMetadataKeys.Rev3PassId}, {GpuDiagnosticsMetadataKeys.Rev3PathRole}, {GpuDiagnosticsMetadataKeys.Rev3PilotState}, and zero-copy metadata from canonical DTOs through live runtime DOM projection.");
-        Console.WriteLine($"browser-execution-metadata-rule: browser executors should expose {GpuDiagnosticsMetadataKeys.Rev3ExecutionMode} to distinguish browser-webgpu-compute from deterministic-fallback paths.");
+        Console.WriteLine("path-role-resolver-rule: providers should classify pass ids through GpuPathRoles.TryResolveFromPassId and preserve unknown for unrecognized pass ids.");
+        Console.WriteLine($"diagnostics-metadata-rule: pilot paths should expose {GpuDiagnosticsMetadataKeys.CanonicalPilotState}, {GpuDiagnosticsMetadataKeys.CanonicalPromotionGate}, {GpuDiagnosticsMetadataKeys.CanonicalCandidateStreak}, {GpuDiagnosticsMetadataKeys.CanonicalRequiredStreak}, {GpuDiagnosticsMetadataKeys.CanonicalAuthoritativeReady}, and {GpuDiagnosticsMetadataKeys.CanonicalDiagnosticReady}.");
+        Console.WriteLine($"diagnostics-value-catalog-rule: canonical diagnostics metadata values are canonicalized for {GpuDiagnosticsMetadataKeys.CanonicalExecutionMode}, {GpuDiagnosticsMetadataKeys.CanonicalPathRole}, {GpuDiagnosticsMetadataKeys.CanonicalPilotState}, and {GpuDiagnosticsMetadataKeys.CanonicalPromotionGate}.");
+        Console.WriteLine($"frame-diagnostics-metadata-rule: Game, Bonsai, HUD, and Sensor diagnostics should carry {GpuDiagnosticsMetadataKeys.CanonicalPassReadiness}, {GpuDiagnosticsMetadataKeys.CanonicalPathRole}, {GpuDiagnosticsMetadataKeys.CanonicalFrameIndex}, {GpuDiagnosticsMetadataKeys.CanonicalSampleTicks}, and execution-layer metadata.");
+        Console.WriteLine($"browser-diagnostics-rule: Doom/browser HUD status rows should preserve {GpuDiagnosticsMetadataKeys.CanonicalPassId}, {GpuDiagnosticsMetadataKeys.CanonicalPathRole}, {GpuDiagnosticsMetadataKeys.CanonicalPilotState}, and zero-copy metadata from canonical DTOs through live runtime DOM projection.");
+        Console.WriteLine($"browser-execution-metadata-rule: browser executors should expose {GpuDiagnosticsMetadataKeys.CanonicalExecutionMode} to distinguish browser-webgpu-compute from deterministic-fallback paths.");
         Console.WriteLine("browser-pass-readiness-rule: browser executors should expose Passes.Aisthesis, Passes.SpatialReasoning, and Passes.HudComposite with ShaderBound, PipelineCached, BuiltInExecutor, InjectedExecutor, and ReadyForBuiltIn.");
-        Console.WriteLine($"browser-pass-readiness-metadata-rule: Doom/browser status rows should project pass readiness into {GpuDiagnosticsMetadataKeys.Rev3PassReadiness} metadata and data-rev3-pass-readiness DOM attributes without parsing display text.");
-        Console.WriteLine($"control-arbitration-rule: Control GPU arbitration should expose {GpuDiagnosticsMetadataKeys.Rev3PassId}, {GpuDiagnosticsMetadataKeys.Rev3ExecutionMode}, {GpuProviderMetadataKeys.Backend}, and {GpuProviderMetadataKeys.Fallback} metadata; approved mode is {GpuExecutionArbitrationExecutionModes.ControlGpuApproved}; fallback mode is {GpuExecutionArbitrationExecutionModes.ControlCpuFallback}.");
+        Console.WriteLine($"browser-pass-readiness-metadata-rule: Doom/browser status rows should project pass readiness into {GpuDiagnosticsMetadataKeys.CanonicalPassReadiness} metadata and data-canonical-pass-readiness DOM attributes without parsing display text.");
+        Console.WriteLine($"control-arbitration-rule: Control GPU arbitration should expose {GpuDiagnosticsMetadataKeys.CanonicalPassId}, {GpuDiagnosticsMetadataKeys.CanonicalExecutionMode}, {GpuProviderMetadataKeys.Backend}, and {GpuProviderMetadataKeys.Fallback} metadata; approved mode is {GpuExecutionArbitrationExecutionModes.ControlGpuApproved}; fallback mode is {GpuExecutionArbitrationExecutionModes.ControlCpuFallback}.");
         Console.WriteLine($"control-arbitration-metadata-rule: Control GPU diagnostics should expose {GpuControlMetadataKeys.IntentId}, {GpuControlMetadataKeys.ObjectiveId}, {GpuControlMetadataKeys.ActionId}, {GpuControlMetadataKeys.RequiredCapabilities}, {GpuControlMetadataKeys.AvailableCapabilities}, {GpuControlMetadataKeys.MissingCapabilities}, and {GpuControlMetadataKeys.Tags} metadata.");
         Console.WriteLine($"control-arbitration-fallback-rule: stable Control GPU fallback reasons include {GpuExecutionArbitrationReasons.CpuForced}, {GpuExecutionArbitrationReasons.GpuLostOneWayFallback}, {GpuExecutionArbitrationReasons.ZeroCopyRequiredButUnavailable}, {GpuExecutionArbitrationReasons.RawFramebufferRequiredForZeroCopyAnalysis}, {GpuExecutionArbitrationReasons.NativePassBridgeUnavailable}, and {GpuExecutionArbitrationReasons.ReadbackRequiresFallback}.");
         Console.WriteLine("native-validation-rule: Dawn and OSNative providers should honor GpuProviderOptions.EnableNativeValidation when supported.");
@@ -166,7 +162,7 @@ public static class GpuCommand
         Console.WriteLine($"cuda-native-probe-rule: Cuda13Provider probe metadata should include {GpuNativeAbiMetadataKeys.CudaNativeAbiAvailable}, {GpuNativeAbiMetadataKeys.CudaNativeAbiReason}, {GpuNativeAbiMetadataKeys.CudaNativeBridgeAvailable}, {GpuNativeAbiMetadataKeys.CudaLibTorchPathAvailable}, and {GpuNativeAbiMetadataKeys.CudaNativeValidation}.");
         Console.WriteLine("native-dispatch-metadata-rule: DawnProvider and Cuda13Provider invocation/diagnostics metadata should expose native dispatch ABI version, status, failure reason, frame index, sample ticks, and diagnostics byte count; staged bridges must distinguish DeviceUnavailable from CommandSubmissionDisabled.");
         Console.WriteLine("native-artifact-integrity-rule: aik gpu verify-native validates DawnCore exports, CPU fallback ABI state, Dawn package runtime assets, Cuda13 package runtime assets, and the Cuda13 staged dispatch probe when a native library is supplied.");
-        Console.WriteLine("remaining-work-priority: P0=browser/Doom live GPU promotion gates and Cuda13 dependency-staged direct ABI smoke; P1=Dawn/Cuda13 native command encoders; P2=none after rev3 local NuGet config propagation.");
+        Console.WriteLine("remaining-work-priority: P0=browser/Doom live GPU promotion gates and Cuda13 dependency-staged direct ABI smoke; P1=Dawn/Cuda13 native command encoders; P2=none after canonical local NuGet config propagation.");
         Console.WriteLine("promotion-gate-policy: browser WebGPU built-in passes stay diagnostic until live trace parity has stable ready streaks and authoritative_ready=true.");
         Console.WriteLine("native-provider-policy: DawnProvider and Cuda13Provider stay fail-closed descriptor/probe surfaces until ABI handshake and buffer/texture mapping are verified.");
         return 0;
@@ -759,8 +755,8 @@ public static class GpuCommand
     {
         var metadata = new SortedDictionary<string, string>(StringComparer.Ordinal)
         {
-            [GpuDiagnosticsMetadataKeys.Rev3PassId] = GpuOperationNames.GpuHudComposite,
-            [GpuDiagnosticsMetadataKeys.Rev3ExecutionMode] = GpuExecutionArbitrationExecutionModes.ControlGpuApproved,
+            [GpuDiagnosticsMetadataKeys.CanonicalPassId] = GpuOperationNames.GpuHudComposite,
+            [GpuDiagnosticsMetadataKeys.CanonicalExecutionMode] = GpuExecutionArbitrationExecutionModes.ControlGpuApproved,
             [GpuProviderMetadataKeys.Backend] = GpuBackend.WebGpu.ToString(),
             [GpuProviderMetadataKeys.Fallback] = GpuExecutionArbitrationReasons.None,
             [GpuControlMetadataKeys.IntentId] = "render",
@@ -790,15 +786,15 @@ public static class GpuCommand
     {
         var metadata = new SortedDictionary<string, string>(StringComparer.Ordinal)
         {
-            [GpuProviderMetadataKeys.Rev3BrowserPassReadiness] = "Passes.{Aisthesis,SpatialReasoning,HudComposite}:ShaderBound,PipelineCached,BuiltInExecutor,InjectedExecutor,ReadyForBuiltIn",
-            [GpuProviderMetadataKeys.Rev3EnvelopeBridge] = "runtime/browser/webgpu-rev3-envelope-bridge.js",
-            [GpuProviderMetadataKeys.Rev3EnvelopeBridgeExecutorFactory] = "createWebGpuRev3BrowserExecutor",
-            [GpuProviderMetadataKeys.Rev3EnvelopeBridgeFactory] = "createWebGpuRev3EnvelopeBridge",
-            [GpuProviderMetadataKeys.Rev3EnvelopeBridgeGlobal] = "AIKernelWebGpuRev3",
-            [GpuProviderMetadataKeys.Rev3EnvelopeSchema] = "aikernel.gpu.rev3.dispatch"
+            [GpuProviderMetadataKeys.CanonicalBrowserPassReadiness] = "Passes.{Aisthesis,SpatialReasoning,HudComposite}:ShaderBound,PipelineCached,BuiltInExecutor,InjectedExecutor,ReadyForBuiltIn",
+            [GpuProviderMetadataKeys.CanonicalEnvelopeBridge] = "runtime/browser/webgpu-envelope-bridge.js",
+            [GpuProviderMetadataKeys.CanonicalEnvelopeBridgeExecutorFactory] = "createWebGpuBrowserExecutor",
+            [GpuProviderMetadataKeys.CanonicalEnvelopeBridgeFactory] = "createWebGpuEnvelopeBridge",
+            [GpuProviderMetadataKeys.CanonicalEnvelopeBridgeGlobal] = "AIKernelWebGpu",
+            [GpuProviderMetadataKeys.CanonicalEnvelopeSchema] = "aikernel.gpu.dispatch"
         };
 
-        var validation = GpuCanonicalValidation.ValidateRev3BrowserBridgeMetadata(metadata);
+        var validation = GpuCanonicalValidation.ValidateBrowserBridgeMetadata(metadata);
         valid = validation.IsValid;
         return validation;
     }
@@ -811,7 +807,7 @@ public static class GpuCommand
             [GpuProviderMetadataKeys.PassBridge] = "optional-native-or-js",
             [GpuProviderMetadataKeys.RawCaptureSource] = "raw-framebuffer",
             [GpuProviderMetadataKeys.GpuBypass] = "raw-texture-binding",
-            [GpuProviderMetadataKeys.NativeJsBridge] = "rev3-envelope-bridge",
+            [GpuProviderMetadataKeys.NativeJsBridge] = "canonical-envelope-bridge",
             [GpuProviderMetadataKeys.AotCompilerHooks] = "planned-gpu-native-execution",
             [GpuProviderMetadataKeys.DeterministicFrameSampling] = "frame-token-index-sample-ticks",
             [GpuProviderMetadataKeys.ZeroCopyBufferHandling] = "raw-framebuffer-texture"
@@ -838,9 +834,9 @@ public static class GpuCommand
         };
 
         var validation = GpuCanonicalValidation
-            .ValidateRev3ExecutionLayerMetadata(webGpuMetadata)
-            .Merge(GpuCanonicalValidation.ValidateRev3ExecutionLayerMetadata(dawnMetadata))
-            .Merge(GpuCanonicalValidation.ValidateRev3ExecutionLayerMetadata(cudaMetadata));
+            .ValidateExecutionLayerMetadata(webGpuMetadata)
+            .Merge(GpuCanonicalValidation.ValidateExecutionLayerMetadata(dawnMetadata))
+            .Merge(GpuCanonicalValidation.ValidateExecutionLayerMetadata(cudaMetadata));
         valid = validation.IsValid;
         return validation;
     }
@@ -850,7 +846,7 @@ public static class GpuCommand
         out bool webGpuValid,
         out bool dawnValid,
         out bool cudaValid,
-        out GpuRev3PromotionReadiness promotionReadiness)
+        out GpuPromotionReadiness promotionReadiness)
     {
         var webGpuDiagnostics = CreateCanonicalFrameDiagnostics(
             GpuBackend.WebGpu,
@@ -859,7 +855,7 @@ public static class GpuCommand
             executionMode: "browser-webgpu-compute",
             passReadiness: "Passes.{Aisthesis,SpatialReasoning,HudComposite}:ShaderBound=false,PipelineCached=false,BuiltInExecutor=true,InjectedExecutor=false,ReadyForBuiltIn=false",
             gpuBypass: "raw-texture-binding",
-            nativeJsBridge: "rev3-envelope-bridge",
+            nativeJsBridge: "canonical-envelope-bridge",
             passBridge: "optional-native-or-js",
             rawCaptureSource: "raw-framebuffer",
             deterministicFrameSampling: "frame-token-index-sample-ticks",
@@ -897,7 +893,7 @@ public static class GpuCommand
         dawnValid = dawnValidation.IsValid;
         cudaValid = cudaValidation.IsValid;
         valid = webGpuValid && dawnValid && cudaValid;
-        promotionReadiness = GpuCanonicalValidation.EvaluateRev3PromotionReadiness(
+        promotionReadiness = GpuCanonicalValidation.EvaluatePromotionReadiness(
             webGpuDiagnostics.SensorPath.Metadata);
 
         return webGpuValidation.Merge(dawnValidation).Merge(cudaValidation);
@@ -941,20 +937,20 @@ public static class GpuCommand
     {
         var metadata = new SortedDictionary<string, string>(StringComparer.Ordinal)
         {
-            [GpuDiagnosticsMetadataKeys.Rev3AuthoritativeReady] = "false",
-            [GpuDiagnosticsMetadataKeys.Rev3CandidateStreak] = "0",
-            [GpuDiagnosticsMetadataKeys.Rev3DiagnosticReady] = "true",
-            [GpuDiagnosticsMetadataKeys.Rev3DiagnosticStreak] = "1",
-            [GpuDiagnosticsMetadataKeys.Rev3ExecutionMode] = executionMode,
-            [GpuDiagnosticsMetadataKeys.Rev3FeatureMaskStorageTexture] = "false",
-            [GpuDiagnosticsMetadataKeys.Rev3FrameIndex] = "1",
-            [GpuDiagnosticsMetadataKeys.Rev3PassId] = passId,
-            [GpuDiagnosticsMetadataKeys.Rev3PassReadiness] = passReadiness,
-            [GpuDiagnosticsMetadataKeys.Rev3PathRole] = pathRole,
-            [GpuDiagnosticsMetadataKeys.Rev3PilotState] = "diagnostic",
-            [GpuDiagnosticsMetadataKeys.Rev3PromotionGate] = "trace-candidate",
-            [GpuDiagnosticsMetadataKeys.Rev3RequiredStreak] = "3",
-            [GpuDiagnosticsMetadataKeys.Rev3SampleTicks] = "100",
+            [GpuDiagnosticsMetadataKeys.CanonicalAuthoritativeReady] = "false",
+            [GpuDiagnosticsMetadataKeys.CanonicalCandidateStreak] = "0",
+            [GpuDiagnosticsMetadataKeys.CanonicalDiagnosticReady] = "true",
+            [GpuDiagnosticsMetadataKeys.CanonicalDiagnosticStreak] = "1",
+            [GpuDiagnosticsMetadataKeys.CanonicalExecutionMode] = executionMode,
+            [GpuDiagnosticsMetadataKeys.CanonicalFeatureMaskStorageTexture] = "false",
+            [GpuDiagnosticsMetadataKeys.CanonicalFrameIndex] = "1",
+            [GpuDiagnosticsMetadataKeys.CanonicalPassId] = passId,
+            [GpuDiagnosticsMetadataKeys.CanonicalPassReadiness] = passReadiness,
+            [GpuDiagnosticsMetadataKeys.CanonicalPathRole] = pathRole,
+            [GpuDiagnosticsMetadataKeys.CanonicalPilotState] = "diagnostic",
+            [GpuDiagnosticsMetadataKeys.CanonicalPromotionGate] = "trace-candidate",
+            [GpuDiagnosticsMetadataKeys.CanonicalRequiredStreak] = "3",
+            [GpuDiagnosticsMetadataKeys.CanonicalSampleTicks] = "100",
             [GpuProviderMetadataKeys.AotCompilerHooks] = "planned-gpu-native-execution",
             [GpuProviderMetadataKeys.DeterministicFrameSampling] = deterministicFrameSampling,
             [GpuProviderMetadataKeys.GpuBypass] = gpuBypass,
@@ -1060,8 +1056,8 @@ public static class GpuCommand
         => Console.WriteLine("""
 Usage:
   aik gpu list
-  aik gpu verify rev3
-  aik gpu pending rev3
+  aik gpu verify
+  aik gpu pending
   aik gpu verify-native [--provider dawn|cuda13] [--library native-library] [--package provider.nupkg]
   aik gpu run vector-add --a a.bin --b b.bin [--out out.bin]
 """);

@@ -33,7 +33,7 @@ if ([string]::IsNullOrWhiteSpace($LocalFeed)) {
 }
 
 if ([string]::IsNullOrWhiteSpace($NuGetConfigPath)) {
-    $NuGetConfigPath = Join-Path $WorkspaceRoot "artifacts\NuGet.rev3-local.v0.1.3-dev$LocalPackageBuildNumber.config"
+    $NuGetConfigPath = Join-Path $WorkspaceRoot "artifacts\NuGet.canonical-local.v0.1.3-dev$LocalPackageBuildNumber.config"
 }
 
 function Invoke-LaneStep {
@@ -55,12 +55,12 @@ if (-not (Test-Path -LiteralPath $LocalFeed)) {
 }
 
 if (-not (Test-Path -LiteralPath $NuGetConfigPath)) {
-    & (Join-Path $toolsRepoRoot "scripts\new-rev3-local-nuget-config.ps1") `
+    & (Join-Path $toolsRepoRoot "scripts\new-canonical-local-nuget-config.ps1") `
         -LocalPackageBuildNumber $LocalPackageBuildNumber `
         -WorkspaceRoot $WorkspaceRoot `
         -OutputPath $NuGetConfigPath
     if ($LASTEXITCODE -ne 0) {
-        throw "Failed to generate rev3 local NuGet config: $NuGetConfigPath"
+        throw "Failed to generate canonical local NuGet config: $NuGetConfigPath"
     }
 }
 
@@ -159,4 +159,4 @@ if (-not $SkipCuda13Library) {
 }
 
 Write-Host ""
-Write-Host "AIKernel rev3 GPU local lane: ok"
+Write-Host "AIKernel canonical GPU local lane: ok"

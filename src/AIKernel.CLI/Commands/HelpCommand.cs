@@ -66,8 +66,8 @@ Examples:
   aik providers capabilities --dir ./providers
   aik providers invoke openai.chat chat.completion --dir ./providers prompt=hello
   aik gpu list
-  aik gpu verify rev3
-  aik gpu pending rev3
+  aik gpu verify
+  aik gpu pending
   aik gpu verify-native --provider dawn --package provider.nupkg
   aik gpu verify-native --provider cuda13 --package provider.nupkg
   aik gpu verify-native --provider cuda13 --library native-library

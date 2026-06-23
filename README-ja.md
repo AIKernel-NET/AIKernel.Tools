@@ -200,8 +200,8 @@ aik skills invoke skill.example --root ./skills text=hello
 aik providers list --dir ./providers
 aik providers invoke openai.chat chat.completion --dir ./providers prompt=hello
 aik gpu list
-aik gpu verify rev3
-aik gpu pending rev3
+aik gpu verify
+aik gpu pending
 aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
 aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
 aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
@@ -222,8 +222,8 @@ LocalExecutionProvider、SkillProvider です。external provider command は従
 SkillProvider は `SKILL.md` と `Skill.MD` の両方を再帰的に discover します。
 public な主表記としては `SKILL.md` を推奨します。
 
-`aik gpu verify rev3` は canonical v0.1.3 GPU DTO/layout contract を検証します。
-`aik gpu pending rev3` は canonical rev3 lane の優先度付き残作業 table を出力し、
+`aik gpu verify` は canonical v0.1.3 GPU DTO/layout contract を検証します。
+`aik gpu pending` は canonical lane の優先度付き残作業 table を出力し、
 現在の browser/Doom live promotion gate と Cuda13 dependency-staged ABI smoke
 gate を確認できます。
 `aik gpu verify-native --provider dawn` は DawnCore package runtime asset と、
@@ -240,11 +240,11 @@ Tools、Wasm、Dawn、Cuda13 の package/native check をまとめて行う loca
 v0.1.3 GPU lane smoke は次で実行できます。
 
 ```powershell
-.\scripts\verify-rev3-gpu-local-lane.ps1
+.\scripts\verify-canonical-gpu-local-lane.ps1
 ```
 
 既定では `../artifacts/local-nuget/v0.1.3-dev1` を使用し、CLI の restore/build
-用に `../artifacts/NuGet.rev3-local.v0.1.3-dev1.config` を生成します。Cuda13 の
+用に `../artifacts/NuGet.canonical-local.v0.1.3-dev1.config` を生成します。Cuda13 の
 direct library load は、`-RequireCuda13LibraryLoad` と LibTorch/CUDA runtime path を
 指定しない限り、現在の missing-dependent-module 境界を許容します。release lane では
 `-RequireFreshCuda13NativeBridge` を指定すると、`native/libtorch_bridge.cpp` または
@@ -255,9 +255,9 @@ direct library load は、`-RequireCuda13LibraryLoad` と LibTorch/CUDA runtime 
 明示的な local NuGet config を生成して使用します。
 
 ```powershell
-.\scripts\new-rev3-local-nuget-config.ps1
-dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.rev3-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
-dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending rev3
+.\scripts\new-canonical-local-nuget-config.ps1
+dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.canonical-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
+dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending
 ```
 
 external provider は deterministic な manifest file から load されます。最小例は

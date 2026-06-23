@@ -9,7 +9,7 @@ pythonnet. Python code receives a single API surface for replay facades,
 inspection facades, canonical chat-history formatting, and public capability
 contract descriptors without re-implementing the internal C# semantics.
 
-The v0.1.2 package also exposes the generated managed API catalog through
+The v0.1.3 package also exposes the generated managed API catalog through
 `managed_api_catalog()`, `managed_api_summary()`, `managed_type_names()`, and
 `find_managed_type(full_name)`.
 

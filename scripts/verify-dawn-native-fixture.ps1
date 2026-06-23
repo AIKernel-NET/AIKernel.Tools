@@ -17,7 +17,7 @@ if ([string]::IsNullOrWhiteSpace($LocalFeed)) {
 }
 
 if ([string]::IsNullOrWhiteSpace($NuGetConfigPath)) {
-    $NuGetConfigPath = Join-Path $WorkspaceRoot "artifacts\NuGet.rev3-local.v0.1.3-dev$PackageBuildNumber.config"
+    $NuGetConfigPath = Join-Path $WorkspaceRoot "artifacts\NuGet.canonical-local.v0.1.3-dev$PackageBuildNumber.config"
 }
 
 if ([string]::IsNullOrWhiteSpace($DawnNativeLibrary)) {
@@ -34,12 +34,12 @@ if (-not (Test-Path -LiteralPath $LocalFeed)) {
 }
 
 if (-not (Test-Path -LiteralPath $NuGetConfigPath)) {
-    & (Join-Path $PSScriptRoot "new-rev3-local-nuget-config.ps1") `
+    & (Join-Path $PSScriptRoot "new-canonical-local-nuget-config.ps1") `
         -LocalPackageBuildNumber ([int]$PackageBuildNumber) `
         -WorkspaceRoot $WorkspaceRoot `
         -OutputPath $NuGetConfigPath
     if ($LASTEXITCODE -ne 0) {
-        throw "Failed to generate rev3 local NuGet config: $NuGetConfigPath"
+        throw "Failed to generate canonical local NuGet config: $NuGetConfigPath"
     }
 }
 

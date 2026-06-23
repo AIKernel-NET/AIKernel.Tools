@@ -15,7 +15,7 @@ else {
 }
 
 if ([string]::IsNullOrWhiteSpace($OutputPath)) {
-    $OutputPath = Join-Path $WorkspaceRoot "artifacts\NuGet.rev3-local.v0.1.3-dev$LocalPackageBuildNumber.config"
+    $OutputPath = Join-Path $WorkspaceRoot "artifacts\NuGet.canonical-local.v0.1.3-dev$LocalPackageBuildNumber.config"
 }
 
 $localFeed = Join-Path $WorkspaceRoot "artifacts\local-nuget\v0.1.3-dev$LocalPackageBuildNumber"

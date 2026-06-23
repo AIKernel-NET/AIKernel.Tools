@@ -119,12 +119,12 @@ public sealed class CliCommandSmokeTests
     }
 
     [Fact]
-    public void GpuVerifyRev3PrintsCanonicalGpuBoundaryRules()
+    public void GpuVerifyCanonicalPrintsCanonicalGpuBoundaryRules()
     {
-        var (exitCode, output) = Capture(() => Program.Main(["gpu", "verify", "rev3"]));
+        var (exitCode, output) = Capture(() => Program.Main(["gpu", "verify"]));
 
         Assert.Equal(0, exitCode);
-        Assert.Contains("AIKernel GPU canonical contract: v0.1.3 rev3", output);
+        Assert.Contains("AIKernel GPU canonical contract: v0.1.3", output);
         Assert.Contains("validation: ok", output);
         Assert.Contains("operations-rule: canonical WebGPU operations are compute.dispatch, compute.vector_add, gpu.hud.composite, gpu.aisthesis.raw-frame, gpu.spatial-reasoning, gpu.zero-copy.raw-texture.", output);
         Assert.Contains("permissions-rule: canonical WebGPU permissions are compute.execute, buffer.read, buffer.write, texture.bind, texture.write.", output);
@@ -137,34 +137,34 @@ public sealed class CliCommandSmokeTests
         Assert.Contains("frame-diagnostics-validation: ok", output);
         Assert.Contains("frame-diagnostics-sibling-validation: webgpu=ok; dawn=ok; cuda=ok", output);
         Assert.Contains("dynamic-pipeline-dsl-rule: DynamicPipelineCompilerProvider supports boolean-v1 parenthesized AND/OR/NOT guards", output);
-        Assert.Contains("provider-sibling-rule: WebGPUProvider, DawnProvider, and Cuda13Provider are canonical rev3 sibling providers", output);
+        Assert.Contains("provider-sibling-rule: WebGPUProvider, DawnProvider, and Cuda13Provider are canonical sibling providers", output);
         Assert.Contains("provider-sibling-metadata-rule: sibling providers should expose provider_family, provider_role, gpu_backend, and gpu_capabilities metadata", output);
         Assert.Contains("provider-boundary-rule: backend-specific adapter, device, driver, and native ABI connection logic stays in provider packages, not Core", output);
-        Assert.Contains("pass-bridge-rule: browser WebGPU and Dawn providers should consume WebGpuRev3DispatchEnvelope", output);
-        Assert.Contains("dispatch-envelope-validation-rule: browser WebGPU and Dawn bridge handoff should call WebGpuRev3InteropEnvelope.ValidateDispatchEnvelope", output);
-        Assert.Contains("browser-bridge-rule: AIKernel.Wasm packages runtime/browser/webgpu-rev3-envelope-bridge.js", output);
-        Assert.Contains("browser-bridge-value-catalog-rule: packaged browser bridges should mirror canonical rev3 diagnostics values", output);
-        Assert.Contains("browser-executor-rule: createWebGpuRev3BrowserExecutor owns browser WebGPU device lifecycle", output);
+        Assert.Contains("pass-bridge-rule: browser WebGPU and Dawn providers should consume WebGpuDispatchEnvelope", output);
+        Assert.Contains("dispatch-envelope-validation-rule: browser WebGPU and Dawn bridge handoff should call WebGpuInteropEnvelope.ValidateDispatchEnvelope", output);
+        Assert.Contains("browser-bridge-rule: AIKernel.Wasm packages runtime/browser/webgpu-envelope-bridge.js", output);
+        Assert.Contains("browser-bridge-value-catalog-rule: packaged browser bridges should mirror canonical diagnostics values", output);
+        Assert.Contains("browser-executor-rule: createWebGpuBrowserExecutor owns browser WebGPU device lifecycle", output);
         Assert.Contains("execution-layer-metadata-rule: WebGPUProvider, DawnProvider, and Cuda13Provider should expose gpu_bypass, native_js_bridge, aot_compiler_hooks", output);
         Assert.Contains("execution-layer-spoofing-rule: providers should preserve non-canonical caller metadata but overwrite backend, gpu_backend, gpu_bypass", output);
         Assert.Contains("promotion-readiness-evaluator: gate=trace-candidate; authoritative=false; candidate=false; diagnostic=true; blocked=true; reason=storage-texture-not-ready", output);
-        Assert.Contains("frame-token-rule: every rev3 GPU dispatch envelope should preserve GpuFrameToken.FrameIndex and GpuFrameToken.SampleTicks", output);
+        Assert.Contains("frame-token-rule: every canonical GPU dispatch envelope should preserve GpuFrameToken.FrameIndex and GpuFrameToken.SampleTicks", output);
         Assert.Contains("pass-executor-rule: browser and Doom hosts attach concrete Aisthesis, Spatial, and HUD command encoders through passExecutors", output);
         Assert.Contains("builtin-pass-rule: the browser executor can dispatch built-in Aisthesis, Spatial, and HUD compute passes", output);
         Assert.Contains("hud-rule: GPU HUD uses HudPanelRect stride=12 and HudPanelStateVector stride=16", output);
         Assert.Contains("aisthesis-rule: GPU Aisthesis consumes a zero-copy raw target", output);
         Assert.Contains("feature-mask-storage-rule: browser Aisthesis built-ins should emit FeatureMask as a GPU storage texture", output);
         Assert.Contains("diagnostics-rule: providers should expose Game, Bonsai, HUD, and Sensor paths through IGpuDiagnostics", output);
-        Assert.Contains("path-role-resolver-rule: providers should classify pass ids through GpuRev3PathRoles.TryResolveFromPassId", output);
-        Assert.Contains("diagnostics-metadata-rule: pilot paths should expose rev3_pilot_state, rev3_promotion_gate", output);
-        Assert.Contains("diagnostics-value-catalog-rule: rev3 diagnostics metadata values are canonicalized for rev3_execution_mode, rev3_path_role, rev3_pilot_state, and rev3_promotion_gate", output);
-        Assert.Contains("frame-diagnostics-metadata-rule: Game, Bonsai, HUD, and Sensor diagnostics should carry rev3_pass_readiness", output);
-        Assert.Contains("rev3_frame_index, rev3_sample_ticks", output);
-        Assert.Contains("browser-diagnostics-rule: Doom/browser HUD status rows should preserve rev3_pass_id, rev3_path_role, rev3_pilot_state", output);
-        Assert.Contains("browser-execution-metadata-rule: browser executors should expose rev3_execution_mode", output);
+        Assert.Contains("path-role-resolver-rule: providers should classify pass ids through GpuPathRoles.TryResolveFromPassId", output);
+        Assert.Contains("diagnostics-metadata-rule: pilot paths should expose pilot_state, promotion_gate", output);
+        Assert.Contains("diagnostics-value-catalog-rule: canonical diagnostics metadata values are canonicalized for execution_mode, path_role, pilot_state, and promotion_gate", output);
+        Assert.Contains("frame-diagnostics-metadata-rule: Game, Bonsai, HUD, and Sensor diagnostics should carry pass_readiness", output);
+        Assert.Contains("frame_index, sample_ticks", output);
+        Assert.Contains("browser-diagnostics-rule: Doom/browser HUD status rows should preserve pass_id, path_role, pilot_state", output);
+        Assert.Contains("browser-execution-metadata-rule: browser executors should expose execution_mode", output);
         Assert.Contains("browser-pass-readiness-rule: browser executors should expose Passes.Aisthesis, Passes.SpatialReasoning, and Passes.HudComposite", output);
-        Assert.Contains("browser-pass-readiness-metadata-rule: Doom/browser status rows should project pass readiness into rev3_pass_readiness metadata", output);
-        Assert.Contains("control-arbitration-rule: Control GPU arbitration should expose rev3_pass_id, rev3_execution_mode, backend, and fallback metadata", output);
+        Assert.Contains("browser-pass-readiness-metadata-rule: Doom/browser status rows should project pass readiness into pass_readiness metadata", output);
+        Assert.Contains("control-arbitration-rule: Control GPU arbitration should expose pass_id, execution_mode, backend, and fallback metadata", output);
         Assert.Contains("control-arbitration-metadata-rule: Control GPU diagnostics should expose control.intent_id, control.objective_id, control.action_id", output);
         Assert.Contains("control.gpu.missing_capabilities", output);
         Assert.Contains("approved mode is control-gpu-approved; fallback mode is control-cpu-fallback", output);
@@ -178,30 +178,30 @@ public sealed class CliCommandSmokeTests
         Assert.Contains("native-artifact-integrity-rule: aik gpu verify-native validates DawnCore exports", output);
         Assert.Contains("Cuda13 package runtime assets, and the Cuda13 staged dispatch probe", output);
         Assert.Contains("staged bridges must distinguish DeviceUnavailable from CommandSubmissionDisabled", output);
-        Assert.Contains("remaining-work-priority: P0=browser/Doom live GPU promotion gates and Cuda13 dependency-staged direct ABI smoke; P1=Dawn/Cuda13 native command encoders; P2=none after rev3 local NuGet config propagation", output);
+        Assert.Contains("remaining-work-priority: P0=browser/Doom live GPU promotion gates and Cuda13 dependency-staged direct ABI smoke; P1=Dawn/Cuda13 native command encoders; P2=none after canonical local NuGet config propagation", output);
         Assert.Contains("promotion-gate-policy: browser WebGPU built-in passes stay diagnostic until live trace parity has stable ready streaks", output);
         Assert.Contains("native-provider-policy: DawnProvider and Cuda13Provider stay fail-closed descriptor/probe surfaces", output);
     }
 
     [Fact]
-    public void HelpCommandListsRev3GpuNativeVerificationExamples()
+    public void HelpCommandListsCanonicalGpuNativeVerificationExamples()
     {
         var (exitCode, output) = Capture(() => Program.Main(["help"]));
 
         Assert.Equal(0, exitCode);
-        Assert.Contains("aik gpu pending rev3", output);
+        Assert.Contains("aik gpu pending", output);
         Assert.Contains("aik gpu verify-native --provider dawn --package provider.nupkg", output);
         Assert.Contains("aik gpu verify-native --provider cuda13 --package provider.nupkg", output);
         Assert.Contains("aik gpu verify-native --provider cuda13 --library native-library", output);
     }
 
     [Fact]
-    public void GpuPendingRev3PrintsPrioritizedRemainingWork()
+    public void GpuPendingCanonicalPrintsPrioritizedRemainingWork()
     {
-        var (exitCode, output) = Capture(() => Program.Main(["gpu", "pending", "rev3"]));
+        var (exitCode, output) = Capture(() => Program.Main(["gpu", "pending"]));
 
         Assert.Equal(0, exitCode);
-        Assert.Contains("AIKernel GPU canonical pending work: v0.1.3 rev3", output);
+        Assert.Contains("AIKernel GPU canonical pending work: v0.1.3", output);
         Assert.Contains("pending: P0; browser-doom-live-gpu-promotion; gate=live-trace-parity", output);
         Assert.Contains("pending: P0; cuda13-direct-abi-smoke; gate=native-library-load", output);
         Assert.Contains("pending: P1; dawn-native-command-encoders; gate=native-resource-mapping", output);

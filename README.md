@@ -233,8 +233,8 @@ aik skills invoke skill.example --root ./skills text=hello
 aik providers list --dir ./providers
 aik providers invoke openai.chat chat.completion --dir ./providers prompt=hello
 aik gpu list
-aik gpu verify rev3
-aik gpu pending rev3
+aik gpu verify
+aik gpu pending
 aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
 aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
 aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
@@ -255,9 +255,9 @@ loading under `aik providers`.
 SkillProvider recursively discovers both `SKILL.md` and `Skill.MD` files. The
 preferred public spelling is `SKILL.md`.
 
-`aik gpu verify rev3` checks the canonical v0.1.3 GPU DTO/layout contract.
-`aik gpu pending rev3` prints the prioritized remaining-work table for the
-canonical rev3 lane, including the current browser/Doom live promotion gate and
+`aik gpu verify` checks the canonical v0.1.3 GPU DTO/layout contract.
+`aik gpu pending` prints the prioritized remaining-work table for the
+canonical lane, including the current browser/Doom live promotion gate and
 Cuda13 dependency-staged ABI smoke gate.
 `aik gpu verify-native --provider dawn` validates DawnCore package runtime
 assets and, when a native library is supplied, the `InitializeDawnNative` /
@@ -273,11 +273,11 @@ For a local canonical v0.1.3 GPU lane smoke that chains the Tools, Wasm,
 Dawn, and Cuda13 package/native checks, run:
 
 ```powershell
-.\scripts\verify-rev3-gpu-local-lane.ps1
+.\scripts\verify-canonical-gpu-local-lane.ps1
 ```
 
 By default the helper uses `../artifacts/local-nuget/v0.1.3-dev1` and generates
-`../artifacts/NuGet.rev3-local.v0.1.3-dev1.config` for the CLI restore/build
+`../artifacts/NuGet.canonical-local.v0.1.3-dev1.config` for the CLI restore/build
 steps. Cuda13 direct library loading accepts the current
 missing-dependent-module boundary unless `-RequireCuda13LibraryLoad` is
 supplied with staged LibTorch/CUDA runtime paths. Use
@@ -290,9 +290,9 @@ packages exist, generate an explicit local NuGet config instead of changing the
 repository `NuGet.config`:
 
 ```powershell
-.\scripts\new-rev3-local-nuget-config.ps1
-dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.rev3-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
-dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending rev3
+.\scripts\new-canonical-local-nuget-config.ps1
+dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.canonical-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
+dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending
 ```
 
 External providers are loaded from deterministic manifest files. A minimal

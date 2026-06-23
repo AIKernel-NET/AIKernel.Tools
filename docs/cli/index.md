@@ -120,8 +120,8 @@ The CLI exposes a Linux-style OS surface for compute and process operation:
 
 ```bash
 aik gpu list
-aik gpu verify rev3
-aik gpu pending rev3
+aik gpu verify
+aik gpu pending
 aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
 aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
 aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
@@ -134,9 +134,9 @@ aik logs sample
 aik schedule add --every 1m "aik system info"
 ```
 
-`aik gpu verify rev3` checks canonical GPU layouts, metadata, diagnostics, and
-provider boundary rules. `aik gpu pending rev3` prints the prioritized
-remaining-work table for the canonical rev3 lane. `aik gpu verify-native --provider dawn` validates
+`aik gpu verify` checks canonical GPU layouts, metadata, diagnostics, and
+provider boundary rules. `aik gpu pending` prints the prioritized
+remaining-work table for the canonical lane. `aik gpu verify-native --provider dawn` validates
 DawnCore runtime assets plus native exports when a library is supplied.
 `aik gpu verify-native --provider cuda13` validates the package loader and
 `libtorch_bridge.dll` runtime asset without requiring a LibTorch/CUDA runtime
@@ -152,16 +152,16 @@ local-feed helper:
 .\scripts\verify-dawn-native-fixture.ps1
 ```
 
-It generates `../artifacts/NuGet.rev3-local.v0.1.3-dev1.config`, restores the
+It generates `../artifacts/NuGet.canonical-local.v0.1.3-dev1.config`, restores the
 CLI against `../artifacts/local-nuget/v0.1.3-dev1`, and then runs `aik gpu
 verify-native --provider dawn --library <custom_bridge>`. This avoids
 accidentally restoring unpublished `0.1.3` packages from NuGet.org during local
-canonical rev3 smoke checks.
+canonical smoke checks.
 
-For the full local rev3 GPU lane, use:
+For the full local canonical GPU lane, use:
 
 ```powershell
-.\scripts\verify-rev3-gpu-local-lane.ps1
+.\scripts\verify-canonical-gpu-local-lane.ps1
 ```
 
 The lane chains Tools smoke tests, Wasm WebGPU package smoke, Dawn package and
@@ -170,16 +170,16 @@ Cuda13 direct-library probe remains dependency-aware and accepts the current
 missing-dependent-module boundary unless `-RequireCuda13LibraryLoad` is set.
 Use `-RequireFreshCuda13NativeBridge` for release lanes that must reject a
 packaged `libtorch_bridge.dll` older than the native C++ bridge sources.
-The lane also passes the generated rev3 local NuGet config through Dawn/Cuda13
+The lane also passes the generated canonical local NuGet config through Dawn/Cuda13
 CLI build steps so unpublished `0.1.3-dev*` dependencies resolve consistently.
 
 For ad hoc commands before public `0.1.3` packages exist, generate a local
 NuGet config and pass it explicitly:
 
 ```powershell
-.\scripts\new-rev3-local-nuget-config.ps1
-dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.rev3-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
-dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending rev3
+.\scripts\new-canonical-local-nuget-config.ps1
+dotnet restore src/AIKernel.CLI/AIKernel.CLI.csproj --configfile ..\artifacts\NuGet.canonical-local.v0.1.3-dev1.config -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1
+dotnet run --no-restore --project src/AIKernel.CLI/AIKernel.CLI.csproj -p:UseLocalPackageVersion=true -p:LocalPackageBuildNumber=1 -- gpu pending
 ```
 
 ## VFS Root
