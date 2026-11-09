@@ -4,8 +4,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 
-    <StablePackageVersion>0.1.2</StablePackageVersion>
-    <LocalPackageVersionPrefix>0.1.2</LocalPackageVersionPrefix>
+    <StablePackageVersion>0.1.3</StablePackageVersion>
+    <LocalPackageVersionPrefix>0.1.3</LocalPackageVersionPrefix>
     <LocalPackageBuildNumber Condition="'$(LocalPackageBuildNumber)' == ''">0</LocalPackageBuildNumber>
     <UseLocalPackageVersion Condition="'$(UseLocalPackageVersion)' == ''">false</UseLocalPackageVersion>
     <PackageVersion Condition="'$(UseLocalPackageVersion)' == 'true'">$(LocalPackageVersionPrefix)-dev$(LocalPackageBuildNumber)</PackageVersion>
@@ -25,14 +25,19 @@
     <PackageTags>aikernel;tools;cli;capability;history-rom;vfs;kernel-clock;inspection;deterministic-debugging;semantic-runtime</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>aikernel-logo128x128.png</PackageIcon>
-    <Description>AIKernel.Tools package family v0.1.2. Provides CLI, instrumentation, inspectors, ROM export, VFS inspection, kernel clock inspection, deterministic debugging support, and synchronized Python wrapper support for AIKernel semantic runtime workflows.</Description>
+    <Description>AIKernel.Tools package family v0.1.3. Provides CLI, instrumentation, inspectors, ROM export, VFS inspection, kernel clock inspection, deterministic debugging support, and synchronized Python wrapper support for AIKernel semantic runtime workflows.</Description>
     <PackageReleaseNotes>
-      AIKernel.Tools package family v0.1.2 - Release build aligned with AIKernel.NET contract packages v0.1.2, AIKernel.Core v0.1.2, AIKernel.Providers v0.1.2, synchronized Python wrapper package aikernel-tools v0.1.2, and local development package outputs using 0.1.2-dev{build-number}.
+      AIKernel.Tools package family v0.1.3 - Release build aligned with AIKernel.NET contract packages v0.1.3, AIKernel.Core v0.1.3, AIKernel.Providers v0.1.3, synchronized Python wrapper package aikernel-tools v0.1.3, and local development package outputs using 0.1.3-dev{build-number}.
     </PackageReleaseNotes>
 
-    <AIKernelPackageVersion>0.1.2</AIKernelPackageVersion>
-    <AIKernelCorePackageVersion>0.1.2</AIKernelCorePackageVersion>
-    <AIKernelProviderPackageVersion>0.1.2</AIKernelProviderPackageVersion>
+    <AIKernelPackageVersion Condition="'$(UseLocalPackageVersion)' == 'true'">[$(LocalPackageVersionPrefix)-dev$(LocalPackageBuildNumber)]</AIKernelPackageVersion>
+    <AIKernelPackageVersion Condition="'$(UseLocalPackageVersion)' != 'true'">[$(StablePackageVersion)]</AIKernelPackageVersion>
+    <AIKernelCorePackageVersion Condition="'$(UseLocalPackageVersion)' == 'true'">$(LocalPackageVersionPrefix)-dev$(LocalPackageBuildNumber)</AIKernelCorePackageVersion>
+    <AIKernelCorePackageVersion Condition="'$(UseLocalPackageVersion)' != 'true'">$(StablePackageVersion)</AIKernelCorePackageVersion>
+    <AIKernelControlPackageVersion Condition="'$(UseLocalPackageVersion)' == 'true'">$(LocalPackageVersionPrefix)-dev$(LocalPackageBuildNumber)</AIKernelControlPackageVersion>
+    <AIKernelControlPackageVersion Condition="'$(UseLocalPackageVersion)' != 'true'">$(StablePackageVersion)</AIKernelControlPackageVersion>
+    <AIKernelProviderPackageVersion Condition="'$(UseLocalPackageVersion)' == 'true'">$(LocalPackageVersionPrefix)-dev$(LocalPackageBuildNumber)</AIKernelProviderPackageVersion>
+    <AIKernelProviderPackageVersion Condition="'$(UseLocalPackageVersion)' != 'true'">$(StablePackageVersion)</AIKernelProviderPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>

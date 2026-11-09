@@ -10,7 +10,7 @@ public static class VersionCommand
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.VersionCommand.Run']" />
     public static int Run(string[] args)
     {
-        Console.WriteLine("aik version 0.1.0");
+        Console.WriteLine("aik version 0.1.3");
         return 0;
     }
 }

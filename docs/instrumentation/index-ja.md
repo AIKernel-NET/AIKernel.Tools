@@ -70,7 +70,7 @@ instrumentation output は machine や run をまたいで stable であるべ�
 .NET では次を利用します。
 
 ```bash
-dotnet add package AIKernel.Tools.Instrumentation --version 0.1.2
+dotnet add package AIKernel.Tools.Instrumentation --version 0.1.3
 ```
 
 Python では次を import します。

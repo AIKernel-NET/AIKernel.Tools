@@ -73,7 +73,7 @@ of the public package boundary.
 For .NET:
 
 ```bash
-dotnet add package AIKernel.Tools.Instrumentation --version 0.1.2
+dotnet add package AIKernel.Tools.Instrumentation --version 0.1.3
 ```
 
 For Python:
