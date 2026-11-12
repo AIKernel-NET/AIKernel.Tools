@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.24)
+project(cuda_verifier_fixtures LANGUAGES C)
+foreach(variant good wrong_version missing_export wrong_result nonfinite_result accepts_invalid)
+  add_library(${variant} SHARED fixture.c)
+  target_compile_definitions(${variant} PRIVATE FIXTURE_${variant}=1)
+  set_target_properties(${variant} PROPERTIES C_STANDARD 11 C_STANDARD_REQUIRED YES)
+endforeach()
