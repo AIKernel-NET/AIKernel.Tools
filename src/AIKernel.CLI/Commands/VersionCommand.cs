@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace AIKernel.CLI.Commands;
 
 /// <summary>[EN] Documents this public package API member. [JA] VersionCommand を表します。</summary>
@@ -10,7 +12,10 @@ public static class VersionCommand
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Commands.VersionCommand.Run']" />
     public static int Run(string[] args)
     {
-        Console.WriteLine("aik version 0.1.3");
+        var assembly = typeof(VersionCommand).Assembly;
+        var version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
+            .InformationalVersion.Split('+')[0] ?? assembly.GetName().Version!.ToString(3);
+        Console.WriteLine($"aik version {version}");
         return 0;
     }
 }

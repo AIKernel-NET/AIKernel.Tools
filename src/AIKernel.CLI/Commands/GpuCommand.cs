@@ -174,7 +174,7 @@ public static class GpuCommand
         var provider = ResolveNativeArtifactProvider(options);
         if (provider is null)
         {
-            Console.WriteLine("Usage: aik gpu verify-native [--provider dawn|cuda13] [--library native-library] [--package provider.nupkg]");
+            Console.WriteLine("Usage: aik gpu verify-native [--provider dawn|cuda13|cuda-driver] [--library native-library] [--package provider.nupkg]");
             return 1;
         }
 
@@ -187,7 +187,7 @@ public static class GpuCommand
 
         if (!hasLibrary && !hasPackage)
         {
-            Console.WriteLine("Usage: aik gpu verify-native [--provider dawn|cuda13] [--library native-library] [--package provider.nupkg]");
+            Console.WriteLine("Usage: aik gpu verify-native [--provider dawn|cuda13|cuda-driver] [--library native-library] [--package provider.nupkg]");
             return 1;
         }
 
@@ -226,11 +226,13 @@ public static class GpuCommand
         }
 
         provider = provider.Trim().ToLowerInvariant();
-        return provider is "dawn" or "cuda13" ? provider : null;
+        return provider is "dawn" or "cuda13" or "cuda-driver" ? provider : null;
     }
 
     private static bool ValidateNativePackage(string packagePath, string provider)
     {
+        if (provider == "cuda-driver") return CudaDriverNativeVerifier.ValidatePackage(packagePath);
+
         if (string.IsNullOrWhiteSpace(packagePath) || !File.Exists(packagePath))
         {
             Console.WriteLine($"package: missing; path={packagePath}");
@@ -278,9 +280,12 @@ public static class GpuCommand
     }
 
     private static bool ValidateNativeLibrary(string libraryPath, string provider)
-        => provider == "cuda13"
-            ? ValidateCuda13NativeLibrary(libraryPath)
-            : ValidateDawnNativeLibrary(libraryPath);
+        => provider switch
+        {
+            "cuda-driver" => CudaDriverNativeVerifier.ValidateLibrary(libraryPath),
+            "cuda13" => ValidateCuda13NativeLibrary(libraryPath),
+            _ => ValidateDawnNativeLibrary(libraryPath)
+        };
 
     private static bool ValidateDawnNativeLibrary(string libraryPath)
     {
@@ -1058,7 +1063,7 @@ Usage:
   aik gpu list
   aik gpu verify
   aik gpu pending
-  aik gpu verify-native [--provider dawn|cuda13] [--library native-library] [--package provider.nupkg]
+  aik gpu verify-native [--provider dawn|cuda13|cuda-driver] [--library native-library] [--package provider.nupkg]
   aik gpu run vector-add --a a.bin --b b.bin [--out out.bin]
 """);
 

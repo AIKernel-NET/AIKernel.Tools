@@ -1,5 +1,7 @@
 # AIKernel.Tools
 
+Standalone CUDA Driver ABI: use `aik gpu verify-native --provider cuda-driver`; see [verification and compatibility](docs/cli/cuda-driver-verification.md). `cuda13` remains the legacy LibTorch selector.
+
 [日本語 README](README-ja.md)
 
 AIKernel.Tools is the official tools, CLI, inspectors, and instrumentation

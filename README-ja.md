@@ -1,5 +1,7 @@
 # AIKernel.Tools
 
+独立したCUDA Driver ABIの検証には `aik gpu verify-native --provider cuda-driver` を使用します。[検証手順と互換性](docs/cli/cuda-driver-verification.md)。`cuda13` は旧LibTorch経路の検証用です。
+
 [English README](README.md)
 
 AIKernel.Tools は、AIKernel の公式 tools、CLI、inspectors、instrumentation

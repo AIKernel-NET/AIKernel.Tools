@@ -1,5 +1,7 @@
 # AIKernel Tools CLI
 
+For Kernel's standalone CUDA Driver ABI, use `--provider cuda-driver`: [verification guide](cuda-driver-verification.md). `--provider cuda13` below is the legacy LibTorch path.
+
 [日本語](index-ja.md)
 
 `aik` is the operator command for AIKernel.Tools. It uses Linux-style
