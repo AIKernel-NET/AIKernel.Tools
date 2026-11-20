@@ -5,10 +5,11 @@ namespace AIKernel.Tools.Tests;
 
 public sealed class CliCommandSmokeTests
 {
+    private static int RunCli(string[] args) => Program.Main(args).GetAwaiter().GetResult();
     [Fact]
     public void RuntimePingInvokesStandardMinimalRuntimeProvider()
     {
-        var (exitCode, output) = Capture(() => Program.Main(["runtime", "ping"]));
+        var (exitCode, output) = Capture(() => RunCli(["runtime", "ping"]));
 
         Assert.Equal(0, exitCode);
         Assert.Contains("capability: aikernel.runtime.ping", output);
@@ -18,7 +19,7 @@ public sealed class CliCommandSmokeTests
     [Fact]
     public void SystemInfoPrintsStandardProviderSnapshot()
     {
-        var (exitCode, output) = Capture(() => Program.Main(["system", "info"]));
+        var (exitCode, output) = Capture(() => RunCli(["system", "info"]));
 
         Assert.Equal(0, exitCode);
         Assert.Contains("\"providerCount\":", output);
@@ -28,7 +29,7 @@ public sealed class CliCommandSmokeTests
     [Fact]
     public void CapabilitiesListShowsStandardCapabilityModules()
     {
-        var (exitCode, output) = Capture(() => Program.Main(["capabilities", "list"]));
+        var (exitCode, output) = Capture(() => RunCli(["capabilities", "list"]));
 
         Assert.Equal(0, exitCode);
         Assert.Contains("aikernel.runtime.ping", output);
@@ -52,7 +53,7 @@ public sealed class CliCommandSmokeTests
             }
             """);
 
-        var (exitCode, output) = Capture(() => Program.Main(["exec", "run", pipelinePath]));
+        var (exitCode, output) = Capture(() => RunCli(["exec", "run", pipelinePath]));
 
         Assert.Equal(0, exitCode);
         Assert.Contains("capability: aikernel.local.execute", output);
@@ -62,9 +63,9 @@ public sealed class CliCommandSmokeTests
     [Fact]
     public void ProcessAndLogsCommandsExposeOsSurface()
     {
-        var (runExit, runOutput) = Capture(() => Program.Main(["run", "sample"]));
-        var (psExit, psOutput) = Capture(() => Program.Main(["ps"]));
-        var (logsExit, logsOutput) = Capture(() => Program.Main(["logs", "sample"]));
+        var (runExit, runOutput) = Capture(() => RunCli(["run", "sample"]));
+        var (psExit, psOutput) = Capture(() => RunCli(["ps"]));
+        var (logsExit, logsOutput) = Capture(() => RunCli(["logs", "sample"]));
 
         Assert.Equal(0, runExit);
         Assert.Equal(0, psExit);
@@ -81,9 +82,9 @@ public sealed class CliCommandSmokeTests
         var wasmPath = Path.Combine(workspace.Path, "HaloWorld.wasm");
         File.WriteAllBytes(wasmPath, Convert.FromBase64String("AGFzbQEAAAA="));
 
-        var (runExit, runOutput) = Capture(() => Program.Main(["run", "haloworld", "--wasm", wasmPath]));
-        var (psExit, psOutput) = Capture(() => Program.Main(["ps"]));
-        var (logsExit, logsOutput) = Capture(() => Program.Main(["logs", "haloworld"]));
+        var (runExit, runOutput) = Capture(() => RunCli(["run", "haloworld", "--wasm", wasmPath]));
+        var (psExit, psOutput) = Capture(() => RunCli(["ps"]));
+        var (logsExit, logsOutput) = Capture(() => RunCli(["logs", "haloworld"]));
 
         Assert.Equal(0, runExit);
         Assert.Equal(0, psExit);
@@ -106,7 +107,7 @@ public sealed class CliCommandSmokeTests
         File.WriteAllBytes(leftPath, FloatsToBytes([1.0f, 2.0f]));
         File.WriteAllBytes(rightPath, FloatsToBytes([3.0f, 4.0f]));
 
-        var (exitCode, output) = Capture(() => Program.Main([
+        var (exitCode, output) = Capture(() => RunCli([
             "gpu", "run", "vector-add",
             "--a", leftPath,
             "--b", rightPath,
@@ -121,7 +122,7 @@ public sealed class CliCommandSmokeTests
     [Fact]
     public void GpuVerifyCanonicalPrintsCanonicalGpuBoundaryRules()
     {
-        var (exitCode, output) = Capture(() => Program.Main(["gpu", "verify"]));
+        var (exitCode, output) = Capture(() => RunCli(["gpu", "verify"]));
 
         Assert.Equal(0, exitCode);
         Assert.Contains("AIKernel GPU canonical contract: v0.1.3", output);
@@ -186,7 +187,7 @@ public sealed class CliCommandSmokeTests
     [Fact]
     public void HelpCommandListsCanonicalGpuNativeVerificationExamples()
     {
-        var (exitCode, output) = Capture(() => Program.Main(["help"]));
+        var (exitCode, output) = Capture(() => RunCli(["help"]));
 
         Assert.Equal(0, exitCode);
         Assert.Contains("aik gpu pending", output);
@@ -198,7 +199,7 @@ public sealed class CliCommandSmokeTests
     [Fact]
     public void GpuPendingCanonicalPrintsPrioritizedRemainingWork()
     {
-        var (exitCode, output) = Capture(() => Program.Main(["gpu", "pending"]));
+        var (exitCode, output) = Capture(() => RunCli(["gpu", "pending"]));
 
         Assert.Equal(0, exitCode);
         Assert.Contains("AIKernel GPU canonical pending work: v0.1.3", output);
@@ -221,7 +222,7 @@ public sealed class CliCommandSmokeTests
             archive.CreateEntry("runtimes/linux-x64/native/libcustom_bridge.so");
         }
 
-        var (exitCode, output) = Capture(() => Program.Main([
+        var (exitCode, output) = Capture(() => RunCli([
             "gpu",
             "verify-native",
             "--package",
@@ -247,7 +248,7 @@ public sealed class CliCommandSmokeTests
             archive.CreateEntry("runtimes/win-x64/native/libtorch_bridge.dll");
         }
 
-        var (exitCode, output) = Capture(() => Program.Main([
+        var (exitCode, output) = Capture(() => RunCli([
             "gpu",
             "verify-native",
             "--provider",
@@ -275,7 +276,7 @@ public sealed class CliCommandSmokeTests
             return;
         }
 
-        var (exitCode, output) = Capture(() => Program.Main([
+        var (exitCode, output) = Capture(() => RunCli([
             "gpu",
             "verify-native",
             "--library",
@@ -303,7 +304,7 @@ public sealed class CliCommandSmokeTests
             return;
         }
 
-        var (exitCode, output) = Capture(() => Program.Main([
+        var (exitCode, output) = Capture(() => RunCli([
             "gpu",
             "verify-native",
             "--provider",
@@ -331,8 +332,8 @@ public sealed class CliCommandSmokeTests
     [Fact]
     public void ScheduleCommandAddsAndListsCommand()
     {
-        var (addExit, addOutput) = Capture(() => Program.Main(["schedule", "add", "--every", "1s", "aik gpu run vector-add"]));
-        var (listExit, listOutput) = Capture(() => Program.Main(["schedule", "list"]));
+        var (addExit, addOutput) = Capture(() => RunCli(["schedule", "add", "--every", "1s", "aik gpu run vector-add"]));
+        var (listExit, listOutput) = Capture(() => RunCli(["schedule", "list"]));
 
         Assert.Equal(0, addExit);
         Assert.Equal(0, listExit);
@@ -343,10 +344,10 @@ public sealed class CliCommandSmokeTests
     [Fact]
     public void ConceptAliasesExposeRomAndTimelineInspectors()
     {
-        var (romExit, romOutput) = Capture(() => Program.Main(["rom", "view"]));
-        var (nomosExit, nomosOutput) = Capture(() => Program.Main(["nomos", "view"]));
-        var (chronosExit, chronosOutput) = Capture(() => Program.Main(["chronos", "timeline"]));
-        var (replayExit, replayOutput) = Capture(() => Program.Main(["replay", "timeline"]));
+        var (romExit, romOutput) = Capture(() => RunCli(["rom", "view"]));
+        var (nomosExit, nomosOutput) = Capture(() => RunCli(["nomos", "view"]));
+        var (chronosExit, chronosOutput) = Capture(() => RunCli(["chronos", "timeline"]));
+        var (replayExit, replayOutput) = Capture(() => RunCli(["replay", "timeline"]));
 
         Assert.Equal(0, romExit);
         Assert.Equal(0, nomosExit);

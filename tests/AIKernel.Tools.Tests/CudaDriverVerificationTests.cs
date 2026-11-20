@@ -6,6 +6,7 @@ using AIKernel.CLI;
 
 public sealed class CudaDriverVerificationTests
 {
+    private static int RunCli(string[] args) => Program.Main(args).GetAwaiter().GetResult();
     [Fact]
     public void HelpIncludesDriverVerificationWithoutRemovingLegacyCommands()
     {
@@ -72,7 +73,7 @@ public sealed class CudaDriverVerificationTests
     {
         var original = Console.Out;
         using var output = new StringWriter();
-        try { Console.SetOut(output); return (Program.Main(args), output.ToString()); }
+        try { Console.SetOut(output); return (RunCli(args), output.ToString()); }
         finally { Console.SetOut(original); }
     }
 }

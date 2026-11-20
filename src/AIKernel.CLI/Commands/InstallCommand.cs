@@ -11,8 +11,8 @@ public static class InstallCommand
     private static readonly IReadOnlyDictionary<string, ProviderInstallSpec> Providers =
         new Dictionary<string, ProviderInstallSpec>(StringComparer.OrdinalIgnoreCase)
         {
-            ["openai"] = new("src/Llm/ChatOpenAIProvider", "openai.provider.json"),
-            ["chat-openai"] = new("src/Llm/ChatOpenAIProvider", "openai.provider.json"),
+            ["openai"] = new("src/Chat/ChatOpenAIProvider", "openai.provider.json"),
+            ["chat-openai"] = new("src/Chat/ChatOpenAIProvider", "openai.provider.json"),
             ["chat-history"] = new("src/Chat/ChatHistoryProvider", "chat-history.provider.json"),
             ["cuda"] = new("src/Compute/CudaComputeProvider", "cuda.provider.json"),
             ["cuda-compute"] = new("src/Compute/CudaComputeProvider", "cuda.provider.json"),
@@ -71,13 +71,6 @@ public static class InstallCommand
         var projectRoot = sourceRoot / spec.ProjectDirectory;
         var outputRoot = ResolveBuildOutput(projectRoot);
         var destination = Path.GetFullPath(Path.Combine(options.Directory, name));
-        Directory.CreateDirectory(destination);
-
-        foreach (var file in Directory.EnumerateFiles(outputRoot, "*.dll"))
-        {
-            File.Copy(file, Path.Combine(destination, Path.GetFileName(file)), overwrite: true);
-        }
-
         var manifest = outputRoot / spec.ManifestName;
         if (!File.Exists(manifest))
         {
@@ -91,9 +84,52 @@ public static class InstallCommand
             return 1;
         }
 
-        File.Copy(manifest, Path.Combine(destination, spec.ManifestName), overwrite: true);
+        var dlls = Directory.GetFiles(outputRoot, "*.dll");
+        if (dlls.Length == 0) throw new FileNotFoundException("No provider assemblies found.");
+        var parent = Directory.CreateDirectory(Path.GetDirectoryName(destination)!).FullName;
+        using var installLock = new FileStream(Path.Combine(parent, "." + name + ".lock"), FileMode.OpenOrCreate, FileAccess.Write, FileShare.None);
+        var staged = Path.Combine(parent, "." + Guid.NewGuid().ToString("N"));
+        var previous = staged + ".previous";
+        Directory.CreateDirectory(staged);
+        try
+        {
+            if (Directory.Exists(destination)) CopyExisting(destination, staged);
+            foreach (var file in dlls) File.Copy(file, Path.Combine(staged, Path.GetFileName(file)), overwrite: true);
+            File.Copy(manifest, Path.Combine(staged, spec.ManifestName), overwrite: true);
+            if (Directory.Exists(destination)) Directory.Move(destination, previous);
+            try { Directory.Move(staged, destination); }
+            catch
+            {
+                if (Directory.Exists(previous)) Directory.Move(previous, destination);
+                throw;
+            }
+            if (Directory.Exists(previous)) Directory.Delete(previous, recursive: true);
+        }
+        finally
+        {
+            if (Directory.Exists(staged)) Directory.Delete(staged, recursive: true);
+        }
         Console.WriteLine($"Installed provider '{name}' to {destination}");
         return 0;
+    }
+
+    private static void CopyExisting(string source, string target)
+    {
+        var dir = new DirectoryInfo(source);
+        if ((dir.Attributes & FileAttributes.ReparsePoint) != 0)
+            throw new IOException("Provider directories must not be links.");
+        foreach (var entry in dir.EnumerateFileSystemInfos())
+        {
+            if ((entry.Attributes & FileAttributes.ReparsePoint) != 0)
+                throw new IOException("The provider directory contains a linked entry.");
+            var child = Path.Combine(target, entry.Name);
+            if (entry is DirectoryInfo)
+            {
+                Directory.CreateDirectory(child);
+                CopyExisting(entry.FullName, child);
+            }
+            else File.Copy(entry.FullName, child);
+        }
     }
 
     private static PathInfo ResolveProviderSourceRoot(string? configured)
@@ -107,22 +143,6 @@ public static class InstallCommand
         if (!string.IsNullOrWhiteSpace(environment))
         {
             return new PathInfo(Path.GetFullPath(environment));
-        }
-
-        var baseDirectory = AppContext.BaseDirectory;
-        var candidates = new[]
-        {
-            Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", "..", "AIKernel.Providers")),
-            Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "..", "AIKernel.Providers")),
-            Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "AIKernel.Providers"))
-        };
-
-        foreach (var candidate in candidates)
-        {
-            if (Directory.Exists(candidate))
-            {
-                return new PathInfo(candidate);
-            }
         }
 
         throw new DirectoryNotFoundException("AIKernel.Providers source root was not found. Use --source or AIKERNEL_PROVIDER_SOURCE.");
@@ -160,8 +180,8 @@ Usage:
   aik install provider <name> [--dir ./providers] [--source ../AIKernel.Providers]
 
 Examples:
-  aik install provider dynamic-pipeline
-  aik install provider cuda --dir ./providers
+  aik install provider dynamic-pipeline --source ../AIKernel.Providers
+  aik install provider cuda --source ../AIKernel.Providers --dir ./providers
 """);
     }
 }

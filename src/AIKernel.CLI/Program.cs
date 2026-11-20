@@ -10,7 +10,7 @@ public static class Program
     /// <summary>[EN] Documents this public package API member. [JA] Main を実行します。</summary>
     /// <include file="docs.en.xml" path="doc/members/member[@name='M:AIKernel.CLI.Program.Main']" />
     /// <include file="docs.ja.xml" path="doc/members/member[@name='M:AIKernel.CLI.Program.Main']" />
-    public static int Main(string[] args)
+    public static async Task<int> Main(string[] args)
     {
         if (args.Length == 0)
         {
@@ -21,6 +21,19 @@ public static class Program
         var command = args[0].ToLowerInvariant();
         var rest = args.Skip(1).ToArray();
 
+        if (command == "exec")
+        {
+            using var cancellation = new CancellationTokenSource();
+            ConsoleCancelEventHandler cancel = (_, e) => { e.Cancel = true; cancellation.Cancel(); };
+            Console.CancelKeyPress += cancel;
+            try
+            {
+                var code = await ExecCommand.RunAsync(rest, cancellation.Token).ConfigureAwait(false);
+                return cancellation.IsCancellationRequested ? 130 : code;
+            }
+            catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { return 130; }
+            finally { Console.CancelKeyPress -= cancel; }
+        }
         return command switch
         {
             "help" => HelpCommand.Run(rest),
@@ -40,7 +53,6 @@ public static class Program
             "runtime" => RuntimeCommand.Run(rest),
             "system" => SystemCommand.Run(rest),
             "capabilities" => CapabilityCommand.Run(rest),
-            "exec" => ExecCommand.Run(rest),
             "skills" => SkillCommand.Run(rest),
             "install" => InstallCommand.Run(rest),
             "providers" => ProviderCommand.Run(rest),

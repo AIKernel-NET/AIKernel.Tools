@@ -14,7 +14,7 @@ public static class ExecCommand
     /// [EN] Executes the exec command.
     /// [JA] exec command を実行します。
     /// </summary>
-    public static int Run(string[] args)
+    public static async Task<int> RunAsync(string[] args, CancellationToken cancellationToken = default)
     {
         if (args.Length == 0 || args[0] is "help" or "--help" or "-h")
         {
@@ -22,23 +22,17 @@ public static class ExecCommand
             return 0;
         }
 
-        var result = Try.Run(() => RunAsync(args).GetAwaiter().GetResult());
-        return ExitCode(result, "Exec command failed");
-    }
-
-    private static async Task<int> RunAsync(string[] args)
-    {
         return args[0].ToLowerInvariant() switch
         {
-            "run" => await RunPipelineAsync(args.Skip(1).ToArray()).ConfigureAwait(false),
+            "run" => await RunPipelineAsync(args.Skip(1).ToArray(), cancellationToken).ConfigureAwait(false),
             _ => Unknown(args[0])
         };
     }
 
-    private static async Task<int> RunPipelineAsync(string[] args)
-        => ExitCode(await TryRunPipelineAsync(args).ConfigureAwait(false), "Exec pipeline failed");
+    private static async Task<int> RunPipelineAsync(string[] args, CancellationToken cancellationToken)
+        => ExitCode(await TryRunPipelineAsync(args, cancellationToken).ConfigureAwait(false), "Exec pipeline failed");
 
-    private static Task<Result<int>> TryRunPipelineAsync(string[] args)
+    private static Task<Result<int>> TryRunPipelineAsync(string[] args, CancellationToken cancellationToken)
     {
         var parsed = Try.Run(() =>
         {
@@ -49,9 +43,9 @@ public static class ExecCommand
         return
             from parse in parsed.AsTask()
             from pipelinePath in ValidatePipelinePath(parse.Positional).AsTask()
-            from pipelineJson in Try.Run(() => File.ReadAllText(pipelinePath)).AsTask()
+            from pipelineJson in Try.RunAsync(() => File.ReadAllTextAsync(pipelinePath, cancellationToken))
             from arguments in Try.Run(() => BuildArguments(parse.Positional, pipelineJson)).AsTask()
-            from context in Try.RunAsync(() => StandardKernelCliContext.CreateAsync(parse.Options))
+            from context in Try.RunAsync(() => StandardKernelCliContext.CreateAsync(parse.Options, cancellationToken))
             from invocation in Try.RunAsync(async () =>
             {
                 using (context)
@@ -64,7 +58,7 @@ public static class ExecCommand
                         {
                             ["cli.command"] = "exec run",
                             ["pipeline.path"] = pipelinePath
-                        }).ConfigureAwait(false);
+                        }, cancellationToken).ConfigureAwait(false);
                 }
             })
             select PrintInvocation(invocation);
@@ -97,7 +91,7 @@ public static class ExecCommand
         => result.Match(
             error =>
             {
-                Console.WriteLine($"{prefix}: {error.Message}");
+                Console.Error.WriteLine($"{prefix}: {error.Message}");
                 return 1;
             },
             value => Convert.ToInt32(value, System.Globalization.CultureInfo.InvariantCulture));
@@ -106,7 +100,7 @@ public static class ExecCommand
 
     private static int Unknown(string command)
     {
-        Console.WriteLine($"Unknown exec command: {command}");
+        Console.Error.WriteLine($"Unknown exec command: {command}");
         ShowHelp();
         return 1;
     }
