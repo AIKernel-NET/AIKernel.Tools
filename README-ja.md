@@ -321,8 +321,8 @@ contract wrapper を公開します。Python caller はこれらを managed cont
 
 Tools と CLI の変更は、AIKernel 共通の開発規律に従ってください。
 
-- [AIKernel 開発ガイドライン](../AIKernel.NET/docs/guidelines/AIKERNEL_DEVELOPMENT_GUIDELINES-jp.md)
-- [AIKernel Development Guidelines](../AIKernel.NET/docs/guidelines/AIKERNEL_DEVELOPMENT_GUIDELINES.md)
+- [AIKernel 開発ガイドライン](https://github.com/AIKernel-NET/AIKernel.NET/blob/dev/docs/guidelines/AIKERNEL_DEVELOPMENT_GUIDELINES-jp.md)
+- [AIKernel Development Guidelines](https://github.com/AIKernel-NET/AIKernel.NET/blob/dev/docs/guidelines/AIKERNEL_DEVELOPMENT_GUIDELINES.md)
 
 CLI command は failure を deterministic な exit code へ変換し、command boundary
 の外へ implementation exception を漏らさず、instrumentation を pure かつ
