@@ -177,9 +177,9 @@ public sealed class CliCommandSmokeTests
         Assert.Contains("native-dispatch-metadata-rule: DawnProvider and Cuda13Provider invocation/diagnostics metadata should expose native dispatch ABI version", output);
         Assert.Contains("DeviceUnavailable from CommandSubmissionDisabled", output);
         Assert.Contains("native-artifact-integrity-rule: aik gpu verify-native validates DawnCore exports", output);
-        Assert.Contains("Cuda13 package runtime assets, and the Cuda13 staged dispatch probe", output);
+        Assert.Contains("the Kernel CUDA Driver package assets and native ABI", output);
         Assert.Contains("staged bridges must distinguish DeviceUnavailable from CommandSubmissionDisabled", output);
-        Assert.Contains("remaining-work-priority: P0=browser/Doom live GPU promotion gates and Cuda13 dependency-staged direct ABI smoke; P1=Dawn/Cuda13 native command encoders; P2=none after canonical local NuGet config propagation", output);
+        Assert.Contains("remaining-work-priority: P0=browser/Doom live GPU promotion gates; P1=Dawn native command encoders; P2=none after canonical local NuGet config propagation", output);
         Assert.Contains("promotion-gate-policy: browser WebGPU built-in passes stay diagnostic until live trace parity has stable ready streaks", output);
         Assert.Contains("native-provider-policy: DawnProvider and Cuda13Provider stay fail-closed descriptor/probe surfaces", output);
     }
@@ -192,8 +192,6 @@ public sealed class CliCommandSmokeTests
         Assert.Equal(0, exitCode);
         Assert.Contains("aik gpu pending", output);
         Assert.Contains("aik gpu verify-native --provider dawn --package provider.nupkg", output);
-        Assert.Contains("aik gpu verify-native --provider cuda13 --package provider.nupkg", output);
-        Assert.Contains("aik gpu verify-native --provider cuda13 --library native-library", output);
     }
 
     [Fact]
@@ -204,9 +202,7 @@ public sealed class CliCommandSmokeTests
         Assert.Equal(0, exitCode);
         Assert.Contains("AIKernel GPU canonical pending work: v0.1.3", output);
         Assert.Contains("pending: P0; browser-doom-live-gpu-promotion; gate=live-trace-parity", output);
-        Assert.Contains("pending: P0; cuda13-direct-abi-smoke; gate=native-library-load", output);
         Assert.Contains("pending: P1; dawn-native-command-encoders; gate=native-resource-mapping", output);
-        Assert.Contains("pending: P1; cuda13-native-command-encoders; gate=native-cuda-abi", output);
         Assert.Contains("closed: P2; release-lane-local-feed-bootstrap; gate=local-nuget-config-propagated", output);
         Assert.Contains("policy: diagnostic-only pilots must stay fail-closed", output);
     }
@@ -237,37 +233,6 @@ public sealed class CliCommandSmokeTests
     }
 
     [Fact]
-    public void GpuVerifyNativeChecksCuda13PackageRuntimeEntries()
-    {
-        using var workspace = TemporaryWorkspace.Create();
-        var packagePath = Path.Combine(workspace.Path, "AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg");
-        using (var archive = ZipFile.Open(packagePath, ZipArchiveMode.Create))
-        {
-            archive.CreateEntry("loader.json");
-            archive.CreateEntry("contentFiles/any/any/loader.json");
-            archive.CreateEntry("runtimes/win-x64/native/libtorch_bridge.dll");
-        }
-
-        var (exitCode, output) = Capture(() => RunCli([
-            "gpu",
-            "verify-native",
-            "--provider",
-            "cuda13",
-            "--package",
-            packagePath
-        ]));
-
-        Assert.Equal(0, exitCode);
-        Assert.Contains("native-artifact-integrity: start; provider=cuda13", output);
-        Assert.Contains("package-entry: loader.json ok", output);
-        Assert.Contains("package-entry: contentFiles/any/any/loader.json ok", output);
-        Assert.Contains("package-entry: runtimes/win-x64/native/libtorch_bridge.dll ok", output);
-        Assert.Contains("package-provider: cuda13", output);
-        Assert.Contains("library-check: skipped", output);
-        Assert.Contains("native-artifact-integrity: ok", output);
-    }
-
-    [Fact]
     public void GpuVerifyNativeChecksBuiltDawnFixtureWhenAvailable()
     {
         var libraryPath = TryResolveBuiltDawnBridgeLibraryPath();
@@ -291,40 +256,6 @@ public sealed class CliCommandSmokeTests
         Assert.Contains("dawn-dispatch-response: abi=1 status=CpuFallback failure=CpuFallback frame=42 ticks=1001 diagnostics=0", output);
         Assert.Contains("dawn-dispatch-unknown-pass: failure=UnknownPass", output);
         Assert.Contains("dawn-dispatch-invalid-length: failure=InvalidRequestLength", output);
-        Assert.Contains("package-check: skipped", output);
-        Assert.Contains("native-artifact-integrity: ok", output);
-    }
-
-    [Fact]
-    public void GpuVerifyNativeChecksBuiltCuda13FixtureWhenAvailable()
-    {
-        var libraryPath = TryResolveBuiltCuda13BridgeLibraryPath();
-        if (libraryPath is null)
-        {
-            return;
-        }
-
-        var (exitCode, output) = Capture(() => RunCli([
-            "gpu",
-            "verify-native",
-            "--provider",
-            "cuda13",
-            "--library",
-            libraryPath
-        ]));
-
-        if (exitCode != 0 && output.Contains("library: load-failed", StringComparison.Ordinal))
-        {
-            return;
-        }
-
-        Assert.Equal(0, exitCode);
-        Assert.Contains("export: load_model ok", output);
-        Assert.Contains("export: unload_model ok", output);
-        Assert.Contains("export: forward ok", output);
-        Assert.Contains("export: aikernel_cuda13_dispatch ok", output);
-        Assert.Contains("cuda-dispatch-response: abi=1 status=NotInitialized failure=CommandSubmissionDisabled frame=1 ticks=100 diagnostics=0", output);
-        Assert.Contains("cuda-dispatch-invalid-length: failure=InvalidRequestLength", output);
         Assert.Contains("package-check: skipped", output);
         Assert.Contains("native-artifact-integrity: ok", output);
     }
@@ -417,35 +348,6 @@ public sealed class CliCommandSmokeTests
         return null;
     }
 
-    private static string? TryResolveBuiltCuda13BridgeLibraryPath()
-    {
-        if (!OperatingSystem.IsWindows())
-        {
-            return null;
-        }
-
-        var current = new DirectoryInfo(AppContext.BaseDirectory);
-        while (current is not null)
-        {
-            var candidate = Path.Combine(
-                current.FullName,
-                "AIKernel.Cuda13.0",
-                "native",
-                "build",
-                "win-x64",
-                "Release",
-                "libtorch_bridge.dll");
-
-            if (File.Exists(candidate))
-            {
-                return candidate;
-            }
-
-            current = current.Parent;
-        }
-
-        return null;
-    }
 
     private sealed class TemporaryWorkspace : IDisposable
     {

@@ -5,17 +5,10 @@ param(
     [string]$LocalFeed,
     [string]$NuGetConfigPath,
     [string]$DawnNativeLibrary,
-    [string]$Cuda13BridgePath,
-    [string]$LibTorchPath,
-    [string]$CudaRuntimePath,
     [switch]$SkipToolsTests,
     [switch]$SkipWasmPackage,
     [switch]$SkipDawnPackage,
-    [switch]$SkipDawnNativeFixture,
-    [switch]$SkipCuda13Package,
-    [switch]$SkipCuda13Library,
-    [switch]$RequireFreshCuda13NativeBridge,
-    [switch]$RequireCuda13LibraryLoad
+    [switch]$SkipDawnNativeFixture
 )
 
 $ErrorActionPreference = "Stop"
@@ -64,8 +57,6 @@ if (-not (Test-Path -LiteralPath $NuGetConfigPath)) {
     }
 }
 
-$toolsDebugBuilt = $false
-
 if (-not $SkipToolsTests) {
     Invoke-LaneStep "AIKernel.Tools smoke tests" {
         dotnet test (Join-Path $toolsRepoRoot "tests\AIKernel.Tools.Tests\AIKernel.Tools.Tests.csproj") `
@@ -105,56 +96,6 @@ if (-not $SkipDawnNativeFixture) {
         }
 
         & (Join-Path $toolsRepoRoot "scripts\verify-dawn-native-fixture.ps1") @dawnArgs
-        $script:toolsDebugBuilt = $true
-    }
-}
-
-if (-not $SkipCuda13Package) {
-    Invoke-LaneStep "AIKernel.Cuda13 native package smoke" {
-        $cudaPackageArgs = @{
-            Configuration = $Configuration
-            LocalPackageBuildNumber = $LocalPackageBuildNumber
-        }
-
-        if ($RequireFreshCuda13NativeBridge) {
-            $cudaPackageArgs["RequireFreshNativeBridge"] = $true
-        }
-
-        & (Join-Path $WorkspaceRoot "AIKernel.Cuda13.0\scripts\verify-native-package.ps1") @cudaPackageArgs
-    }
-}
-
-if (-not $SkipCuda13Library) {
-    Invoke-LaneStep "AIKernel.Cuda13 native library smoke" {
-        $cudaArgs = @{
-            Configuration = "Debug"
-            LocalPackageBuildNumber = $LocalPackageBuildNumber
-            ToolsRepoRoot = $toolsRepoRoot
-            LocalFeed = $LocalFeed
-            NuGetConfigPath = $NuGetConfigPath
-        }
-
-        if (-not [string]::IsNullOrWhiteSpace($Cuda13BridgePath)) {
-            $cudaArgs["BridgePath"] = $Cuda13BridgePath
-        }
-
-        if (-not [string]::IsNullOrWhiteSpace($LibTorchPath)) {
-            $cudaArgs["LibTorchPath"] = $LibTorchPath
-        }
-
-        if (-not [string]::IsNullOrWhiteSpace($CudaRuntimePath)) {
-            $cudaArgs["CudaRuntimePath"] = $CudaRuntimePath
-        }
-
-        if (-not $RequireCuda13LibraryLoad) {
-            $cudaArgs["AllowLoadFailure"] = $true
-        }
-
-        if ($toolsDebugBuilt) {
-            $cudaArgs["NoBuildTools"] = $true
-        }
-
-        & (Join-Path $WorkspaceRoot "AIKernel.Cuda13.0\scripts\verify-native-library.ps1") @cudaArgs
     }
 }
 

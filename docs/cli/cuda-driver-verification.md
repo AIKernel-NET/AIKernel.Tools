@@ -21,7 +21,7 @@ Exit code is 0 only when every requested check passes; failures return 1.
 The output says `gpu-test: not-run`. No device discovery, CUDA context creation,
 GPU allocation, or `AIKERNEL_LIBTORCH_PATH` lookup occurs.
 
-The legacy `--provider cuda13` selector retains its old LibTorch bridge check;
+The deprecated `--provider cuda13` selector retains its legacy bridge check until the next release;
 it must not be used to validate `aikernel_cuda_driver`. Dawn validation is also
 unchanged. NET's legacy `CudaLibTorchPath*` keys remain available to legacy
 consumers, with no new use in this verifier.
