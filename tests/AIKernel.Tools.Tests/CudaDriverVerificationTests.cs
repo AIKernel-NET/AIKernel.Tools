@@ -13,7 +13,6 @@ public sealed class CudaDriverVerificationTests
         var (code, output) = Run("help");
         Assert.Equal(0, code);
         Assert.Contains("--provider cuda-driver --package", output);
-        Assert.Contains("--provider cuda13 --package", output);
     }
 
     [Theory]

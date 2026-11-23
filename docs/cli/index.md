@@ -1,6 +1,6 @@
 # AIKernel Tools CLI
 
-For Kernel's standalone CUDA Driver ABI, use `--provider cuda-driver`: [verification guide](cuda-driver-verification.md). `--provider cuda13` below is the legacy LibTorch path.
+`AIKernel.Kernel` 0.1.4 bundles the CUDA Driver for Windows x64 and Linux x64. The NVIDIA driver is its only native runtime prerequisite. Verify it with `aik gpu verify-native --provider cuda-driver`. See the [verification guide](cuda-driver-verification.md).
 
 [日本語](index-ja.md)
 
@@ -125,8 +125,8 @@ aik gpu list
 aik gpu verify
 aik gpu pending
 aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
-aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
-aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
+aik gpu verify-native --provider cuda-driver --package AIKernel.Kernel.0.1.4.nupkg
+aik gpu verify-native --provider cuda-driver --library <native-library>
 aik gpu run vector-add --a a.bin --b b.bin
 aik run sample
 aik ps
@@ -140,12 +140,7 @@ aik schedule add --every 1m "aik system info"
 provider boundary rules. `aik gpu pending` prints the prioritized
 remaining-work table for the canonical lane. `aik gpu verify-native --provider dawn` validates
 DawnCore runtime assets plus native exports when a library is supplied.
-`aik gpu verify-native --provider cuda13` validates the package loader and
-`libtorch_bridge.dll` runtime asset without requiring a LibTorch/CUDA runtime
-load. When a Cuda13 library is supplied, the command loads
-`aikernel_cuda13_dispatch`, sends the canonical 40-byte staged dispatch header,
-and verifies `NotInitialized` / `CommandSubmissionDisabled` plus the
-invalid-length fail-closed path.
+Use `--package` to verify the bundled CUDA assets and `--library` to verify the native ABI.
 
 When validating the built Dawn native fixture from this workspace, prefer the
 local-feed helper:
@@ -166,14 +161,7 @@ For the full local canonical GPU lane, use:
 .\scripts\verify-canonical-gpu-local-lane.ps1
 ```
 
-The lane chains Tools smoke tests, Wasm WebGPU package smoke, Dawn package and
-fixture checks, Cuda13 package smoke, and the Cuda13 direct-library probe. The
-Cuda13 direct-library probe remains dependency-aware and accepts the current
-missing-dependent-module boundary unless `-RequireCuda13LibraryLoad` is set.
-Use `-RequireFreshCuda13NativeBridge` for release lanes that must reject a
-packaged `libtorch_bridge.dll` older than the native C++ bridge sources.
-The lane also passes the generated canonical local NuGet config through Dawn/Cuda13
-CLI build steps so unpublished `0.1.3-dev*` dependencies resolve consistently.
+The lane runs Tools smoke tests, Wasm WebGPU package smoke, and Dawn package and fixture checks. The Dawn CLI build uses the generated local NuGet configuration.
 
 For ad hoc commands before public `0.1.3` packages exist, generate a local
 NuGet config and pass it explicitly:

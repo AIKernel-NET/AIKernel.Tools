@@ -1,6 +1,6 @@
 # AIKernel.Tools
 
-独立したCUDA Driver ABIの検証には `aik gpu verify-native --provider cuda-driver` を使用します。[検証手順と互換性](docs/cli/cuda-driver-verification.md)。`cuda13` は旧LibTorch経路の検証用です。
+`AIKernel.Kernel` 0.1.4 は Windows x64 と Linux x64 向けの CUDA Driver を同梱します。実行時に必要なネイティブ依存は NVIDIA ドライバのみです。[検証手順](docs/cli/cuda-driver-verification.md)では `aik gpu verify-native --provider cuda-driver` を使います。
 
 [English README](README.md)
 
@@ -205,8 +205,8 @@ aik gpu list
 aik gpu verify
 aik gpu pending
 aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
-aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
-aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
+aik gpu verify-native --provider cuda-driver --package AIKernel.Kernel.0.1.4.nupkg
+aik gpu verify-native --provider cuda-driver --library <native-library>
 aik gpu run vector-add --a a.bin --b b.bin
 aik run sample
 aik ps
@@ -226,19 +226,13 @@ public な主表記としては `SKILL.md` を推奨します。
 
 `aik gpu verify` は canonical v0.1.3 GPU DTO/layout contract を検証します。
 `aik gpu pending` は canonical lane の優先度付き残作業 table を出力し、
-現在の browser/Doom live promotion gate と Cuda13 dependency-staged ABI smoke
-gate を確認できます。
+browser/Doom の実機 GPU 検証などを確認できます。
 `aik gpu verify-native --provider dawn` は DawnCore package runtime asset と、
 native library を指定した場合の `InitializeDawnNative` / `aikernel_dawn_dispatch`
 export、および staged CPU fallback ABI state を検証します。
-`aik gpu verify-native --provider cuda13` は LibTorch/CUDA の load を強制せず、
-Cuda13 package の loader と `libtorch_bridge.dll` runtime asset を検証します。
-Cuda13 native library を明示指定した場合だけ、CLI は
-`aikernel_cuda13_dispatch` を load し、canonical 40-byte staged dispatch header を送信して、
-fail-closed な `NotInitialized` / `CommandSubmissionDisabled` 応答と
-invalid-length 応答経路を検証します。
+CUDA Driver の同梱ファイルは `--package`、ネイティブ ABI は `--library` で確認できます。
 
-Tools、Wasm、Dawn、Cuda13 の package/native check をまとめて行う local canonical
+Tools、Wasm、Dawn のパッケージとネイティブ検証を行う local canonical
 v0.1.3 GPU lane smoke は次で実行できます。
 
 ```powershell
@@ -246,11 +240,7 @@ v0.1.3 GPU lane smoke は次で実行できます。
 ```
 
 既定では `../artifacts/local-nuget/v0.1.3-dev1` を使用し、CLI の restore/build
-用に `../artifacts/NuGet.canonical-local.v0.1.3-dev1.config` を生成します。Cuda13 の
-direct library load は、`-RequireCuda13LibraryLoad` と LibTorch/CUDA runtime path を
-指定しない限り、現在の missing-dependent-module 境界を許容します。release lane では
-`-RequireFreshCuda13NativeBridge` を指定すると、`native/libtorch_bridge.cpp` または
-`.h` が packaged `libtorch_bridge.dll` より新しい場合に失敗します。
+用に `../artifacts/NuGet.canonical-local.v0.1.3-dev1.config` を生成します。
 
 公開済み `0.1.3` package がまだ NuGet.org に無い状態で ad hoc な `dotnet build`
 や `dotnet run` を行う場合は、repository の `NuGet.config` を書き換えず、

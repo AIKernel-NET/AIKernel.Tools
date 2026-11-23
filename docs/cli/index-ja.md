@@ -1,6 +1,6 @@
 # AIKernel Tools CLI
 
-For Kernel's standalone CUDA Driver ABI, use `--provider cuda-driver`: [verification guide](cuda-driver-verification.md). `--provider cuda13` below is the legacy LibTorch path.
+`AIKernel.Kernel` 0.1.4 は Windows x64 と Linux x64 向けの CUDA Driver を同梱します。実行時に必要なネイティブ依存は NVIDIA ドライバのみです。[検証手順](cuda-driver-verification.md)では `aik gpu verify-native --provider cuda-driver` を使います。
 
 [English](index.md)
 
@@ -89,8 +89,8 @@ aik gpu list
 aik gpu verify
 aik gpu pending
 aik gpu verify-native --provider dawn --package AIKernel.Dawn.Provider.0.1.3-dev1.nupkg
-aik gpu verify-native --provider cuda13 --package AIKernel.Cuda13.0.Libtorch2.12.win-x64.0.1.3-dev1.nupkg
-aik gpu verify-native --provider cuda13 --library native/build/win-x64/Release/libtorch_bridge.dll
+aik gpu verify-native --provider cuda-driver --package AIKernel.Kernel.0.1.4.nupkg
+aik gpu verify-native --provider cuda-driver --library <native-library>
 aik gpu run vector-add --a a.bin --b b.bin
 aik run sample
 aik ps
@@ -105,11 +105,7 @@ provider boundary rule を検証します。
 `aik gpu pending` は canonical lane の優先度付き残作業 table を出力します。
 `aik gpu verify-native --provider dawn` は DawnCore runtime asset と、
 library 指定時の native export を検証します。
-`aik gpu verify-native --provider cuda13` は LibTorch/CUDA runtime の load を要求せず、
-package loader と `libtorch_bridge.dll` runtime asset を検証します。
-Cuda13 library 指定時は `aikernel_cuda13_dispatch` を load し、
-canonical 40-byte staged dispatch header を送信して、
-`NotInitialized` / `CommandSubmissionDisabled` と invalid-length の fail-closed 経路を検証します。
+CUDA Driver の同梱ファイルは `--package`、ネイティブ ABI は `--library` で確認できます。
 
 この workspace で build 済みの Dawn native fixture を検証する場合は、local-feed
 helper を使用してください。
@@ -130,14 +126,7 @@ canonical GPU lane 全体を local でまとめて検証する場合は、次を
 .\scripts\verify-canonical-gpu-local-lane.ps1
 ```
 
-この lane は Tools smoke test、Wasm WebGPU package smoke、Dawn package / fixture
-check、Cuda13 package smoke、Cuda13 direct-library probe を順に実行します。
-Cuda13 direct-library probe は依存 DLL を考慮し、`-RequireCuda13LibraryLoad` を
-指定しない限り現在の missing-dependent-module 境界を許容します。
-release lane では `-RequireFreshCuda13NativeBridge` を指定すると、packaged
-`libtorch_bridge.dll` が native C++ bridge source より古い場合に拒否できます。
-この lane は生成済み canonical local NuGet config も Dawn/Cuda13 の CLI build step に
-渡すため、未公開 `0.1.3-dev*` 依存関係の解決経路を揃えられます。
+この lane は Tools、Wasm WebGPU、Dawn のパッケージとフィクスチャを検証し、Dawn の CLI ビルドには生成済みのローカル NuGet 設定を使います。
 
 公開済み `0.1.3` package がまだ無い状態で ad hoc command を実行する場合は、
 local NuGet config を生成し、明示的に渡します。

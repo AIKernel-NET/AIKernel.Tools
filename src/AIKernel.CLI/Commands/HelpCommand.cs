@@ -69,8 +69,6 @@ Examples:
   aik gpu verify
   aik gpu pending
   aik gpu verify-native --provider dawn --package provider.nupkg
-  aik gpu verify-native --provider cuda13 --package provider.nupkg
-  aik gpu verify-native --provider cuda13 --library native-library
   aik gpu verify-native --provider cuda-driver --package AIKernel.Kernel.nupkg
   aik gpu verify-native --provider cuda-driver --library native-library
   aik gpu run vector-add --a a.bin --b b.bin

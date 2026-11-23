@@ -52,9 +52,7 @@ public static class GpuCommand
 
         Console.WriteLine("AIKernel GPU canonical pending work: v0.1.3");
         Console.WriteLine("pending: P0; browser-doom-live-gpu-promotion; gate=live-trace-parity; unblock=stable ready streaks for Aisthesis plus HUD presented-path parity");
-        Console.WriteLine("pending: P0; cuda13-direct-abi-smoke; gate=native-library-load; unblock=stage LibTorch/CUDA dependencies and rebuild fresh libtorch_bridge.dll");
         Console.WriteLine("pending: P1; dawn-native-command-encoders; gate=native-resource-mapping; unblock=map frame targets and buffers to Dawn command encoders after staged ABI response bridge");
-        Console.WriteLine("pending: P1; cuda13-native-command-encoders; gate=native-cuda-abi; unblock=device-buffer dispatch and command submission beyond probe mode");
         Console.WriteLine("closed: P2; release-lane-local-feed-bootstrap; gate=local-nuget-config-propagated; evidence=verify-canonical-gpu-local-lane uses generated canonical NuGet config");
         Console.WriteLine("policy: diagnostic-only pilots must stay fail-closed until authoritative_ready=true and canonical diagnostics prove zero-copy/raw capture.");
         return 0;
@@ -161,8 +159,8 @@ public static class GpuCommand
         Console.WriteLine($"dawn-native-probe-rule: DawnProvider probe metadata should include {GpuNativeAbiMetadataKeys.DawnNativeAbiAvailable}, {GpuNativeAbiMetadataKeys.DawnNativeAbiReason}, {GpuNativeAbiMetadataKeys.DawnNativeEnvironmentVariable}, {GpuNativeAbiMetadataKeys.DawnNativeInitializationEntryPoint}, {GpuNativeAbiMetadataKeys.DawnNativeDispatchEntryPoint}, and {GpuNativeAbiMetadataKeys.DawnNativeValidation}.");
         Console.WriteLine($"cuda-native-probe-rule: Cuda13Provider probe metadata should include {GpuNativeAbiMetadataKeys.CudaNativeAbiAvailable}, {GpuNativeAbiMetadataKeys.CudaNativeAbiReason}, {GpuNativeAbiMetadataKeys.CudaNativeBridgeAvailable}, {GpuNativeAbiMetadataKeys.CudaLibTorchPathAvailable}, and {GpuNativeAbiMetadataKeys.CudaNativeValidation}.");
         Console.WriteLine("native-dispatch-metadata-rule: DawnProvider and Cuda13Provider invocation/diagnostics metadata should expose native dispatch ABI version, status, failure reason, frame index, sample ticks, and diagnostics byte count; staged bridges must distinguish DeviceUnavailable from CommandSubmissionDisabled.");
-        Console.WriteLine("native-artifact-integrity-rule: aik gpu verify-native validates DawnCore exports, CPU fallback ABI state, Dawn package runtime assets, Cuda13 package runtime assets, and the Cuda13 staged dispatch probe when a native library is supplied.");
-        Console.WriteLine("remaining-work-priority: P0=browser/Doom live GPU promotion gates and Cuda13 dependency-staged direct ABI smoke; P1=Dawn/Cuda13 native command encoders; P2=none after canonical local NuGet config propagation.");
+        Console.WriteLine("native-artifact-integrity-rule: aik gpu verify-native validates DawnCore exports, CPU fallback ABI state, Dawn package runtime assets, and the Kernel CUDA Driver package assets and native ABI.");
+        Console.WriteLine("remaining-work-priority: P0=browser/Doom live GPU promotion gates; P1=Dawn native command encoders; P2=none after canonical local NuGet config propagation.");
         Console.WriteLine("promotion-gate-policy: browser WebGPU built-in passes stay diagnostic until live trace parity has stable ready streaks and authoritative_ready=true.");
         Console.WriteLine("native-provider-policy: DawnProvider and Cuda13Provider stay fail-closed descriptor/probe surfaces until ABI handshake and buffer/texture mapping are verified.");
         return 0;
@@ -176,6 +174,11 @@ public static class GpuCommand
         {
             Console.WriteLine("Usage: aik gpu verify-native [--provider dawn|cuda13|cuda-driver] [--library native-library] [--package provider.nupkg]");
             return 1;
+        }
+
+        if (provider == "cuda13")
+        {
+            Console.Error.WriteLine("warning: --provider cuda13 is deprecated and will be removed in the next release. Use --provider cuda-driver.");
         }
 
         var hasLibrary = options.TryGetValue("--library", out var requestedLibraryPath) &&
